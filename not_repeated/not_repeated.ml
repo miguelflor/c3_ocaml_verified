@@ -7,14 +7,13 @@ module type EQUAL = sig
 
 end
 
-module Set (E : EQUAL) = struct
+module Make (E : EQUAL) = struct
 
-type set = E.t list
+  type set = E.t list
 
+  val empty = [] 
 
-val empty = [] 
-
-val add (t: E.t) (s : set) =  x :: s
+  val add (t: E.t) (s : set) =  x :: s
 
 end
 

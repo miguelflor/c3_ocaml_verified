@@ -3,8 +3,9 @@
 let (l1: int list) = ([1]:int list)
 (*@
   r = l1
-  ensures Set.singleton 9 = Set.add 8 Set.empty
-*) 
+  ensures Set.singleton 9 = Set.add 9 Set.empty
+  ensures Set.to_seq Set.empty = Sequence.empty
+  *) 
 
 let (l2: int list)  = ([]: int list)
 
