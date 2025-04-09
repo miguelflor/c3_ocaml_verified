@@ -1,0 +1,49 @@
+\documentclass{article}
+\author{Miguel Cid Flor}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath, amssymb}
+
+\title{C3 linearization properties}
+\begin{document}
+
+\maketitle
+\section*{Ingredients}
+
+Set $\mathcal{C}$ of classes $C_0, C_1, C_2, \ldots, C_n$.\\
+Set $\mathcal{D}$ of pairs (class, set of classes) $\mathcal{C} \times P(\mathcal{C})$.\\
+$\text{MRO}_D : \mathcal{C} \Rightarrow \prod_{i \in \mathbb{N}} \mathcal{C}$.
+
+
+\section*{Consistency with the hierarchy of classes} 
+
+Let {C} be a class with superclasses $P_0, P_1, \dots, P_n$, where $n \in \mathbb{N}$. \\
+Let the MRO of $\mathcal{C}$ be $MRO(\mathcal{C}) = [\mathcal{M}_0, \mathcal{M}_1, \mathcal{M}_2, \dots, \mathcal{M}_m]$, with $m \in \mathbb{N}$ and $\mathcal{M}_0 = \mathcal{C}$.
+
+\[
+\{P_1, \dots, P_n\} \subseteq \{\mathcal{M}_1, \mathcal{M}_2, \dots, \mathcal{M}_m\}
+\]
+
+\section*{Consistency with the local precedence order}
+Let $a \cdot s_1$ be $SbStr(a \cdot s_1, P(C))$ and $s_2 \cdot a \cdot s_3$ be $SbStr(s_2 \cdot a \cdot s_3, \text{MRO}(C))$.\\
+
+\begin{align*}
+& SbStr(\varepsilon, \varepsilon) \\
+\end{align*}
+\begin{align*}
+    SbStr(a \cdot s_1, s_2 \cdot a \cdot s_3) \quad \text{if } &
+    a \notin s_1 \cdot s_2 \cdot s_3 \\
+    & \land \ SbStr(s_1, s_2) \\
+    \end{align*}
+    
+\begin{align*}
+& SbStr : \mathcal{S} \times \mathcal{S} \Rightarrow \{\top, \bot\} \\
+& \mathcal{S} = \Sigma^*
+\end{align*}
+
+\section*{Consistency with the local precedence graph}
+
+Let $X\in\mathcal{C}$ and $\text{P}(X) = [PX_0, \dots, PX_r]$, where $r \in \mathbb{N}$ is a list of superclasses. \\
+Let $D, B \text{ and } A$ be a class. \\
+If $D \in \text{P}(B) \setminus \text{P}(A)$, then $\exists p,q ,0 < p < q \leq m$, where $\mathcal{M}_p = D$, $\mathcal{M}_q = A$.
+
+\end{document}

@@ -1,0 +1,59 @@
+\documentclass{article}
+\author{Miguel Cid Flor}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath, amssymb}
+
+\title{C3 linearization properties}
+\begin{document}
+
+\maketitle
+\section*{Notation Convention}
+
+We adopt the following convention throughout the article:
+
+\begin{itemize}
+    \item Variables with a tilde (e.g.,  $\tilde{C}$) represent \textbf{sequences} (finite ordered lists of elements).
+    \item Variables with a double tilde (e.g.,  $\tilde{\tilde{C}}$) represent \textbf{sequence of sequences}.
+\end{itemize}
+
+\section*{Ingredients}
+
+$\mathcal{C}$ of classes $C_0, C_1, C_2, \ldots, C_n$.\\
+Set $\mathcal{D}$ of pairs (class, set of classes) $\mathcal{C} \times \mathcal{\tilde{C}}$.\\
+$\text{MRO}_D : \mathcal{C} \Rightarrow \mathcal{\tilde{C}}$.
+
+
+
+\section*{Remove}
+$remove : \mathcal{\tilde{\tilde{C}}} \times C \Rightarrow \mathcal{\tilde{\tilde{C}}}$\\
+Let $\tilde{\tilde{L}} = [\tilde{L}_1; \ldots ; \tilde{L}_n]$, $\tilde{\tilde{L}} \in \mathcal{\tilde{\tilde{C}}}$\\
+Let $C \in \mathcal{C}$\\
+
+\[
+\frac{
+  C \quad \tilde{\tilde{L}} = [\tilde{L}_1 \setminus \{C\}, \dots, \tilde{L}_n \setminus \{C\}]
+}{
+  \text{remove}(\tilde{\tilde{L}}, C) = \tilde{\tilde{L}}
+}
+\]
+
+\vspace{2cm}
+\section*{Merge}
+$merge : \mathcal{\tilde{\tilde{C}}} \Rightarrow \tilde{\mathcal{C}} $ \\
+Let $\tilde{\tilde{L}} = [\tilde{L}_1; \ldots ; \tilde{L}_n]$, $\tilde{\tilde{L}} \in \mathcal{\tilde{\tilde{C}}}$\\
+
+
+\[
+merge(\tilde{\tilde{L}}) =
+\begin{cases}
+C \cdot (merge(remove(\tilde{\tilde{L}}), C)), & \text{if } (\exists k \in \mathbb{N}, C \in \tilde{L}_k \land \tilde{L}_k \in \tilde{L} \land C = head(\tilde{\tilde{L}}_k)) \land \\
+& (\forall k \in \mathbb{N}, C \notin \tilde{\tilde{L}}_k ) \\
+fail  & otherwise
+\end{cases}
+\]
+
+\section*{C3 Linearization}
+
+
+
+\end{document}

@@ -1,31 +1,41 @@
-module BinarySearch
+module BinarySearchIndex
     use int.ComputerDivision
     use int.Int
     use ref.Refint
 
     use export array.Array
     
-   let binary_search (l: array int) (x: int): bool
+
+   let binary_search (l: array int) (x: int): int
     requires { forall i1 i2. 0 <= i1 < i2 < length l -> l[i1] <= l[i2]}
-    ensures { (result = True) <-> (length l > 0 /\ exists i. 0 <= i < length l /\ l[i] = x) }
+    ensures { (result <> -1) -> l[result] = x }
   = 
     if length l <= 0 then
-      false
+      -1
     else
       let ref low = 0 in
       let ref high = (length l) - 1 in
       let ref found = false in
+      let ref mid = low + div (high - low) 2 in
       
       while low <= high && not found do
 
         invariant { 0 <= low /\ high < length l }
+        
+        invariant { forall i1 i2. 0 <= i1 < i2 < length l -> l[i1] <= l[i2]}
+
+        invariant { (exists i. 0 <= i < length l /\ l[i] = x) -> l[low] <= x <= l[high]} 
+        invariant { found = True -> (exists i. 0 <= i < length l /\ l[i] = x) }
 
         invariant {forall i. 0 <= i < low -> l[i] < x}
         invariant {forall i. high < i < length l -> l[i] > x}
 
-        variant { if found then 0 else high - low + 1 } 
+        variant { if found then 0 else high - low + 1 }
+
+        assert { found = False};
         
-        let mid = low + div (high - low) 2 in
+        mid := low + div (high - low) 2;
+        assert { low <= mid <= high };
 
         
         if l[mid] = x then
@@ -36,6 +46,6 @@ module BinarySearch
           high := mid - 1
         
       done;
-      found
+      if found then mid else -1
 end
-            
+         
