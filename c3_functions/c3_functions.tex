@@ -46,8 +46,10 @@ Let $\tilde{\tilde{L}} = [\tilde{L}_1; \ldots ; \tilde{L}_n]$, $\tilde{\tilde{L}
 \[
 merge(\tilde{\tilde{L}}) =
 \begin{cases}
-C \cdot (merge(remove(\tilde{\tilde{L}}), C)), & \text{if } (\exists k \in \mathbb{N}, C \in \tilde{L}_k \land \tilde{L}_k \in \tilde{L} \land C = head(\tilde{\tilde{L}}_k)) \land \\
-& (\forall k \in \mathbb{N}, C \notin \tilde{\tilde{L}}_k ) \\
+[C] \cdot merge(remove(\tilde{\tilde{L}}, C)), & \text{if } (\exists k \in \{1, \ldots, n\}, \tilde{L}_k \neq \emptyset \land C = head(\tilde{L}_k)) \land \\
+& (\forall j < k, C \neq head(\tilde{L}_j)) \land \\ 
+& (\forall i \in \{1,\ldots,n\},C \notin tail(\tilde{L}_i)) \\ 
+
 fail  & otherwise
 \end{cases}
 \]
