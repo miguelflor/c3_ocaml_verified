@@ -19,7 +19,7 @@ We adopt the following convention throughout the article:
 \section*{Ingredients}
 
 $\mathcal{C}$ of classes $C_0, C_1, C_2, \ldots, C_n$.\\
-Set $\mathcal{D}$ of pairs (class, set of classes) $\mathcal{C} \times \mathcal{\tilde{C}}$.\\
+Set $\mathcal{D}$ of pairs (class, set of classes) $\mathcal{C} \times \mathcal{\tilde{D}}$.\\
 $\text{MRO}_D : \mathcal{C} \Rightarrow \mathcal{\tilde{C}}$.
 
 
@@ -54,8 +54,32 @@ fail  & otherwise
 \end{cases}
 \]
 
+\vspace{2cm}
+\section*{Extract Classes}
+$classes : \tilde{\mathcal{D}} \Rightarrow \tilde{\mathcal{C}}$\\
+$Let \tilde{D} \in \mathcal{\tilde{D}} $\\
+
+\[
+classes(\tilde{D}) = [C_1, \ldots, C_n]
+\]
+\vspace{2cm}
 \section*{C3 Linearization}
+$c3linearization : \mathcal{D} \Rightarrow \tilde{\mathcal{C}}$\\
+$\text{Let } D = (C, \tilde{P}) \text{ where } D \in \mathcal{D}$\\
+\[
+c3linearization(D) =
+\begin{cases}
+[C] & \text{if } \tilde{P} = \emptyset \\
+\begin{split}
+[C] \cdot merge([&c3linearization(P_1), \ldots, \\
+         &c3linearization(P_n), \\
+         &classes(\tilde{P})]) 
+\end{split} & \text{otherwise}
+\end{cases}
+\]
+
 
 
 
 \end{document}
+
