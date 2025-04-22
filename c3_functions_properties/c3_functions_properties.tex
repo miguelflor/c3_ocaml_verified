@@ -1,0 +1,110 @@
+\documentclass{article}
+\author{Miguel Cid Flor}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath, amssymb}
+
+\title{C3 linearization properties}
+\begin{document}
+
+\maketitle
+
+\subsection*{Ingredients}
+
+Let \( \mathcal{C} \) be a set of symbols, \( \mathcal{C} = \{ C_0, C_1, \ldots, C_n \} \), which we refer to as classes.\\
+Assume that \( |\mathcal{C}| < |\mathbb{N}| \), meaning that \( \mathcal{C} \) is finite and countable.
+\\
+Let $(\mathcal{C}, <_c)$ be an ordered set of classes.\\
+Let $\mathcal{D} \subseteq \mathcal{C} \times (\mathcal{C},<_c)$.\\
+$\text{MRO} : \mathcal{C} \Rightarrow (\mathcal{C},<_c)$.
+
+\vspace{2cm}
+
+\section*{Properties}
+
+\vspace{1cm}
+\subsection*{Consistency with the hierarchy of classes} 
+
+Let $D = \langle C, \{P_0, P_1, \dots, P_n\} \rangle \in \mathcal{D}$, with $n\in\mathbb{N}_0$.\\
+Let the MRO of $\mathcal{C}$ be $MRO(\mathcal{C}) = \{\mathcal{M}_0, \mathcal{M}_1, \mathcal{M}_2, \dots, \mathcal{M}_m\}$, with $m \in \mathbb{N}_0$ and $\mathcal{M}_0 = \mathcal{C}$.
+
+\[
+\{P_0, P_1, \dots, P_n\} \subseteq \{\mathcal{M}_1, \mathcal{M}_2, \dots, \mathcal{M}_m\}
+\]
+
+\vspace{3cm}
+\subsection*{Consistency with the local precedence order}
+Let $a \cdot s_1$ be $SbStr(a \cdot s_1, \pi_2(D))$ and $s_2 \cdot a \cdot s_3$ be $SbStr(s_2 \cdot a \cdot s_3, \text{MRO}(C))$.\\
+Let $\text{chars}(s) = \{ c \in \Sigma \mid \exists i \in [\![ 1, |s| ]\!] \text{ such that } s_i = c \}$.\\
+
+
+\begin{align*}
+& SbStr(\varepsilon, \varepsilon) \\
+\end{align*}
+\begin{align*}
+    SbStr(a \cdot s_1, s_2 \cdot a \cdot s_3) \quad \text{if } &
+    a \notin s_1 \cdot s_2 \cdot s_3 \\
+    & \land \ \text{chars}(s_1) \subseteq \text{char}(s_3)
+\end{align*}
+    
+\begin{align*}
+& SbStr : \mathcal{S} \times \mathcal{S} \Rightarrow \{\top, \bot\} \\
+& \mathcal{S} = \Sigma^*
+\end{align*}
+
+\vspace{2cm}
+\subsection*{Consistency with the local precedence graph}
+
+Let $X\in\mathcal{C}$ and $\text{P}(X) = [PX_0, \dots, PX_r]$, where $r \in \mathbb{N}_0$ is a list of superclasses. \\
+Let $D, B \text{ and } A$ be a class. \\
+If $D \in \text{P}(B) \setminus \text{P}(A)$, then $\exists p,q ,0 < p < q \leq m$, where $\mathcal{M}_p = D$, $\mathcal{M}_q = A$.
+\vspace{2cm}
+
+\section*{Functions}
+\subsection*{Remove}
+Let $(\mathcal{C},<_c)^*$ be a sequence of ordered sets of classes.\\
+remove $: (\mathcal{C},<_c)^* \times C \Rightarrow (\mathcal{C},<_c)^*$\\
+Let $L = [L_1; \ldots ; L_n]$, $L \in (\mathcal{C},<_c)^*$\\
+Let $C \in \mathcal{C}$\\
+
+\[
+\text{remove}(L, C) = [l/C \mid l \in L]
+\]
+
+\vspace{2cm}
+\subsection*{Merge}
+merge $: (\mathcal{C},<_c)^* \Rightarrow (\mathcal{C},<_c) $ \\
+Let $L = [L_1; \ldots ; L_n]$, $L \in (\mathcal{C},<_c)^*$\\
+
+
+\[
+merge(L) =
+\begin{cases}
+\{C\} \cup \text{merge}(\text{remove}(L, C)), & \text{if } (\exists k \in [\![1,n]\!], L_k \neq \emptyset \land C = \text{head}(L_k)) \land \\
+& (\forall j < k, C \neq \text{head}(L_j)) \land \\ 
+& (\forall i \in [\![1,n]\!],C \notin \text{tail}(L_i)) \\ 
+
+\text{fail}  & \text{otherwise}
+\end{cases}
+\]
+
+\vspace{2cm}
+\subsection*{C3 Linearization}
+c3linearization $: \mathcal{D} \Rightarrow (\mathcal{C},<_c)$\\
+$\text{Let } D = \langle C, P \rangle \text{ where } D \in \mathcal{D}$\\
+$\forall P_i \in P, \; \exists \text{DP}_i \in \mathcal{D} \text{ such that } \text{DP}_i = \langle P_i, \text{PP}_i \rangle$\\
+Let $DP = [DP_i \mid i \in  [\![1, |P|]\!] ]$\\
+\[
+\text{c3linearization}(D) =
+\begin{cases}
+\{C\} & \text{if } P = \emptyset \\
+\begin{split}
+\{C\} \cup \text{merge}([&\text{c3linearization}(dp) \mid dp \in DP] \cdot [P]) 
+\end{split} & \text{otherwise}
+\end{cases}
+\]
+
+
+
+
+\end{document}
+
