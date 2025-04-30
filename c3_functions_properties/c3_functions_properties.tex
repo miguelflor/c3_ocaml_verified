@@ -3,10 +3,16 @@
 \usepackage{amsmath,amssymb,todonotes,xspace}
 
 \newcommand*{\CC}{\ensuremath{\mathcal{C}}\xspace}
+\newcommand*{\DD}{\ensuremath{\mathcal{D}}\xspace}
 \newcommand*{\ordCC}{\ensuremath{(\mathcal{C}, <_c)}\xspace}
 \newcommand*{\chrs}{\texttt{chars}}
 \newcommand*{\mro}{\texttt{MRO}}
 \newcommand*{\natz}{\ensuremath{\mathbb{N}_0}}
+\newcommand*{\cl}{\texttt{c3linearization}}
+\newcommand*{\rem}{\texttt{remove}}
+\newcommand*{\h}{\texttt{head}}
+\newcommand*{\mer}{\texttt{merge}}
+\newcommand*{\oneToN}{\ensuremath{[\![1,n]\!]}\xspace}
 
 \title{C3 linearization algorithm}
 \author{Miguel Cid Flor}
@@ -21,37 +27,44 @@
 Let \CC be a finite set of symbols, ranged over by \( C_0, C_1, \ldots, C_n \), possibly primed, which we refer to as \emph{classes}, and let \ordCC be an ordered set of classes. %\\
 %Assume that \( |\mathcal{C}| < |\mathbb{N}| \), meaning that \( \mathcal{C} \) is finite and countable.\\
 %Let $(\mathcal{C}, <_c)$ be an ordered set of classes.\\
-Consider $\mathcal P \subseteq \ordCC$ and $\mathcal{D} \subseteq \CC \times \wp{(\mathcal P)}$.\\
+Consider $\mathcal P \subseteq \ordCC$ and $\DD \subseteq \CC \times \wp{(\mathcal P)}$.\\
 
 The purpose of this document is to present the \texttt{MRO} algorithm%
-\footnote{\emph{M}bla \emph{R}something \emph{O}yada},
+\footnote{\emph{M}ethod \emph{R}esolution \emph{O}rder},
 which maps each $\CC$ with an ordered set of classes, $\mathcal P$. We show first the envisaged properties, then define it, and finally prove the definition ensures those properties.
 
 %\vspace{2cm}
 
 \section*{Properties}
 
-Let $D = \langle C, \{P_1, \dots, P_n\} \rangle \in \mathcal{D}$, with $n\in\natz$.
+Let $D = \langle C, \{P_1, \dots, P_n\} \rangle \in \DD$, with $n\in\natz$.\\
+Let $\mro(\CC) = \{C_0, \dots, C_m\}$, with $m \in \natz$.\\
 %\vspace{1cm}
 \subsection*{Consistency with the hierarchy of classes} 
-This property requires that %Let the MRO of $\mathcal{C}$ be 
-$\mro(\CC) = \{C_0, \dots, C_m\}$, with $m \in \natz$ and $C_0 = C$ where
+This property requires that $C_0 = C$ where
 \(
 \{P_0, P_1, \dots, P_n\} \subseteq \{C_1, \dots, C_m\}\,.
 \)
 
 %\vspace{3cm}
 \subsection*{Consistency with the local precedence order}
-Let $\widetilde C$ denote a possibly empty sequence of class names and consider
-\todo{DEFINIR ASSINATURA e SbStr como macro}
-\begin{description}
-    \item[\chrs(s)]$=\{ c \in \Sigma \mid \exists i \in [\![ 1, |s| ]\!] \text{ such that } s_i = c \}$
-    \item[$SbStr(\varepsilon, \widetilde{C})$]holds always
-    \item[$SbStr(a \cdot s_1, s_2 \cdot a \cdot s_3)$]holds if
-        $a \notin s_1 \cdot s_2 \cdot s_3 \land\ \text{chars}(s_1) \subseteq \text{chars}(s_3)$
-\end{description}
+Let A and B be classes, for $m,n \geq 2$.\\
+\[
+\forall\,i,j\;\bigl(0\le i<j\le n
+\;\Longrightarrow\;
+\exists\,p,q\;\bigl(0\le p<q\le m \ \wedge \ C_p=P_i \ \wedge \ C_q=P_j\bigr)\bigr).
+\]
+
+%Let $\widetilde C$ denote a possibly empty sequence of class names and consider
+%\todo{DEFINIR ASSINATURA e SbStr como macro}
+%\begin{description}
+%    \item[\chrs(s)]$=\{ c \in \Sigma \mid \exists i \in [\![ 1, |s| ]\!] \text{ such that } s_i = c \}$
+%    \item[$SbStr(\varepsilon, \widetilde{C})$]holds always
+%    \item[$SbStr(a \cdot s_1, s_2 \cdot a \cdot s_3)$]holds if
+%        $a \notin s_1 \cdot s_2 \cdot s_3 \land\ \text{chars}(s_1) \subseteq \text{chars}(s_3)$
+%\end{description}
 %
-This property requires that $SbStr(a \cdot s_1, \pi_2(D))$ and $SbStr(s_2 \cdot a \cdot s_3, \mro(C))$.
+%This property requires that $SbStr(a \cdot s_1, \pi_2(D))$ and $SbStr(s_2 \cdot a \cdot s_3, \mro(C))$.
 % \begin{align*}
 % & SbStr : \mathcal{S} \times \mathcal{S} \Rightarrow \{\top, \bot\} \\
 % & \mathcal{S} = \Sigma^*
@@ -60,51 +73,52 @@ This property requires that $SbStr(a \cdot s_1, \pi_2(D))$ and $SbStr(s_2 \cdot 
 %\vspace{2cm}
 \subsection*{Consistency with the local precedence graph}
 
-Let $X\in\mathcal{C}$ and $\text{P}(X) = [PX_0, \dots, PX_r]$, where $r \in \natz$ is a list of superclasses. \\
-Let $D, B \text{ and } A$ be a class. \\
-If $D \in \text{P}(B) \setminus \text{P}(A)$, then $\exists p,q ,0 < p < q \leq m$, where $\mathcal{M}_p = D$, $\mathcal{M}_q = A$.
+Let $D', D'' \in \DD$ \\
+If $C \in \pi_2(D') \setminus \pi_2(D'')$, then $\exists p,q \ ,0 < p < q \leq m$, where $C_p = C$, $C_q = \pi_1(D'')$.
 \vspace{2cm}
 
 \section*{Functions}
-\subsection*{Remove}
-Let $(\mathcal{C},<_c)^*$ be a sequence of ordered sets of classes.\\
-remove $: (\mathcal{C},<_c)^* \times C \Rightarrow (\mathcal{C},<_c)^*$\\
-Let $L = [L_1; \ldots ; L_n]$, $L \in (\mathcal{C},<_c)^*$\\
+
+Let $\ordCC^*$ be a sequence of ordered sets of classes.\\
+Let $L = [L_1; \ldots ; L_n]$, $L \in \ordCC^*$\\
 Let $C \in \mathcal{C}$\\
 
+
+\subsection*{Remove}
+
+$\rem : \ordCC^* \times \CC \Rightarrow \ordCC^*$\\
+
 \[
-\text{remove}(L, C) = [l/C \mid l \in L]
+\rem(L, C) = [l/C \mid l \in L]
 \]
 
-\vspace{2cm}
+
 \subsection*{Merge}
-merge $: (\mathcal{C},<_c)^* \Rightarrow (\mathcal{C},<_c) $ \\
-Let $L = [L_1; \ldots ; L_n]$, $L \in (\mathcal{C},<_c)^*$\\
+merge $: \ordCC^* \Rightarrow \ordCC $ \\
 
 
 \[
-merge(L) =
+\mer(L) =
 \begin{cases}
-\{C\} \cup \text{merge}(\text{remove}(L, C)), & \text{if } (\exists k \in [\![1,n]\!], L_k \neq \emptyset \land C = \text{head}(L_k)) \land \\
-& (\forall j < k, C \neq \text{head}(L_j)) \land \\ 
-& (\forall i \in [\![1,n]\!],C \notin \text{tail}(L_i)) \\ 
+\{C\} \cup \mer(\rem(L, C)), & \text{if } (\exists k \in \oneToN, L_k \neq \emptyset \land C = \h(L_k)) \land \\
+& (\forall j < k, C \neq \h(L_j)) \land \\ 
+& (\forall i \in \oneToN,C \notin \texttt{tail}(L_i)) \\ 
 
 \text{fail}  & \text{otherwise}
 \end{cases}
 \]
 
-\vspace{2cm}
 \subsection*{C3 Linearization}
-c3linearization $: \mathcal{D} \Rightarrow (\mathcal{C},<_c)$\\
-$\text{Let } D = \langle C, P \rangle \text{ where } D \in \mathcal{D}$\\
-$\forall P_i \in P, \; \exists \text{DP}_i \in \mathcal{D} \text{ such that } \text{DP}_i = \langle P_i, \text{PP}_i \rangle$\\
-Let $DP = [DP_i \mid i \in  [\![1, |P|]\!] ]$\\
+$\cl: \DD \Rightarrow \ordCC$\\
+$\text{Let } D = \langle C, P \rangle \text{ where } D \in \DD$\\
+$\forall P_i \in P, \; \exists D_i \in \DD \text{ such that } D_i = \langle P_i, P' \rangle$\\
+Let $D' = [D_i \mid i \in  [\![1, |P|]\!] ]$\\
 \[
-\text{c3linearization}(D) =
+\cl(D) =
 \begin{cases}
 \{C\} & \text{if } P = \emptyset \\
 \begin{split}
-\{C\} \cup \text{merge}([&\text{c3linearization}(dp) \mid dp \in DP] \cdot [P]) 
+\{C\} \cup \mer([&\cl(d) \mid d \in D'] \cdot [P]) 
 \end{split} & \text{otherwise}
 \end{cases}
 \]
