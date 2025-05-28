@@ -25,8 +25,7 @@
 \section*{Ingredients}
 
 Let \CC be a finite set of symbols, ranged over by \( C_0, C_1, \ldots, C_n \), possibly primed, which we refer to as \emph{classes}, and let \ordCC be an ordered set of classes. %\\
-%Assume that \( |\mathcal{C}| < |\mathbb{N}| \), meaning that \( \mathcal{C} \) is finite and countable.\\
-%Let $(\mathcal{C}, <_c)$ be an ordered set of classes.\\
+
 Consider $\mathcal P \subseteq \ordCC$ and $\DD \subseteq \CC \times \wp{(\mathcal P)}$.\\
 
 The purpose of this document is to present the \texttt{MRO} algorithm%
@@ -38,63 +37,46 @@ which maps each $\CC$ with an ordered set of classes, $\mathcal P$. We show firs
 \section*{Properties}
 
 Let $D = \langle C, \{P_1, \dots, P_n\} \rangle \in \DD$, with $n\in\natz$.\\
-Let $\mro(\CC) = \{C_0, \dots, C_m\}$, with $m \in \natz$.\\
-%\vspace{1cm}
+Let $\mro(C) = \{C,C_1 \dots, C_m\}$, with $m \in \natz$.\\
 \subsection*{Consistency with the hierarchy of classes} 
-This property requires that $C_0 = C$ where
+This property requires that
 \(
-\{P_0, P_1, \dots, P_n\} \subseteq \{C_1, \dots, C_m\}\,.
+\{P_1, \dots, P_n\} \subseteq \{C_1, \dots, C_m\}\,.
 \)
 
-%\vspace{3cm}
+
 \subsection*{Consistency with the local precedence order}
-Let A and B be classes, for $m,n \geq 2$.\\
+For $m,n \geq 2$.\\
 \[
 \forall\,i,j\;\bigl(0\le i<j\le n
 \;\Longrightarrow\;
 \exists\,p,q\;\bigl(0\le p<q\le m \ \wedge \ C_p=P_i \ \wedge \ C_q=P_j\bigr)\bigr).
 \]
 
-%Let $\widetilde C$ denote a possibly empty sequence of class names and consider
-%\todo{DEFINIR ASSINATURA e SbStr como macro}
-%\begin{description}
-%    \item[\chrs(s)]$=\{ c \in \Sigma \mid \exists i \in [\![ 1, |s| ]\!] \text{ such that } s_i = c \}$
-%    \item[$SbStr(\varepsilon, \widetilde{C})$]holds always
-%    \item[$SbStr(a \cdot s_1, s_2 \cdot a \cdot s_3)$]holds if
-%        $a \notin s_1 \cdot s_2 \cdot s_3 \land\ \text{chars}(s_1) \subseteq \text{chars}(s_3)$
-%\end{description}
-%
-%This property requires that $SbStr(a \cdot s_1, \pi_2(D))$ and $SbStr(s_2 \cdot a \cdot s_3, \mro(C))$.
-% \begin{align*}
-% & SbStr : \mathcal{S} \times \mathcal{S} \Rightarrow \{\top, \bot\} \\
-% & \mathcal{S} = \Sigma^*
-% \end{align*}
-
-%\vspace{2cm}
 \subsection*{Consistency with the local precedence graph}
 
 Let $D', D'' \in \DD$ \\
-If $C \in \pi_2(D') \setminus \pi_2(D'')$, then $\exists p,q \ ,0 < p < q \leq m$, where $C_p = C$, $C_q = \pi_1(D'')$.
+If $C \in \pi_2(D') \setminus \pi_2(D'')$, then $\exists p,q. \ 0 < p < q \leq m \ \wedge \ C_p = C \ \wedge \ C_q = \pi_1(D'')$.
 \vspace{2cm}
 
 \section*{Functions}
 
 Let $\ordCC^*$ be a sequence of ordered sets of classes.\\
-Let $L = [L_1; \ldots ; L_n]$, $L \in \ordCC^*$\\
+Let $L = (L_1, \ldots , L_n)$, $L \in \ordCC^*$\\
 Let $C \in \mathcal{C}$\\
-
 
 \subsection*{Remove}
 
 $\rem : \ordCC^* \times \CC \Rightarrow \ordCC^*$\\
-
 \[
-\rem(L, C) = [l/C \mid l \in L]
+\rem(( \ ), C) = ( \ )
+\]
+\[
+\rem(l::L, C) = l \setminus \{C\} :: \rem(L,C)
 \]
 
-
 \subsection*{Merge}
-merge $: \ordCC^* \Rightarrow \ordCC $ \\
+$\mer : \ordCC^* \Rightarrow \ordCC $ \\
 
 
 \[
@@ -111,15 +93,14 @@ merge $: \ordCC^* \Rightarrow \ordCC $ \\
 \subsection*{C3 Linearization}
 $\cl: \DD \Rightarrow \ordCC$\\
 $\text{Let } D = \langle C, P \rangle \text{ where } D \in \DD$\\
-$\forall P_i \in P, \; \exists D_i \in \DD \text{ such that } D_i = \langle P_i, P' \rangle$\\
-Let $D' = [D_i \mid i \in  [\![1, |P|]\!] ]$\\
+Let $D' = (D_1,D_2, \dots ,D_{|P|})$, sutch that \\ %$[D_i \mid i \in  [\![1, |P|]\!] ]$\\
+$\forall P_i \in P, \; \exists D_i \in \DD \text{ such that } D_i = \langle P_i, P' \rangle$ where $i \in  [\![1, |P|]\!]$\\
+
 \[
 \cl(D) =
 \begin{cases}
 \{C\} & \text{if } P = \emptyset \\
-\begin{split}
-\{C\} \cup \mer([&\cl(d) \mid d \in D'] \cdot [P]) 
-\end{split} & \text{otherwise}
+\{C\} \cup \mer\left( (\cl(D_i))_{D_i \in D'} \cdot (P) \right) & \text{otherwise}
 \end{cases}
 \]
 
