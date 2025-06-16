@@ -21,20 +21,49 @@ module type CLASS = sig
 end
 
 module Make(C : CLASS) = struct
-
-
+  
+  
   (*@ function rec sum_lengths (ll : C.t list list): int =
-        match ll with 
-        | [] -> 0
-        | h::t -> (List.length h) + sum_lengths t
-   *)
+  match ll with 
+  | [] -> 0
+  | h::t -> (List.length h) + sum_lengths t
+  *)
+  
+  (*@ predicate is_removed (a : C.t list) (b : C.t list) (e: C.t) =
+    match a with 
+    | [] -> [] = b
+    | h::t -> 
+      if h = e then t = b 
+      else a = b
+    *)
 
-  (*@ predicate rec distinct (l: C.t list) =
-        match l with
-        |[] -> true
-        |h::t -> not (List.mem h t) /\ distinct t*)
-
-
+    (*@ predicate has_head (a: C.t list) (e: C.t) = 
+    match a with 
+    |[] -> false
+    |h::_ -> h = e*)
+    
+    (*@ predicate rec distinct (l: C.t list) =
+    match l with
+    |[] -> true
+    |h::t -> not (List.mem h t) /\ distinct t*)
+    
+    (*@ predicate rec is_mapped_by_remove (a : C.t list list) (b : C.t list list) (e: C.t) =
+    match a,b with
+    |[],[] -> true
+    |[],_ -> false
+    |_,[] -> false
+    |ha::ta,hb::tb -> is_removed ha hb e /\ is_mapped_by_remove ta tb e*)
+    
+    (*@ lemma list_must_eq_dec: forall x:C.t list,y:C.t list,e:C.t. is_removed x y e -> List.length x >= List.length y*)
+    
+    (*@ lemma list_must_dec: forall x:C.t list, y:C.t list,e:C.t. is_removed x y e -> 
+      match x with
+      |[] -> List.length x = List.length y
+      |h::_ -> 
+        if h = e then List.length x > List.length y
+        else List.length x = List.length y*)
+    
+    (*@ lemma lists_must_dec: forall x: C.t list list, y: C.t list list, e : C.t. (is_mapped_by_remove x y e /\ exists l. List.mem l x /\ has_head l e) -> sum_lengths x > sum_lengths y *)
 
   (* List.for_all *)
   let rec for_all f l =
@@ -65,13 +94,7 @@ module Make(C : CLASS) = struct
     | y :: r -> if C.eq x y then r else y :: r
   (*@ r = remove_head x l
       requires distinct l
-      ensures match l with
-              | [] -> r = []
-              | y :: rr -> 
-                if x = y then 
-                  r = rr /\ (List.length r < List.length l) /\ (not List.mem x r)
-                else r = y :: rr 
-      
+      ensures is_removed l r x
   *)
   
   (* Removes from a list of lists of classes (l) an element (e) *)
@@ -83,24 +106,26 @@ module Make(C : CLASS) = struct
   (*@ r = remove l e
       requires l <> []
       requires  forall y. List.mem y l -> distinct y
+
+      ensures r <> []
       ensures forall a. List.mem a r -> forall x y. a = x :: y -> x <> e 
 
-      ensures forall a. List.mem a l -> forall x y. a = x :: y -> (x = e) -> List.mem y r
-      ensures forall a. List.mem a l -> forall x y. a = x :: y -> (x <> e) -> List.mem a r
-      ensures List.length r < List.length l
+      ensures forall a. List.mem a l -> exists b. List.mem b r /\ is_removed a b e
+      ensures forall b. List.mem b r -> exists a. List.mem a l /\ is_removed a b e
+      
+      ensures  is_mapped_by_remove l r e
 
       variant  l *)
-
   let remove (l: C.t list list) (e: C.t) : C.t list list =
     remove_aux l e
   (*@ r = remove l e
     requires l <> []
     requires  forall y. List.mem y l -> distinct y
-    requires exists a t. List.mem a l /\ a = e :: t
+    requires exists a. List.mem a l /\ has_head a e 
     requires forall a. List.mem a l -> forall x y. a = x :: y -> not List.mem e y
-
-    ensures sum_lengths r < sum_lengths l
+    
     ensures forall y. List.mem y r -> not (List.mem e y)
+    ensures sum_lengths r < sum_lengths l
   *)
   
    
@@ -148,7 +173,7 @@ module Make(C : CLASS) = struct
           )
         |Some _ -> true
 
-        variant List.length lins
+        variant sum_lengths lins
   *)    
               
 

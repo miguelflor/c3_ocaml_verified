@@ -40,7 +40,12 @@ module Make(C : CLASS) = struct
     (*@ predicate has_head (a: C.t list) (e: C.t) = 
     match a with 
     |[] -> false
-    |h::t -> h = e*)
+    |h::_ -> h = e*)
+
+    (*@ function tail (l: C.t list): C.t list = 
+    match l with 
+    |[] -> []
+    |_::t -> t*)
     
     (*@ predicate rec distinct (l: C.t list) =
     match l with
@@ -63,8 +68,19 @@ module Make(C : CLASS) = struct
         if h = e then List.length x > List.length y
         else List.length x = List.length y*)
     
-    (*@ lemma lists_must_dec: forall x: C.t list list, y: C.t list list, e : C.t. is_mapped_by_remove x y e -> exists l. List.mem l x /\ has_head l e -> sum_lengths x > sum_lengths y *)
+    (* @ lemma lists_must_dec_l: forall x: C.t list list, y: C.t list list,l: C.t list, e : C.t. (is_mapped_by_remove x y e /\ not (List.mem l x) /\ (List.mem l y) )-> List.mem (e::l) x *)
 
+
+    (* @ lemma lists_must_dec: forall x: C.t list list, y: C.t list list, e : C.t. 
+    (List.length x = List.length y /\ is_mapped_by_remove x y e /\ (forall i: int. 0 < i < List.length x -> (Seq.get x i) = (Seq.get y i) \/ (Seq.cons e (Seq.get y i)) = (Seq.get x i))) -> sum_lengths x > sum_lengths y *)
+    
+    
+    (*@ lemma lists_must_dec: forall x: C.t list list, y: C.t list list, e : C.t. 
+    (List.length x = List.length y /\
+    is_mapped_by_remove x y e)
+    -> forall i: int. 0 < i < List.length x -> (Seq.get x i) = (Seq.get y i) \/ (Seq.cons e (Seq.get y i)) = (Seq.get x i) *)
+    
+    
   (* List.for_all *)
   let rec for_all f l =
     match l with
@@ -112,15 +128,10 @@ module Make(C : CLASS) = struct
 
       ensures forall a. List.mem a l -> exists b. List.mem b r /\ is_removed a b e
       ensures forall b. List.mem b r -> exists a. List.mem a l /\ is_removed a b e
-
-      ensures List.length r = List.length l
       
       ensures  is_mapped_by_remove l r e
 
-      ensures sum_lengths r <= sum_lengths l
-
       variant  l *)
-
   let remove (l: C.t list list) (e: C.t) : C.t list list =
     remove_aux l e
   (*@ r = remove l e
@@ -178,7 +189,7 @@ module Make(C : CLASS) = struct
           )
         |Some _ -> true
 
-        variant List.length lins
+        variant sum_lengths lins
   *)    
               
 
