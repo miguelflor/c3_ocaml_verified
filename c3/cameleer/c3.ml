@@ -70,15 +70,20 @@ module Make(C : CLASS) = struct
     
     (* @ lemma lists_must_dec_l: forall x: C.t list list, y: C.t list list,l: C.t list, e : C.t. (is_mapped_by_remove x y e /\ not (List.mem l x) /\ (List.mem l y) )-> List.mem (e::l) x *)
 
-
-    (* @ lemma lists_must_dec: forall x: C.t list list, y: C.t list list, e : C.t. 
-    (List.length x = List.length y /\ is_mapped_by_remove x y e /\ (forall i: int. 0 < i < List.length x -> (Seq.get x i) = (Seq.get y i) \/ (Seq.cons e (Seq.get y i)) = (Seq.get x i))) -> sum_lengths x > sum_lengths y *)
-    
+    (* @ lemma sum_lenghts_dec: forall x: C.t list list, y: C.t list list.
+    forall l: C.t list. List.mem l x -> List.length l = List.length l*)
     
     (*@ lemma lists_must_dec: forall x: C.t list list, y: C.t list list, e : C.t. 
-    (List.length x = List.length y /\
-    is_mapped_by_remove x y e)
-    -> forall i: int. 0 < i < List.length x -> (Seq.get x i) = (Seq.get y i) \/ (Seq.cons e (Seq.get y i)) = (Seq.get x i) *)
+    (is_mapped_by_remove x y e) -> sum_lengths x > sum_lengths y *)
+    
+
+    (* @ lemma lists_must_dec_1: forall x: C.t list list, y: C.t list list, e : C.t. 
+      (List.length x = List.length y /\
+        is_mapped_by_remove x y e)
+        -> forall i: int. 0 < i < List.length x -> (Sequence.get x i) = (Sequence.get y i) \/ (Sequence.cons e (Sequence.get y i)) = (Sequence.get x i) *)
+
+    (* @ lemma lists_must_dec: forall x: C.t list list, y: C.t list list, e : C.t. 
+    (List.length x = List.length y /\ is_mapped_by_remove x y e /\ (forall i: int. 0 < i < List.length x -> (Sequence.get x i) = (Sequence.get y i) \/ (Sequence.cons e (Sequence.get y i)) = (Sequence.get x i))) -> sum_lengths x > sum_lengths y *)
     
     
   (* List.for_all *)
@@ -128,7 +133,7 @@ module Make(C : CLASS) = struct
 
       ensures forall a. List.mem a l -> exists b. List.mem b r /\ is_removed a b e
       ensures forall b. List.mem b r -> exists a. List.mem a l /\ is_removed a b e
-      
+
       ensures  is_mapped_by_remove l r e
 
       variant  l *)
@@ -141,6 +146,7 @@ module Make(C : CLASS) = struct
     requires forall a. List.mem a l -> forall x y. a = x :: y -> not List.mem e y
     
     ensures forall y. List.mem y r -> not (List.mem e y)
+
     ensures sum_lengths r < sum_lengths l
   *)
   
