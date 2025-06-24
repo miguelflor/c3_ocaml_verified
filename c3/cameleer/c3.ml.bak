@@ -23,47 +23,82 @@ end
 module Make(C : CLASS) = struct
   
   
-  (*@ function rec sum_lengths (ll : C.t list list): int =
-  match ll with 
-  | [] -> 0
-  | h::t -> (List.length h) + sum_lengths t
+  (*@ function rec sum_lengths (ll : C.t list list) (s: int) (f: int): int =
+  if s < f then 
+    (List.length (Sequence.get ll s))  + (sum_lengths ll (s+1) f)
+  else
+    0 
   *)
+
+  (*@ function rec to_length (ll: C.t list list): int list =
+    match ll with
+    | [] -> []
+    | x :: xs -> (List.length x) :: to_length xs*)
   
-  (*@ predicate is_removed (a : C.t list) (b : C.t list) (e: C.t) =
-    match a with 
-    | [] -> [] = b
+  (*@ function rec sum (l: int list): int =
+      match l with
+      |[] -> 0
+      | x :: xs -> x + sum xs
+  *)
+
+  
+
+  (*@ predicate is_removed (l : C.t list) (r : C.t list) (e: C.t) =
+    match l with 
+    | [] -> [] = r
     | h::t -> 
-      if h = e then t = b 
-      else a = b
+      if h = e then t = r
+      else l = r
     *)
 
+ 
+
     (*@ predicate has_head (a: C.t list) (e: C.t) = 
-    match a with 
+    match a with  
     |[] -> false
     |h::_ -> h = e*)
+
+    (*@ function tail (l: C.t list): C.t list = 
+    match l with 
+    |[] -> []
+    |_::t -> t*)
     
     (*@ predicate rec distinct (l: C.t list) =
     match l with
     |[] -> true
     |h::t -> not (List.mem h t) /\ distinct t*)
     
-    (*@ predicate rec is_mapped_by_remove (a : C.t list list) (b : C.t list list) (e: C.t) =
-    match a,b with
-    |[],[] -> true
-    |[],_ -> false
-    |_,[] -> false
-    |ha::ta,hb::tb -> is_removed ha hb e /\ is_mapped_by_remove ta tb e*)
+
+   
+    (*@ lemma is_removed_not_mem:
+      forall l: C.t list, r: C.t list , e: C.t.
+        (is_removed l r e) /\ not (List.mem e (tail l)) -> not (List.mem e r)*)
     
-    (*@ lemma list_must_eq_dec: forall x:C.t list,y:C.t list,e:C.t. is_removed x y e -> List.length x >= List.length y*)
+    (*@ lemma is_removed_length:
+      forall l: C.t list, r: C.t list, e: C.t.
+        (is_removed l r e /\ has_head l e) ->
+        (List.length r < List.length l)*)
     
-    (*@ lemma list_must_dec: forall x:C.t list, y:C.t list,e:C.t. is_removed x y e -> 
-      match x with
-      |[] -> List.length x = List.length y
-      |h::_ -> 
-        if h = e then List.length x > List.length y
-        else List.length x = List.length y*)
+    (*@ lemma is_removed_length_for_lists:
+      forall l: C.t list list, r: C.t list list, e: C.t.
+        ((List.length r = List.length l) /\
+          (forall i. 0 <= i < List.length l -> is_removed (Sequence.get l i) (Sequence.get r i) e)) ->
+            (forall i. 0 <= i < List.length l -> List.length (Sequence.get r i) <= List.length (Sequence.get l i))
+    *)
+
+    (*@ lemma sum_lengths_of_lists:
+      forall l: C.t list list, r: C.t list list.
+        ((List.length l = List.length r) /\
+        (forall i. 0 <= i < List.length l -> List.length (Sequence.get r i) = List.length (Sequence.get l i))) -> sum_lengths r = sum_lengths l *)
+ 
     
-    (*@ lemma lists_must_dec: forall x: C.t list list, y: C.t list list, e : C.t. (is_mapped_by_remove x y e /\ exists l. List.mem l x /\ has_head l e) -> sum_lengths x > sum_lengths y *)
+    (* @ lemma sum_lengths_of_lists:
+      forall l: C.t list list, r: C.t list list.
+        ((List.length l = List.length r) /\
+        (exists i. 0 <= i < List.length l /\ List.length (Sequence.get r i) < List.length (Sequence.get l i)) /\
+        (forall i. 0 <= i < List.length l -> List.length (Sequence.get r i) <= List.length (Sequence.get l i))) -> sum_lengths r < sum_lengths l *)
+ 
+    
 
   (* List.for_all *)
   let rec for_all f l =
@@ -105,26 +140,25 @@ module Make(C : CLASS) = struct
     | a :: r -> remove_head e a :: remove_aux r e
   (*@ r = remove l e
       requires l <> []
-      requires  forall y. List.mem y l -> distinct y
-
-      ensures r <> []
-      ensures forall a. List.mem a r -> forall x y. a = x :: y -> x <> e 
-
-      ensures forall a. List.mem a l -> exists b. List.mem b r /\ is_removed a b e
-      ensures forall b. List.mem b r -> exists a. List.mem a l /\ is_removed a b e
+      requires  forall i. 0 <= i < List.length l -> distinct (Sequence.get l i)
       
-      ensures  is_mapped_by_remove l r e
+      ensures r <> []
+      ensures forall i. 0 <= i < List.length r -> not (has_head (Sequence.get r i) e)
+      
+      ensures List.length l = List.length r
+      ensures forall i : int. 0 <= i < List.length l -> is_removed (Sequence.get l i) (Sequence.get r i) e
 
       variant  l *)
   let remove (l: C.t list list) (e: C.t) : C.t list list =
     remove_aux l e
   (*@ r = remove l e
     requires l <> []
-    requires  forall y. List.mem y l -> distinct y
-    requires exists a. List.mem a l /\ has_head a e 
-    requires forall a. List.mem a l -> forall x y. a = x :: y -> not List.mem e y
+    requires  forall i. 0 <= i < List.length l -> distinct (Sequence.get l i)
+    requires exists i. 0 <= i < List.length l /\ has_head (Sequence.get l i) e 
+    requires forall i. 0 <= i < List.length l -> not (List.mem e (tail (Sequence.get l i)))
     
-    ensures forall y. List.mem y r -> not (List.mem e y)
+    ensures forall i. 0 <= i < List.length r -> not (List.mem e (Sequence.get r i))
+
     ensures sum_lengths r < sum_lengths l
   *)
   
