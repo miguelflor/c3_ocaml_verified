@@ -35,7 +35,7 @@ module Make(C : CLASS) = struct
     else
       0
   *)
-  (*@ variant f-s*)
+  (* @ variant f-s*)
   
   (*@ predicate is_removed (l : C.t list) (r : C.t list) (e: C.t) =
     match l with 
