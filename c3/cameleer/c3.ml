@@ -89,6 +89,10 @@ module Make(C : CLASS) = struct
         ((List.length l = List.length r) /\
         (exists i. 0 <= i < List.length l /\ List.length (Sequence.get r i) < List.length (Sequence.get l i)) /\
         (forall i. 0 <= i < List.length l -> List.length (Sequence.get r i) <= List.length (Sequence.get l i))) -> sum_lengths r < sum_lengths l *)
+    
+    (*@ lemma sum_lengths_is_positive:
+        forall ll: C.t list list.
+        0 <= sum_lengths ll*)
  
     
 
@@ -150,7 +154,7 @@ module Make(C : CLASS) = struct
     requires forall i. 0 <= i < List.length l -> not (List.mem e (tail (Sequence.get l i)))
     
     ensures forall i. 0 <= i < List.length r -> not (List.mem e (Sequence.get r i))
-
+    ensures forall i. List.mem i r -> distinct i
     ensures sum_lengths r < sum_lengths l
   *)
   
@@ -165,7 +169,8 @@ module Make(C : CLASS) = struct
           (fun (l: C.t list) -> match (l: C.t list) with
             | [] -> None 
             | h::_ -> Some h) 
-          linearizations in
+          linearizations 
+        in
         
         let rec try_heads (l: C.t list) = match (l: C.t list) with
           | [] -> None  
@@ -179,7 +184,10 @@ module Make(C : CLASS) = struct
               
               if is_valid then Some candidate
               else try_heads rest
-        (*@ variant l*)
+        (*@ r = try_heads l
+        variant l 
+        requires forall i. List.mem i l -> (exists j. List.mem j linearizations /\ (has_head j i) )
+        ensures forall h. r = Some h -> (exists j. List.mem j linearizations /\ (has_head j h) ) *)
         in
         try_heads heads
       in
@@ -191,16 +199,12 @@ module Make(C : CLASS) = struct
         |None -> None
         |Some l -> Some (candidate :: l)
   (*@ l = merge lins
-        ensures match l with
-        |None -> not (exists k. List.mem k lins /\
-          match k with 
-            | h::t -> forall i. List.mem i lins -> not (List.mem h t)
-            | [] -> false
-          )
-        |Some _ -> true
+        requires forall i. 0 <= i < List.length lins -> distinct (Sequence.get lins i) 
 
+        ensures l = None -> forall i h. 0 <= i < List.length lins -> not ( has_head (Sequence.get lins i) h \/ List.mem h (tail (Sequence.get lins i)) )
         variant sum_lengths lins
-  *)    
+  *)  
+
               
 
   let c3_linearization (universe: C.t list) (c: C.t)  =
