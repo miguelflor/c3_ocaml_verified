@@ -1,41 +1,39 @@
+(*@ predicate rec distinct (l: 'a list) =
+    match l with
+    |[] -> true
+    |h::t -> not (Sequence.mem h t) /\ distinct t*)
+
 module type CLASS = sig
 
   type t
 
-  (* @ predicate eq (x:t) (y:t)*)
 
-  (*@ function get_parents (x : t) : t list *)
+  (*@ function get_parents (x : t) (l : t list) : t list *)
 
 
   val eq : t -> t -> bool
   (*@ b = eq x y
         ensures b <-> x = y *)
 
-  val get_parents : t -> t list
-  (*@ l = get_parents c
-    ensures l = get_parents c 
-    ensures not (List.mem c l)*)
-
+  val get_parents : t -> t list -> t list
+  (*@ l = get_parents c u
+    requires distinct u
+    requires Sequence.mem c u
+    ensures not (List.mem c l)
+    ensures distinct l
+    ensures forall i. Sequence.mem i l -> Sequence.mem i u
+  *)
   val to_string : t -> string
 
 end
 
 module Make(C : CLASS) = struct
   
-  
   (*@ function rec sum_lengths (ll : C.t list list): int =
   match ll with 
   | [] -> 0
   | h::t -> (List.length h) + sum_lengths t
   *)
-
-  (* @ function rec sum_lengths (l : C.t list list) (s f: int): int =
-    if s < f then
-      (List.length (Sequence.get l s)) + (sum_lengths l (s+1) f)
-    else
-      0
-  *)
-  (* @ variant f-s*)
   
   (*@ predicate is_removed (l : C.t list) (r : C.t list) (e: C.t) =
     match l with 
@@ -54,23 +52,49 @@ module Make(C : CLASS) = struct
     match l with 
     |[] -> []
     |_::t -> t*)
-    
-    (*@ predicate rec distinct (l: C.t list) =
-    match l with
-    |[] -> true
-    |h::t -> not (List.mem h t) /\ distinct t*)
-    
 
-   
+    (*@ predicate is_epg (l: C.t list list) =
+      forall i1:int, i2:int.
+      0 <= i1 /\ i1 < List.length l ->
+      0 <= i2 /\ i2 < List.length l ->
+      i1 <> i2 ->
+      (let l1 = Sequence.get l i1 in
+        let l2 = Sequence.get l i2 in
+        forall e1:C.t, e2:C.t, i11:int, i21:int, j1:int, j2:int.
+        Sequence.get l1 i11 = e1 /\
+        Sequence.get l1 i21 = e2 /\
+        Sequence.get l2 j1 = e1 /\
+        Sequence.get l2 j2 = e2 /\ i11 < i21 ->
+        j1 < j2)*)
+    
+    (*@ predicate acyclic_precedence_graph (lins: C.t list list) =
+      forall c.
+        not (
+          exists path: C.t list.
+            List.length path > 1 /\
+            Sequence.get path 0 = c /\
+            Sequence.get path (List.length path - 1) = c /\
+            (forall i.
+              0 <= i /\ i < (List.length path) - 1 ->
+                exists lin: C.t list, j.
+                  List.mem lin lins /\
+                  List.length lin > 1 /\
+                  0 <= j /\ j < (List.length lin) - 1 /\
+                  Sequence.get lin j = Sequence.get path i /\
+                  Sequence.get lin (j+1) = Sequence.get path (i+1)
+            )
+        ) *)
+
+    (*@ predicate is_candidate_valid (c: C.t) (lins: C.t list list) =
+      (forall j. 0 <= j < List.length lins -> 
+        match Sequence.get lins j with
+        | [] -> true
+        | h1::t1 -> h1 = c /\ not (List.mem c t1))  *)
+
     (*@ lemma is_removed_not_mem:
-      forall l: C.t list, r: C.t list , e: C.t.
-        (is_removed l r e) /\ not (List.mem e (tail l)) -> not (List.mem e r)*)
-    
-    (*@ lemma is_removed_length:
-      forall l: C.t list, r: C.t list, e: C.t.
-        (is_removed l r e /\ has_head l e) ->
-        (List.length r < List.length l)*)
-    
+    forall l: C.t list, r: C.t list , e: C.t.
+      (is_removed l r e) /\ not (List.mem e (tail l)) -> not (List.mem e r)*)
+      
     (*@ lemma is_removed_length_for_lists:
       forall l: C.t list list, r: C.t list list, e: C.t.
         ((List.length r = List.length l) /\
@@ -78,13 +102,13 @@ module Make(C : CLASS) = struct
             (forall i. 0 <= i < List.length l -> List.length (Sequence.get r i) <= List.length (Sequence.get l i))
     *)
 
-    (* @ lemma sum_lengths_of_lists:
+    (*@ lemma sum_lengths_of_lists_l_e:
       forall l: C.t list list, r: C.t list list.
         ((List.length l = List.length r) /\
         (forall i. 0 <= i < List.length l -> List.length (Sequence.get r i) <= List.length (Sequence.get l i))) -> sum_lengths r <= sum_lengths l *)
  
     
-    (*@ lemma sum_lengths_of_lists:
+    (*@ lemma sum_lengths_of_lists_l:
       forall l: C.t list list, r: C.t list list.
         ((List.length l = List.length r) /\
         (exists i. 0 <= i < List.length l /\ List.length (Sequence.get r i) < List.length (Sequence.get l i)) /\
@@ -93,9 +117,67 @@ module Make(C : CLASS) = struct
     (*@ lemma sum_lengths_is_positive:
         forall ll: C.t list list.
         0 <= sum_lengths ll*)
- 
-    
 
+    (*@ lemma is_removed_preserves_distinct:
+          forall l r: C.t list, e: C.t.
+          distinct l -> is_removed l r e -> distinct r *)
+    
+    (*@ lemma is_valid_on_tail:
+          forall lins: C.t list list, l: C.t list.
+           forall c. List.mem c l /\ is_candidate_valid c lins ->  
+            forall e. List.mem e l /\ not is_candidate_valid e lins -> e <> c*)
+    
+    (*@ lemma is_candidate_on_distinct:
+          forall lins: C.t list list, c: C.t.
+            (forall i. 0 <= i < List.length lins -> distinct (Sequence.get lins i)) /\ is_candidate_valid c lins ->
+              (forall i. 0 <= i < List.length lins -> not (List.mem c (tail (Sequence.get lins i))))*)
+
+    (*@ lemma distinct_head_not_in_tail:
+          forall l: C.t list.
+          distinct l -> (forall h t. h::t = l -> (distinct t /\ not (Sequence.mem h t)))*)
+
+    (*@ lemma list_seq_mem:
+          forall l: C.t list, e:C.t.
+          List.mem e l <-> Sequence.mem e l *)
+
+    (*@ lemma length_strictly_decreases_if_element_removed:
+          forall l1 l2: C.t list, e:C.t.
+            distinct l1 /\ distinct l2 /\ Sequence.mem e l1 /\ not (Sequence.mem e l2) /\
+            (forall x. Sequence.mem x l2 -> Sequence.mem x l1) /\ 
+            (forall x. Sequence.mem x l1 /\ x <> e -> Sequence.mem x l2) ->
+            List.length l2 < List.length l1*)
+ 
+    (* @ lemma epg_concat_with_list_of_unique_elements_is_epg:
+          forall l: C.t list list, ps: C.t list.
+            
+            (forall e. Sequence.mem e l -> distinct e) /\ (distinct ps) /\ (is_epg l) /\ (List.length ps = List.length l) /\ 
+            (forall p. Sequence.mem p ps -> (exists e h t. Sequence.mem e l /\  h::t = e /\ h = p)) /\ 
+            (forall i:int, j:int, ei:C.t list, ej:C.t list, hi:C.t, ti:C.t list, hj:C.t, tj:C.t list.
+              0 <= i < List.length l /\
+              0 <= j < List.length l /\
+              ei = Sequence.get l i /\
+              ej = Sequence.get l j /\
+              i <> j /\  hi::ti = ei /\  hj::tj = ej ->  hj <> hi)->
+              (forall e h t. Sequence.mem e l /\ h::t = e -> Sequence.mem h ps /\ (forall ti. Sequence.mem ti t -> not Sequence.mem ti ps)) ->
+                is_epg (ps::l)
+              *)
+     
+    (*@ lemma acyclic_concat_with_list_of_unique_elements_is_acyclic:
+          forall l: C.t list list, ps: C.t list.
+            (forall e. Sequence.mem e l -> distinct e) /\ (distinct ps) /\ (acyclic_precedence_graph l) /\ (List.length ps = List.length l) /\ 
+            (forall p. Sequence.mem p ps -> (exists e h t. Sequence.mem e l /\  h::t = e /\ h = p)) /\ 
+            (forall i:int, j:int, ei:C.t list, ej:C.t list, hi:C.t, ti:C.t list, hj:C.t, tj:C.t list.
+              0 <= i < List.length l /\
+              0 <= j < List.length l /\
+              ei = Sequence.get l i /\
+              ej = Sequence.get l j /\
+              i <> j /\  hi::ti = ei /\  hj::tj = ej ->  hj <> hi)->
+              (forall e h t. Sequence.mem e l /\ h::t = e -> Sequence.mem h ps /\ (forall ti. Sequence.mem ti t -> not Sequence.mem ti ps)) ->
+                acyclic_precedence_graph (ps::l)
+    *)
+
+
+  
   (* List.for_all *)
   let rec for_all f l =
     match l with
@@ -105,17 +187,15 @@ module Make(C : CLASS) = struct
     ensures r = (forall x. List.mem x l -> f x)
     variant l
   *)
-  
-  (* List.filter_map *)
-  let rec filter_map f l =
-  match l with
-  | [] -> []
-  | h::t ->
-      match f h with
-      | None -> filter_map f t
-      | Some x -> x :: filter_map f t
-  (*@ r = filter_map f l
-    ensures forall y. List.mem y r <-> (exists x. List.mem x l /\ f x = Some y)
+
+  let rec filter_heads (l: C.t list list) =
+    match l with
+    | [] -> []
+    | (h :: _) :: t -> h :: filter_heads t
+    | [] :: t -> filter_heads t
+  (*@ r = filter_heads l
+    ensures forall y. List.mem y r -> (exists x h t. List.mem x l /\ h::t = x /\ h = y)
+    ensures forall x h t. List.mem x l /\ x = h::t -> (exists y. List.mem y r /\ h = y)
     variant l
   *)
 
@@ -136,7 +216,7 @@ module Make(C : CLASS) = struct
     | a :: r -> remove_head e a :: remove_aux r e
   (*@ r = remove l e
       requires l <> []
-      requires  forall i. 0 <= i < List.length l -> distinct (Sequence.get l i)
+      requires forall e. Sequence.mem e l -> distinct e
       
       ensures r <> []
       ensures forall i. 0 <= i < List.length r -> not (has_head (Sequence.get r i) e)
@@ -154,26 +234,22 @@ module Make(C : CLASS) = struct
     requires forall i. 0 <= i < List.length l -> not (List.mem e (tail (Sequence.get l i)))
     
     ensures forall i. 0 <= i < List.length r -> not (List.mem e (Sequence.get r i))
-    ensures forall i. List.mem i r -> distinct i
+    ensures forall i. Sequence.mem i r -> distinct i
     ensures sum_lengths r < sum_lengths l
+    ensures r <> []
   *)
   
    
 
-  let rec merge (linearizations : C.t list list) : C.t list option  =
-    if for_all ((fun l -> List.length l = 0)) linearizations then Some []
+  let rec merge (linearizations : C.t list list) : C.t list  =
+    if for_all ((fun l -> List.length l = 0)) linearizations then []
     else
       
       let find_candidate () =
-        let heads = filter_map 
-          (fun (l: C.t list) -> match (l: C.t list) with
-            | [] -> None 
-            | h::_ -> Some h) 
-          linearizations 
-        in
-        
+        let heads = filter_heads linearizations 
+        in 
         let rec try_heads (l: C.t list) = match (l: C.t list) with
-          | [] -> None  
+          | [] -> assert false  
           | candidate :: rest ->
               let is_valid = for_all 
                 (fun l -> 
@@ -182,26 +258,37 @@ module Make(C : CLASS) = struct
                   | h::t -> C.eq h candidate || not (List.mem candidate t))
                 linearizations in
               
-              if is_valid then Some candidate
+              if is_valid then candidate
               else try_heads rest
         (*@ r = try_heads l
         variant l 
-        requires forall i. List.mem i l -> (exists j. List.mem j linearizations /\ (has_head j i) )
-        ensures forall h. r = Some h -> (exists j. List.mem j linearizations /\ (has_head j h) ) *)
+        requires forall i. List.mem i l -> (exists j h t. List.mem j linearizations /\ h::t = j /\ h=i )
+        ensures (exists j. List.mem j linearizations /\ (has_head j r) ) 
+        requires exists c. Sequence.mem c l /\ is_candidate_valid c linearizations*)
         in
         try_heads heads
+      (*@ r = find_candidate ()
+      ensures is_candidate_valid r linearizations*)
       in
       
-      match find_candidate () with
-      | None -> None
-      | Some candidate -> 
-        match merge (remove linearizations candidate) with
-        |None -> None
-        |Some l -> Some (candidate :: l)
+      
+      let candidate = find_candidate () in
+      let merged = merge (remove linearizations candidate) in
+      candidate :: merged
   (*@ l = merge lins
+        requires lins <> []
         requires forall i. 0 <= i < List.length lins -> distinct (Sequence.get lins i) 
+        requires acyclic_precedence_graph lins
 
-        ensures l = None -> forall i h. 0 <= i < List.length lins -> not ( has_head (Sequence.get lins i) h \/ List.mem h (tail (Sequence.get lins i)) )
+        ensures distinct l
+        ensures forall ia ib. 0 <= ia < ib < List.length l ->
+          let ea = Sequence.get l ia in
+          let eb = Sequence.get l ib in 
+          exists ja jb lin.  
+            Sequence.mem lin lins /\ ea = Sequence.get lin ja /\ eb = Sequence.get lin jb /\ ja < jb
+        ensures forall e. not (Sequence.mem e l) -> forall lin. Sequence.mem lin lins -> not (Sequence.mem e lin) 
+        ensures forall lin e. (Sequence.mem lin lins) /\ not (Sequence.mem e lin) -> not (Sequence.mem e l)
+        ensures forall e. Sequence.mem e l -> exists lin. (Sequence.mem lin lins) /\ (Sequence.mem e lin) 
         variant sum_lengths lins
   *)  
 
@@ -209,43 +296,67 @@ module Make(C : CLASS) = struct
 
   let c3_linearization (universe: C.t list) (c: C.t)  =
 
-    let rec linearize (universe: C.t list) (c: C.t) : C.t list option  =
-        let parents = C.get_parents c in
+    let rec linearize (universe: C.t list) (c: C.t) : C.t list * C.t list list =
+        let parents = C.get_parents c universe in
         if (List.length universe) = 0 || (List.length parents) = 0 then
-          Some [c]
+          ([c],[[c]])
         else
-          let universe' = List.filter (fun x -> not (C.eq x c)) universe in
+            let rec remove_c l =
+              match l with
+              | [] -> []
+              | x :: xs -> if C.eq x c then remove_c xs else x :: remove_c xs
+              (*@ r = remove_c l
+                requires distinct l
+                ensures not (Sequence.mem c r)
+                ensures forall i. 0 <= i < List.length r -> Sequence.mem (Sequence.get r i) l
+                ensures forall i. 0 <= i < List.length l /\ ((Sequence.get l i) <> c) -> Sequence.mem (Sequence.get l i) r 
+                ensures distinct r
+                variant l*)
+            in
+            let universe' = remove_c universe in
           if (List.length universe) = (List.length universe') then
-            None
+            assert false
           else
-            let parent_linearizations  = List.map (linearize universe') parents in
-            let parent_linearizations' = filter_map (fun x -> x)  parent_linearizations in
-
-            if (List.length parent_linearizations) = (List.length parent_linearizations') then
-              let linearizations = parent_linearizations' @ [parents] in
-              match merge linearizations with
-              |Some l -> Some (c :: l)
-              |None -> None
-            else
-              None
-    (*@ r = linearize uni c
-          ensures 
-          match r with
-          |None -> not (forall x. List.mem x (C.get_parents c) -> List.mem x uni)
-          |Some _ -> true
-
-          requires List.mem c uni
+            let rec parent_linearizations ps : C.t list list = 
+              match ps with 
+              |[] -> []
+              |h::t -> let lin, _ = linearize universe' h in lin :: (parent_linearizations t)
+            (*@ r = parent_linearizations ps
+               
+              requires forall x. Sequence.mem x ps -> Sequence.mem x universe'
+              requires distinct ps
+              ensures List.length r = List.length ps
+              ensures forall i. 0 <= i < List.length r -> distinct (Sequence.get r i)
+              ensures forall i. 0 <= i < List.length ps -> (forall h t. h::t = (Sequence.get r i) -> h = (Sequence.get ps i))
+              ensures forall c. not (Sequence.mem c universe') -> forall l. Sequence.mem l r -> not (Sequence.mem c l)  
+              
+              ensures forall l c. Sequence.mem l r /\ Sequence.mem c l -> Sequence.mem c universe
+              
+              ensures acyclic_precedence_graph r
+              ensures acyclic_precedence_graph (List.append r (ps::[]))
+              
+            
+              variant ps
+            *)
+        
+            in
+            let linearizations = (parent_linearizations parents) @ [parents] in
+            (c :: (merge linearizations), linearizations) 
+    (*@ r, lins = linearize uni c
+          requires distinct uni
+          requires Sequence.mem c uni
+          ensures forall e. Sequence.mem e r -> Sequence.mem e uni
           variant List.length uni
+          ensures forall h t. h::t = r -> h = c /\ not (Sequence.mem h t)
+          ensures distinct r
           *)
     in
 
     
-    match linearize universe c with
-    |Some x -> x
-    |None -> invalid_arg "Universe is not properly created"
+    linearize universe c
 
   (*@ li = c3_linearization uni c
-      raises Invalid_argument _ -> not (List.mem c uni) \/ not (forall x. List.mem x (C.get_parents c) -> List.mem x uni)
-      requires List.mem c uni
+      requires distinct uni 
+      requires Sequence.mem c uni
   *)  
 end

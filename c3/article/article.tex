@@ -1,4 +1,4 @@
-\documentclass[conference]{IEEEtran}
+\documentclass[runningheads]{llncs}
 \usepackage[utf8]{inputenc}
 \usepackage{graphicx}
 \usepackage{amsmath}
@@ -24,8 +24,12 @@
 
 \title{Specification and Verification of C3 linearization algorithm}
 \author{
-  \IEEEauthorblockN{Miguel Flor, António Ravara and Mário Pereira}
-  \IEEEauthorblockA{NOVA LINCS, Nova School of Science and Technology\\ m.flor@campus.fct.unl.pt, \{aravara, mjp.pereira\}@fct.unl.pt}
+  Miguel Flor\inst{1} \and António Ravara\inst{1} \and Mário Pereira\inst{1}
+}
+\authorrunning{M. Flor et al.}
+\institute{
+  NOVA LINCS, Nova School of Science and Technology \\
+  \email{m.flor@campus.fct.unl.pt}, \email{\{aravara, mjp.pereira\}@fct.unl.pt}
 }
 
 \begin{document}
@@ -42,11 +46,22 @@ In this paper, we present a mathematical formal specification of the C3 algorith
 
      
 \end{abstract}
-
 \section{Introduction}
 The need for object-oriented programming languages, the support for multiple inheritance and a predictable MRO is crucial for the development of large software systems.
  That's why the C3 linearization algorithm is widely used in many programming languages Python 2.3\cite{Python23Method}, Perl\cite{MroMethodResolution}, Solidity\cite{LanguageInfluencesSolidity}, and many others.
  And exactly because of its widespread use, there is a need for an implementation that is verified, in this paper the verification is done in OCaml using Why3 and Cameleer.
+
+\subsection{Why C3?}
+C3 algorithm is widely used for producing a consistent and predictable MRO when conflicts arise in multiple inheritance scenarios.
+The algorithm uses three core properties to ensure that the MRO is consistent (these properties are explained in section \ref{subsec:C3Linearization}):
+\begin{itemize}
+    \item Extended Precedence Graph (EPG)
+    \item Local Precedence Order (LPO)
+    \item Monotonicity
+\end{itemize}
+Consider the class hierarchy in Fig. \ref{fig:DiamondProblem}, where class $A$ inherits from both $B$ and $C$. The C3 algorithm resolves the conflict ensuring that the MRO respects the order of inheritance (reading from left to right), resulting in an MRO of $(A, B, C, D)$.
+\section{Background}
+
 We will first examine how multiple inheritance affects MRO algorithms, then examine the principles of the C3 linearization algorithm, followed by a brief overview of cameleer.
 
 \subsection{Influence of Multiple Inheritance on MRO Algorithms}
@@ -63,7 +78,6 @@ MRO is a linear extension of some class hierarchy
 For the example above (Fig. \ref{fig:simpleDiagram}) a logical MRO could be $(A, B, C)$, this means that when the function f is executed from the class $A$ the implementation of $A$ will be prioritized over $B$, and the implementation of $B$ will be priorized over $C$.\\
 However, the MRO of a class hierarchy is not always that straightforward, and conflicts can start to arise when we introduce multiple inheritance.
 To demonstrate this, consider the following example, that represents a known problem called the diamond problem\cite{mondayezeStudiesObjectorientedProgramming2021}.
-
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=0.15\textwidth]{images/DiamondProblem.png}
@@ -72,10 +86,11 @@ To demonstrate this, consider the following example, that represents a known pro
 \end{figure}
 
 In this example (Fig. \ref{fig:DiamondProblem}), a conflict emerges when determining the MRO of class $A$, since $A$ inherits from both $B$ and $C$. This raises the question: Which implementation, $B$'s or $C$'s, does $A$ inherit from? 
-This is where the C3 linearization algorithm comes into play, as it provides a consistent and predictable way to resolve this conflict, the algorithm says that we need to prioritize $B$ over $C$, because $B$ comes first (reading from left to right) in the class hierarchy, and therefore the MRO of $A$ will be $(A, B, C, D)$.
+This is where the C3 linearization algorithm comes into play, as it provides a consistent and predictable way to resolve this conflict, the algorithm says that we need to prioritize $B$ over $C$, because $B$ comes first in the class hierarchy, and therefore the MRO of $A$ will be $(A, B, C, D)$.
 
 \subsection{C3 Linearization Algorithm}
-The C3 algorithm produces an MRO that is consistent with the extended precedence graph (EPG), local precedence order (LPO), and monotonicity \cite{barrettMonotonicSuperclassLinearization1996} (all of these properties are formally defined in section \ref{subsec:PropertiesformalSpec}).
+\label{subsec:C3Linearization}
+The C3 algorithm produces an MRO that is consistent with EPG, LPO, and monotonicity \cite{barrettMonotonicSuperclassLinearization1996} (all of these properties are formally defined in section \ref{subsec:PropertiesformalSpec}).
 
 \subsubsection{EPG}
 To understand the EPG, consider the following graph (Fig. \ref{fig:C3Diagram}). For this graph instead of ordering the classes from left to right,
@@ -125,10 +140,9 @@ This property requires that
 
 \subsubsection{Consistency with the LPO}
 For $m,n \geq 2$.
-\begin{align*}
-&\forall\,i,j\;\bigl(0\le i<j\le n \;\Longrightarrow \\
-&\quad \exists\,p,q\;\bigl(0\le p<q\le m \wedge C_p=P_i \wedge C_q=P_j\bigr)\bigr)
-\end{align*}
+\begin{equation*}
+\forall\,i,j\;\bigl(0\le i<j\le n \;\Longrightarrow \quad \exists\,p,q\;\bigl(0\le p<q\le m \wedge C_p=P_i \wedge C_q=P_j\bigr)\bigr)
+\end{equation*}
 \subsubsection{Consistency with monotonicity}
 
 Let $D', D'' \in \DD$ \\
@@ -153,13 +167,13 @@ $\rem : \ordCC^* \times \CC \Rightarrow \ordCC^*$\\
 \subsubsection{Merge}
 $\mer : \ordCC^* \Rightarrow \ordCC $
 
-\begin{multline*}
-\mer(L) = \\
+\begin{equation*}
+\mer(L)=
 \begin{cases} 
 \{C\} \cup \mer(\rem(L, C)), & \text{if (1), (2), (3)} \\
 \text{fail}, & \text{otherwise}
 \end{cases}
-\end{multline*}
+\end{equation*}
 
 where:
 \begin{align*}
@@ -183,7 +197,7 @@ Let $\texttt{C3linearization}$ be denoted as $\texttt{cl}$ for brevity.
 \end{cases}
 \]
 
-\bibliographystyle{IEEEtran}
+\bibliographystyle{splncs04}
 \bibliography{refs}
 
 \end{document}
