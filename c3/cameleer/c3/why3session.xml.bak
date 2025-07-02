@@ -2,4 +2,451 @@
 <!DOCTYPE why3session PUBLIC "-//Why3//proof session v5//EN"
 "https://www.why3.org/why3session.dtd">
 <why3session shape_version="6">
+<prover id="0" name="CVC5" version="1.1.2" timelimit="5" steplimit="0" memlimit="2000"/>
+<prover id="1" name="CVC4" version="1.8" timelimit="5" steplimit="0" memlimit="2000"/>
+<prover id="2" name="Alt-Ergo" version="2.6.0" timelimit="5" steplimit="0" memlimit="2000"/>
+<prover id="3" name="Z3" version="4.13.0" timelimit="1" steplimit="0" memlimit="1000"/>
+<file format="ocaml">
+<path name=".."/><path name="c3.ml"/>
+<theory name="C3">
+ <goal name="Make.list_seq_mem">
+ </goal>
+ <goal name="Make.is_removed_not_mem">
+ </goal>
+ <goal name="Make.is_removed_length_for_lists">
+ </goal>
+ <goal name="Make.sum_lengths_of_lists_l_e">
+ </goal>
+ <goal name="Make.sum_lengths_of_lists_l">
+ </goal>
+ <goal name="Make.sum_lengths_is_positive">
+ </goal>
+ <goal name="Make.is_removed_preserves_distinct">
+ </goal>
+ <goal name="Make.is_valid_on_tail">
+ </goal>
+ <goal name="Make.is_candidate_on_distinct">
+ </goal>
+ <goal name="Make.distinct_head_not_in_tail">
+ </goal>
+ <goal name="Make.length_strictly_decreases_if_element_removed">
+ </goal>
+ <goal name="Make.in_list_not_in_head_must_be_in_tail">
+ </goal>
+ <goal name="Make.acyclic_has_head_candidate">
+ <proof prover="0" timelimit="1" memlimit="1000"><result status="timeout" time="1.000000" steps="192526"/></proof>
+ <proof prover="1" timelimit="1" memlimit="1000"><result status="timeout" time="1.000000" steps="272869"/></proof>
+ <proof prover="2" timelimit="1" memlimit="1000"><result status="timeout" time="1.000000" steps="11132"/></proof>
+ <proof prover="3"><result status="timeout" time="1.000000" steps="2506719"/></proof>
+ <transf name="split_vc" >
+  <goal name="acyclic_has_head_candidate.0">
+  <proof prover="0"><result status="timeout" time="5.000000" steps="366572"/></proof>
+  <proof prover="1"><result status="timeout" time="5.000000" steps="839394"/></proof>
+  <proof prover="2"><result status="timeout" time="5.000000" steps="46056"/></proof>
+  <proof prover="3" timelimit="5" memlimit="2000"><result status="timeout" time="5.000000" steps="8290891"/></proof>
+  <transf name="inline_goal" >
+   <goal name="acyclic_has_head_candidate.0.0">
+   <transf name="split_all_full" >
+    <goal name="acyclic_has_head_candidate.0.0.0">
+    <proof prover="0" timelimit="1" memlimit="1000"><result status="timeout" time="1.000000" steps="132495"/></proof>
+    <proof prover="1" timelimit="1" memlimit="1000"><result status="timeout" time="1.000000" steps="152405"/></proof>
+    <proof prover="2" timelimit="1" memlimit="1000"><result status="timeout" time="1.000000" steps="9850"/></proof>
+    <proof prover="3"><result status="timeout" time="1.000000" steps="2418268"/></proof>
+    <transf name="split_vc" >
+     <goal name="acyclic_has_head_candidate.0.0.0.0">
+     <proof prover="0" timelimit="30" memlimit="4000"><result status="timeout" time="30.000000" steps="1450761"/></proof>
+     <proof prover="1" timelimit="30" memlimit="4000"><result status="timeout" time="26.092615" steps="3732586"/></proof>
+     <proof prover="2" timelimit="30" memlimit="4000"><result status="timeout" time="30.000000" steps="227974"/></proof>
+     <proof prover="3" timelimit="30" memlimit="4000"><result status="timeout" time="30.000000" steps="11834251"/></proof>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="Make.acyclic_and_has_candidate">
+ <proof prover="0" timelimit="1" memlimit="1000"><result status="timeout" time="1.000000" steps="198007"/></proof>
+ <proof prover="1" timelimit="1" memlimit="1000"><result status="timeout" time="1.000000" steps="336883"/></proof>
+ <proof prover="2" timelimit="1" memlimit="1000"><result status="timeout" time="1.000000" steps="24163"/></proof>
+ <proof prover="3"><result status="timeout" time="1.000000" steps="1855807"/></proof>
+ <transf name="split_vc" >
+  <goal name="acyclic_and_has_candidate.0">
+  <proof prover="0"><result status="timeout" time="5.000000" steps="373768"/></proof>
+  <proof prover="1"><result status="timeout" time="5.000000" steps="1627979"/></proof>
+  <proof prover="2"><result status="timeout" time="5.000000" steps="110616"/></proof>
+  <proof prover="3" timelimit="5" memlimit="2000"><result status="timeout" time="5.000000" steps="6600842"/></proof>
+  <transf name="inline_goal" >
+   <goal name="acyclic_and_has_candidate.0.0">
+   <transf name="split_all_full" >
+    <goal name="acyclic_and_has_candidate.0.0.0">
+    <proof prover="0"><result status="timeout" time="5.000000" steps="357584"/></proof>
+    <proof prover="1"><result status="timeout" time="5.000000" steps="755212"/></proof>
+    <proof prover="2"><result status="timeout" time="5.000000" steps="94406"/></proof>
+    <proof prover="3" timelimit="5" memlimit="2000"><result status="timeout" time="4.397788" steps="9849762"/></proof>
+    <transf name="inline_goal" >
+     <goal name="acyclic_and_has_candidate.0.0.0.0">
+     <proof prover="0" timelimit="30" memlimit="4000"><result status="timeout" time="30.000000" steps="1674239"/></proof>
+     <proof prover="1" timelimit="30" memlimit="4000"><result status="timeout" time="30.000000" steps="2895328"/></proof>
+     <proof prover="2" timelimit="30" memlimit="4000"><result status="timeout" time="30.000000" steps="571509"/></proof>
+     <proof prover="3" timelimit="30" memlimit="4000"><result status="timeout" time="30.000000" steps="19176821"/></proof>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="Make.remove_preserves_order">
+ </goal>
+ <goal name="Make.acyclic_concat_with_list_of_unique_elements_is_acyclic">
+ </goal>
+ <goal name="Make.for_all&#39;vc" expl="VC for for_all">
+ </goal>
+ <goal name="Make.is_candidate_valid&#39;vc" expl="VC for is_candidate_valid">
+ </goal>
+ <goal name="Make.filter_heads&#39;vc" expl="VC for filter_heads">
+ </goal>
+ <goal name="Make.remove_head&#39;vc" expl="VC for remove_head">
+ </goal>
+ <goal name="Make.remove_aux&#39;vc" expl="VC for remove_aux">
+ </goal>
+ <goal name="Make.remove&#39;vc" expl="VC for remove">
+ </goal>
+ <goal name="Make.merge&#39;vc" expl="VC for merge">
+ <transf name="split_vc" >
+  <goal name="merge&#39;vc.0" expl="unreachable point">
+  <proof prover="3" obsolete="true"><result status="valid" time="0.048785" steps="223325"/></proof>
+  </goal>
+  <goal name="merge&#39;vc.1" expl="precondition">
+  <proof prover="3" obsolete="true"><result status="valid" time="0.596006" steps="857682"/></proof>
+  </goal>
+  <goal name="merge&#39;vc.2" expl="variant decrease">
+  <proof prover="3" obsolete="true"><result status="valid" time="0.020710" steps="48137"/></proof>
+  </goal>
+  <goal name="merge&#39;vc.3" expl="precondition">
+  <proof prover="3" obsolete="true"><result status="valid" time="0.058586" steps="233013"/></proof>
+  </goal>
+  <goal name="merge&#39;vc.4" expl="precondition">
+  <proof prover="1" obsolete="true"><result status="valid" time="2.106258" steps="225682"/></proof>
+  </goal>
+  <goal name="merge&#39;vc.5" expl="postcondition">
+  <proof prover="0" timelimit="1" memlimit="1000" obsolete="true"><result status="timeout" time="1.000000" steps="103286"/></proof>
+  <proof prover="1" timelimit="1" memlimit="1000" obsolete="true"><result status="timeout" time="1.000000" steps="153182"/></proof>
+  <proof prover="2" timelimit="1" memlimit="1000" obsolete="true"><result status="timeout" time="1.000000" steps="4835"/></proof>
+  <proof prover="3" obsolete="true"><result status="timeout" time="1.000000" steps="1611323"/></proof>
+  <transf name="split_vc" >
+   <goal name="merge&#39;vc.5.0" expl="postcondition">
+   <proof prover="0" timelimit="1" memlimit="1000" obsolete="true"><result status="timeout" time="1.000000" steps="109058"/></proof>
+   <proof prover="1" timelimit="1" memlimit="1000" obsolete="true"><result status="timeout" time="1.000000" steps="113497"/></proof>
+   <proof prover="2" timelimit="1" memlimit="1000" obsolete="true"><result status="timeout" time="1.000000" steps="8742"/></proof>
+   <proof prover="3" obsolete="true"><result status="timeout" time="1.000000" steps="2291982"/></proof>
+   <transf name="split_vc" >
+    <goal name="merge&#39;vc.5.0.0" expl="postcondition">
+    <proof prover="3" obsolete="true"><result status="valid" time="0.016717" steps="17499"/></proof>
+    </goal>
+    <goal name="merge&#39;vc.5.0.1" expl="postcondition">
+    <proof prover="0" obsolete="true"><result status="timeout" time="5.000000" steps="409309"/></proof>
+    <proof prover="1" obsolete="true"><result status="timeout" time="5.000000" steps="486793"/></proof>
+    <proof prover="2" obsolete="true"><result status="timeout" time="5.000000" steps="43682"/></proof>
+    <proof prover="3" timelimit="5" memlimit="2000" obsolete="true"><result status="timeout" time="5.000000" steps="10853635"/></proof>
+    <transf name="inline_goal" >
+     <goal name="merge&#39;vc.5.0.1.0" expl="postcondition">
+     <transf name="split_all_full" >
+      <goal name="merge&#39;vc.5.0.1.0.0" expl="postcondition">
+      <proof prover="0" timelimit="1" memlimit="1000" obsolete="true"><result status="timeout" time="1.000000" steps="105762"/></proof>
+      <proof prover="1" timelimit="1" memlimit="1000" obsolete="true"><result status="timeout" time="1.000000" steps="141202"/></proof>
+      <proof prover="2" timelimit="1" memlimit="1000" obsolete="true"><result status="timeout" time="1.000000" steps="7490"/></proof>
+      <proof prover="3" obsolete="true"><result status="timeout" time="1.000000" steps="2025335"/></proof>
+      <transf name="split_vc" >
+       <goal name="merge&#39;vc.5.0.1.0.0.0" expl="postcondition">
+       <proof prover="0" obsolete="true"><result status="valid" time="2.737475" steps="345971"/></proof>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="merge&#39;vc.6" expl="postcondition">
+  <proof prover="3" obsolete="true"><result status="valid" time="0.034421" steps="49124"/></proof>
+  </goal>
+  <goal name="merge&#39;vc.7" expl="precondition">
+  <proof prover="3" obsolete="true"><result status="valid" time="0.074306" steps="200042"/></proof>
+  </goal>
+  <goal name="merge&#39;vc.8" expl="precondition">
+  <proof prover="3" obsolete="true"><result status="valid" time="0.079284" steps="226868"/></proof>
+  </goal>
+  <goal name="merge&#39;vc.9" expl="postcondition">
+  <proof prover="3" obsolete="true"><result status="valid" time="0.035719" steps="17384"/></proof>
+  </goal>
+  <goal name="merge&#39;vc.10" expl="precondition">
+  <proof prover="3" obsolete="true"><result status="valid" time="0.074058" steps="192230"/></proof>
+  </goal>
+  <goal name="merge&#39;vc.11" expl="precondition">
+  <proof prover="3" obsolete="true"><result status="valid" time="0.031189" steps="17408"/></proof>
+  </goal>
+  <goal name="merge&#39;vc.12" expl="precondition">
+  <proof prover="3" obsolete="true"><result status="valid" time="0.027580" steps="16947"/></proof>
+  </goal>
+  <goal name="merge&#39;vc.13" expl="precondition">
+  <proof prover="3" obsolete="true"><result status="valid" time="0.062986" steps="183883"/></proof>
+  </goal>
+  <goal name="merge&#39;vc.14" expl="precondition">
+  <proof prover="0" obsolete="true"><result status="timeout" time="5.000000" steps="327646"/></proof>
+  <proof prover="1" obsolete="true"><result status="timeout" time="5.000000" steps="594341"/></proof>
+  <proof prover="2" obsolete="true"><result status="timeout" time="5.000000" steps="41768"/></proof>
+  <proof prover="3" timelimit="5" memlimit="2000" obsolete="true"><result status="timeout" time="4.312578" steps="6599889"/></proof>
+  <transf name="inline_goal" >
+   <goal name="merge&#39;vc.14.0" expl="precondition">
+   <transf name="split_all_full" >
+    <goal name="merge&#39;vc.14.0.0" expl="precondition">
+    <proof prover="0" timelimit="1" memlimit="1000" obsolete="true"><result status="timeout" time="1.000000" steps="116008"/></proof>
+    <proof prover="1" timelimit="1" memlimit="1000" obsolete="true"><result status="timeout" time="1.000000" steps="148377"/></proof>
+    <proof prover="2" timelimit="1" memlimit="1000" obsolete="true"><result status="timeout" time="1.000000" steps="8391"/></proof>
+    <proof prover="3" obsolete="true"><result status="timeout" time="1.000000" steps="1911826"/></proof>
+    <transf name="split_vc" >
+     <goal name="merge&#39;vc.14.0.0.0" expl="precondition">
+     <proof prover="0" obsolete="true"><result status="valid" time="2.939072" steps="353700"/></proof>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="merge&#39;vc.15" expl="precondition">
+  <proof prover="2" timelimit="1" memlimit="1000" obsolete="true"><result status="valid" time="0.074570" steps="638"/></proof>
+  </goal>
+  <goal name="merge&#39;vc.16" expl="variant decrease">
+  <proof prover="3" obsolete="true"><result status="valid" time="0.044897" steps="184029"/></proof>
+  </goal>
+  <goal name="merge&#39;vc.17" expl="precondition">
+  <proof prover="3" obsolete="true"><result status="valid" time="0.025901" steps="16928"/></proof>
+  </goal>
+  <goal name="merge&#39;vc.18" expl="precondition">
+  <proof prover="3" obsolete="true"><result status="valid" time="0.230414" steps="539508"/></proof>
+  </goal>
+  <goal name="merge&#39;vc.19" expl="precondition">
+  <proof prover="0"><result status="timeout" time="5.000000" steps="430144"/></proof>
+  <proof prover="1"><result status="timeout" time="4.299660" steps="756268"/></proof>
+  <proof prover="2"><result status="timeout" time="5.000000" steps="39153"/></proof>
+  <proof prover="3" timelimit="5" memlimit="2000"><result status="timeout" time="4.335176" steps="7603576"/></proof>
+  <transf name="inline_goal" >
+   <goal name="merge&#39;vc.19.0" expl="precondition">
+   <transf name="split_all_full" >
+    <goal name="merge&#39;vc.19.0.0" expl="precondition">
+    <proof prover="0" timelimit="1" memlimit="1000"><result status="timeout" time="1.000000" steps="158468"/></proof>
+    <proof prover="1" timelimit="1" memlimit="1000"><result status="timeout" time="1.000000" steps="182963"/></proof>
+    <proof prover="2" timelimit="1" memlimit="1000"><result status="timeout" time="1.000000" steps="10165"/></proof>
+    <proof prover="3"><result status="timeout" time="1.000000" steps="2793632"/></proof>
+    <transf name="split_vc" >
+     <goal name="merge&#39;vc.19.0.0.0" expl="precondition">
+     <proof prover="0"><result status="timeout" time="5.000000" steps="360057"/></proof>
+     <proof prover="1"><result status="timeout" time="5.000000" steps="517427"/></proof>
+     <proof prover="2"><result status="timeout" time="5.000000" steps="39678"/></proof>
+     <proof prover="3" timelimit="5" memlimit="2000"><result status="timeout" time="4.346434" steps="9420085"/></proof>
+     <transf name="inline_goal" >
+      <goal name="merge&#39;vc.19.0.0.0.0" expl="precondition">
+      <proof prover="0" timelimit="30" memlimit="4000"><result status="timeout" time="30.000000" steps="1392915"/></proof>
+      <proof prover="1" timelimit="30" memlimit="4000"><result status="timeout" time="26.382020" steps="2961532"/></proof>
+      <proof prover="2" timelimit="30" memlimit="4000"><result status="timeout" time="30.000000" steps="151482"/></proof>
+      <proof prover="3" timelimit="30" memlimit="4000"><result status="timeout" time="30.000000" steps="30207051"/></proof>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="merge&#39;vc.20" expl="postcondition">
+  <proof prover="0" timelimit="1" memlimit="1000" obsolete="true"><result status="timeout" time="1.000000" steps="132203"/></proof>
+  <proof prover="1" timelimit="1" memlimit="1000" obsolete="true"><result status="timeout" time="1.000000" steps="147364"/></proof>
+  <proof prover="2" timelimit="1" memlimit="1000" obsolete="true"><result status="timeout" time="1.000000" steps="10360"/></proof>
+  <proof prover="3" obsolete="true"><result status="timeout" time="1.000000" steps="1473523"/></proof>
+  <transf name="split_vc" >
+   <goal name="merge&#39;vc.20.0" expl="postcondition">
+   <proof prover="3" obsolete="true"><result status="valid" time="0.042964" steps="199298"/></proof>
+   </goal>
+   <goal name="merge&#39;vc.20.1" expl="postcondition">
+   <proof prover="2" obsolete="true"><result status="valid" time="1.217006" steps="13563"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="merge&#39;vc.21" expl="postcondition">
+  <proof prover="0" timelimit="1" memlimit="1000" obsolete="true"><result status="timeout" time="1.000000" steps="141729"/></proof>
+  <proof prover="1" timelimit="1" memlimit="1000" obsolete="true"><result status="timeout" time="1.000000" steps="171854"/></proof>
+  <proof prover="2" timelimit="1" memlimit="1000" obsolete="true"><result status="timeout" time="1.000000" steps="6188"/></proof>
+  <proof prover="3" obsolete="true"><result status="timeout" time="1.000000" steps="1425649"/></proof>
+  <transf name="split_vc" >
+   <goal name="merge&#39;vc.21.0" expl="postcondition">
+   <proof prover="3" obsolete="true"><result status="valid" time="0.043086" steps="216084"/></proof>
+   </goal>
+   <goal name="merge&#39;vc.21.1" expl="postcondition">
+   <proof prover="0" obsolete="true"><result status="timeout" time="5.000000" steps="503164"/></proof>
+   <proof prover="1" obsolete="true"><result status="timeout" time="5.000000" steps="483864"/></proof>
+   <proof prover="2" obsolete="true"><result status="timeout" time="5.000000" steps="50371"/></proof>
+   <proof prover="3" timelimit="5" memlimit="2000" obsolete="true"><result status="timeout" time="4.187192" steps="8309096"/></proof>
+   <transf name="inline_goal" >
+    <goal name="merge&#39;vc.21.1.0" expl="postcondition">
+    <transf name="split_all_full" >
+     <goal name="merge&#39;vc.21.1.0.0" expl="postcondition">
+     <proof prover="0" obsolete="true"><result status="timeout" time="5.000000" steps="339589"/></proof>
+     <proof prover="1" obsolete="true"><result status="timeout" time="5.000000" steps="687990"/></proof>
+     <proof prover="2" obsolete="true"><result status="timeout" time="5.000000" steps="49036"/></proof>
+     <proof prover="3" timelimit="5" memlimit="2000" obsolete="true"><result status="timeout" time="4.396326" steps="9646686"/></proof>
+     <transf name="inline_goal" >
+      <goal name="merge&#39;vc.21.1.0.0.0" expl="postcondition">
+      <proof prover="0" timelimit="30" memlimit="4000" obsolete="true"><result status="timeout" time="30.000000" steps="1219487"/></proof>
+      <proof prover="1" timelimit="30" memlimit="4000" obsolete="true"><result status="timeout" time="30.000000" steps="4097513"/></proof>
+      <proof prover="2" timelimit="30" memlimit="4000" obsolete="true"><result status="timeout" time="30.000000" steps="199831"/></proof>
+      <proof prover="3" timelimit="30" memlimit="4000" obsolete="true"><result status="timeout" time="30.000000" steps="19056408"/></proof>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="merge&#39;vc.22" expl="postcondition">
+  <proof prover="0" timelimit="1" memlimit="1000" obsolete="true"><result status="timeout" time="1.000000" steps="157441"/></proof>
+  <proof prover="1" timelimit="1" memlimit="1000" obsolete="true"><result status="timeout" time="1.000000" steps="126053"/></proof>
+  <proof prover="2" timelimit="1" memlimit="1000" obsolete="true"><result status="timeout" time="1.000000" steps="6607"/></proof>
+  <proof prover="3" obsolete="true"><result status="timeout" time="1.000000" steps="1683579"/></proof>
+  <transf name="split_vc" >
+   <goal name="merge&#39;vc.22.0" expl="postcondition">
+   <proof prover="0" obsolete="true"><result status="timeout" time="5.000000" steps="435006"/></proof>
+   <proof prover="1" obsolete="true"><result status="timeout" time="5.000000" steps="735489"/></proof>
+   <proof prover="2" obsolete="true"><result status="timeout" time="5.000000" steps="54617"/></proof>
+   <proof prover="3" timelimit="5" memlimit="2000" obsolete="true"><result status="timeout" time="4.384810" steps="9161246"/></proof>
+   <transf name="inline_goal" >
+    <goal name="merge&#39;vc.22.0.0" expl="postcondition">
+    <transf name="split_all_full" >
+     <goal name="merge&#39;vc.22.0.0.0" expl="postcondition">
+     <proof prover="0" obsolete="true"><result status="timeout" time="5.000000" steps="358304"/></proof>
+     <proof prover="1" obsolete="true"><result status="timeout" time="5.000000" steps="627856"/></proof>
+     <proof prover="2" obsolete="true"><result status="timeout" time="5.000000" steps="47093"/></proof>
+     <proof prover="3" timelimit="5" memlimit="2000" obsolete="true"><result status="timeout" time="4.360641" steps="8161407"/></proof>
+     <transf name="inline_goal" >
+      <goal name="merge&#39;vc.22.0.0.0.0" expl="postcondition">
+      <proof prover="0" timelimit="30" memlimit="4000" obsolete="true"><result status="timeout" time="30.000000" steps="1321338"/></proof>
+      <proof prover="1" timelimit="30" memlimit="4000" obsolete="true"><result status="timeout" time="26.752401" steps="1824001"/></proof>
+      <proof prover="2" timelimit="30" memlimit="4000" obsolete="true"><result status="timeout" time="30.000000" steps="326931"/></proof>
+      <proof prover="3" timelimit="30" memlimit="4000" obsolete="true"><result status="timeout" time="30.000000" steps="12484769"/></proof>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="merge&#39;vc.22.1" expl="postcondition">
+   <proof prover="0" obsolete="true"><result status="timeout" time="5.000000" steps="310208"/></proof>
+   <proof prover="1" obsolete="true"><result status="timeout" time="5.000000" steps="281846"/></proof>
+   <proof prover="2" obsolete="true"><result status="timeout" time="5.000000" steps="46655"/></proof>
+   <proof prover="3" timelimit="5" memlimit="2000" obsolete="true"><result status="timeout" time="4.393265" steps="9288642"/></proof>
+   <transf name="inline_goal" >
+    <goal name="merge&#39;vc.22.1.0" expl="postcondition">
+    <transf name="split_all_full" >
+     <goal name="merge&#39;vc.22.1.0.0" expl="postcondition">
+     <proof prover="0" obsolete="true"><result status="timeout" time="5.000000" steps="314356"/></proof>
+     <proof prover="1" obsolete="true"><result status="timeout" time="5.000000" steps="385999"/></proof>
+     <proof prover="2" obsolete="true"><result status="timeout" time="5.000000" steps="40709"/></proof>
+     <proof prover="3" timelimit="5" memlimit="2000" obsolete="true"><result status="timeout" time="4.356345" steps="8273053"/></proof>
+     <transf name="inline_goal" >
+      <goal name="merge&#39;vc.22.1.0.0.0" expl="postcondition">
+      <proof prover="0" timelimit="30" memlimit="4000" obsolete="true"><result status="timeout" time="30.000000" steps="1268345"/></proof>
+      <proof prover="1" timelimit="30" memlimit="4000" obsolete="true"><result status="timeout" time="30.000000" steps="1886571"/></proof>
+      <proof prover="2" timelimit="30" memlimit="4000" obsolete="true"><result status="timeout" time="30.000000" steps="170891"/></proof>
+      <proof prover="3" timelimit="30" memlimit="4000" obsolete="true"><result status="timeout" time="30.000000" steps="33793404"/></proof>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="merge&#39;vc.23" expl="postcondition">
+  <proof prover="0" timelimit="1" memlimit="1000" obsolete="true"><result status="timeout" time="1.000000" steps="173506"/></proof>
+  <proof prover="1" timelimit="1" memlimit="1000" obsolete="true"><result status="timeout" time="1.000000" steps="127868"/></proof>
+  <proof prover="2" timelimit="1" memlimit="1000" obsolete="true"><result status="timeout" time="1.000000" steps="6789"/></proof>
+  <proof prover="3" obsolete="true"><result status="timeout" time="1.000000" steps="1101351"/></proof>
+  <transf name="split_vc" >
+   <goal name="merge&#39;vc.23.0" expl="postcondition">
+   <proof prover="3" obsolete="true"><result status="valid" time="0.070106" steps="224115"/></proof>
+   </goal>
+   <goal name="merge&#39;vc.23.1" expl="postcondition">
+   <proof prover="0" obsolete="true"><result status="timeout" time="5.000000" steps="282135"/></proof>
+   <proof prover="1" obsolete="true"><result status="timeout" time="5.000000" steps="362203"/></proof>
+   <proof prover="2" obsolete="true"><result status="timeout" time="5.000000" steps="39717"/></proof>
+   <proof prover="3" timelimit="5" memlimit="2000" obsolete="true"><result status="timeout" time="4.361738" steps="8492961"/></proof>
+   <transf name="inline_goal" >
+    <goal name="merge&#39;vc.23.1.0" expl="postcondition">
+    <transf name="split_all_full" >
+     <goal name="merge&#39;vc.23.1.0.0" expl="postcondition">
+     <proof prover="0" obsolete="true"><result status="timeout" time="5.000000" steps="296558"/></proof>
+     <proof prover="1" obsolete="true"><result status="timeout" time="5.000000" steps="408641"/></proof>
+     <proof prover="2" obsolete="true"><result status="timeout" time="5.000000" steps="38245"/></proof>
+     <proof prover="3" timelimit="5" memlimit="2000" obsolete="true"><result status="timeout" time="4.339431" steps="8423100"/></proof>
+     <transf name="inline_goal" >
+      <goal name="merge&#39;vc.23.1.0.0.0" expl="postcondition">
+      <proof prover="0" timelimit="30" memlimit="4000" obsolete="true"><result status="timeout" time="30.000000" steps="1326945"/></proof>
+      <proof prover="1" timelimit="30" memlimit="4000" obsolete="true"><result status="timeout" time="30.000000" steps="1842195"/></proof>
+      <proof prover="2" timelimit="30" memlimit="4000" obsolete="true"><result status="timeout" time="30.000000" steps="197515"/></proof>
+      <proof prover="3" timelimit="30" memlimit="4000" obsolete="true"><result status="timeout" time="30.000000" steps="32542929"/></proof>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="merge&#39;vc.24" expl="postcondition">
+  <proof prover="0" timelimit="1" memlimit="1000" obsolete="true"><result status="timeout" time="1.000000" steps="141242"/></proof>
+  <proof prover="1" timelimit="1" memlimit="1000" obsolete="true"><result status="timeout" time="1.000000" steps="145266"/></proof>
+  <proof prover="2" timelimit="1" memlimit="1000" obsolete="true"><result status="timeout" time="1.000000" steps="6246"/></proof>
+  <proof prover="3" obsolete="true"><result status="timeout" time="1.000000" steps="1693708"/></proof>
+  <transf name="split_vc" >
+   <goal name="merge&#39;vc.24.0" expl="postcondition">
+   <proof prover="3" obsolete="true"><result status="valid" time="0.053494" steps="221200"/></proof>
+   </goal>
+   <goal name="merge&#39;vc.24.1" expl="postcondition">
+   <proof prover="0" obsolete="true"><result status="timeout" time="5.000000" steps="304714"/></proof>
+   <proof prover="1" obsolete="true"><result status="timeout" time="5.000000" steps="764198"/></proof>
+   <proof prover="2" obsolete="true"><result status="timeout" time="5.000000" steps="41415"/></proof>
+   <proof prover="3" timelimit="5" memlimit="2000" obsolete="true"><result status="timeout" time="4.341013" steps="6818945"/></proof>
+   <transf name="inline_goal" >
+    <goal name="merge&#39;vc.24.1.0" expl="postcondition">
+    <transf name="split_all_full" >
+     <goal name="merge&#39;vc.24.1.0.0" expl="postcondition">
+     <proof prover="0" obsolete="true"><result status="valid" time="1.506118" steps="112421"/></proof>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="Make.c3_linearization&#39;vc" expl="VC for c3_linearization">
+ </goal>
+</theory>
+</file>
 </why3session>
