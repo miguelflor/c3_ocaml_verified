@@ -400,8 +400,7 @@ module Make(C : CLASS) = struct
               
               ensures acyclic_precedence_graph r
               ensures acyclic_precedence_graph (List.append r (ps::[]))
-              
-            
+                     
               variant ps
             *)
         
