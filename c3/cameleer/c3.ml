@@ -1,7 +1,6 @@
 (*@ predicate rec distinct (l: 'a list) =
-    match l with
-    |[] -> true
-    |h::t -> not (Sequence.mem h t) /\ distinct t*)
+    forall i j. 0 <= i < List.length l -> 0 <= j < List.length l -> 
+    i <> j -> Sequence.get l i <> Sequence.get l j*)
 
 module type CLASS = sig
 
@@ -28,13 +27,18 @@ module type CLASS = sig
 end
 
 module Make(C : CLASS) = struct
+
+  (*@ lemma list_seq_mem:
+          forall l: C.t list, e:C.t.
+          List.mem e l <-> Sequence.mem e l *)
+
   
   (*@ function rec sum_lengths (ll : C.t list list): int =
   match ll with 
   | [] -> 0
   | h::t -> (List.length h) + sum_lengths t
   *)
-  
+
   (*@ predicate is_removed (l : C.t list) (r : C.t list) (e: C.t) =
     match l with 
     | [] -> [] = r
@@ -42,142 +46,87 @@ module Make(C : CLASS) = struct
       if h = e then t = r
       else l = r
     *)
+
+  (*@ function lins_removed (ll: C.t list list) (h: C.t) : C.t list list =
+    match ll with
+    | [] -> []
+    | l::rest -> (remove_head h l)::(lins_removed rest h)
+  *)
+
+  (*@ function remove_head (h: C.t) (l: C.t list) : C.t list =
+    match l with
+    | [] -> []
+    | hd::tl -> if hd = h then tl else hd::tl
+  *)
+
+  (*@ predicate is_lins_removed (ll : C.t list list) (r : C.t list list) (e: C.t) =
+      List.length ll = List.length r /\
+      forall i. 0 <= i < List.length ll -> is_removed (Sequence.get ll i) (Sequence.get r i) e
+  *)
+  
+
  
-    (*@ predicate has_head (a: C.t list) (e: C.t) = 
+  (*@ predicate has_head (a: C.t list) (e: C.t) = 
     match a with  
     |[] -> false
     |h::_ -> h = e*)
 
-    (*@ function tail (l: C.t list): C.t list = 
+  (*@ function tail (l: C.t list): C.t list = 
     match l with 
     |[] -> []
     |_::t -> t*)
 
-    (*@ predicate is_epg (l: C.t list list) =
-      forall i1:int, i2:int.
-      0 <= i1 /\ i1 < List.length l ->
-      0 <= i2 /\ i2 < List.length l ->
-      i1 <> i2 ->
-      (let l1 = Sequence.get l i1 in
-        let l2 = Sequence.get l i2 in
-        forall e1:C.t, e2:C.t, i11:int, i21:int, j1:int, j2:int.
-        Sequence.get l1 i11 = e1 /\
-        Sequence.get l1 i21 = e2 /\
-        Sequence.get l2 j1 = e1 /\
-        Sequence.get l2 j2 = e2 /\ i11 < i21 ->
-        j1 < j2)*)
-    
-    (*@ predicate acyclic_precedence_graph (lins: C.t list list) =
-      forall c.
-        not (
-          exists path: C.t list.
-            List.length path > 1 /\
-            Sequence.get path 0 = c /\
-            Sequence.get path (List.length path - 1) = c /\
-            (forall i.
-              0 <= i /\ i < (List.length path) - 1 ->
-                exists lin: C.t list, j.
-                  List.mem lin lins /\
-                  List.length lin > 1 /\
-                  0 <= j /\ j < (List.length lin) - 1 /\
-                  Sequence.get lin j = Sequence.get path i /\
-                  Sequence.get lin (j+1) = Sequence.get path (i+1)
-            )
-        ) *)
-
-    (*@ predicate is_candidate_valid (c: C.t) (lins: C.t list list) =
+  (*@ predicate is_candidate_valid (c: C.t) (lins: C.t list list) =
       (forall j. 0 <= j < List.length lins -> 
-        match Sequence.get lins j with
-        | [] -> true
-        | h1::t1 -> h1 = c /\ not (List.mem c t1))  *)
+        let lin = Sequence.get lins j in
+        lin = [] \/ forall h1 t1. h1::t1 = lin -> h1 = c \/ not (Sequence.mem c t1)) *)
 
-    (*@ lemma is_removed_not_mem:
-    forall l: C.t list, r: C.t list , e: C.t.
-      (is_removed l r e) /\ not (List.mem e (tail l)) -> not (List.mem e r)*)
-      
-    (*@ lemma is_removed_length_for_lists:
-      forall l: C.t list list, r: C.t list list, e: C.t.
-        ((List.length r = List.length l) /\
-          (forall i. 0 <= i < List.length l -> is_removed (Sequence.get l i) (Sequence.get r i) e)) ->
-            (forall i. 0 <= i < List.length l -> List.length (Sequence.get r i) <= List.length (Sequence.get l i))
-    *)
 
-    (*@ lemma sum_lengths_of_lists_l_e:
-      forall l: C.t list list, r: C.t list list.
-        ((List.length l = List.length r) /\
-        (forall i. 0 <= i < List.length l -> List.length (Sequence.get r i) <= List.length (Sequence.get l i))) -> sum_lengths r <= sum_lengths l *)
- 
+  (*@ lemma is_removed_not_mem:
+  forall l: C.t list, r: C.t list , e: C.t.
+    (is_removed l r e) /\ not (List.mem e (tail l)) -> not (List.mem e r)*)
     
-    (*@ lemma sum_lengths_of_lists_l:
-      forall l: C.t list list, r: C.t list list.
-        ((List.length l = List.length r) /\
-        (exists i. 0 <= i < List.length l /\ List.length (Sequence.get r i) < List.length (Sequence.get l i)) /\
-        (forall i. 0 <= i < List.length l -> List.length (Sequence.get r i) <= List.length (Sequence.get l i))) -> sum_lengths r < sum_lengths l *)
-    
-    (*@ lemma sum_lengths_is_positive:
-        forall ll: C.t list list.
-        0 <= sum_lengths ll*)
+  (*@ lemma is_removed_length_for_lists:
+    forall l: C.t list list, r: C.t list list, e: C.t.
+      ((List.length r = List.length l) /\
+        (forall i. 0 <= i < List.length l -> is_removed (Sequence.get l i) (Sequence.get r i) e)) ->
+          (forall i. 0 <= i < List.length l -> List.length (Sequence.get r i) <= List.length (Sequence.get l i))
+  *)
 
-    (*@ lemma is_removed_preserves_distinct:
-          forall l r: C.t list, e: C.t.
-          distinct l -> is_removed l r e -> distinct r *)
-    
-    (*@ lemma is_valid_on_tail:
-          forall lins: C.t list list, l: C.t list.
-           forall c. List.mem c l /\ is_candidate_valid c lins ->  
-            forall e. List.mem e l /\ not is_candidate_valid e lins -> e <> c*)
-    
-    (*@ lemma is_candidate_on_distinct:
-          forall lins: C.t list list, c: C.t.
-            (forall i. 0 <= i < List.length lins -> distinct (Sequence.get lins i)) /\ is_candidate_valid c lins ->
-              (forall i. 0 <= i < List.length lins -> not (List.mem c (tail (Sequence.get lins i))))*)
-
-    (*@ lemma distinct_head_not_in_tail:
-          forall l: C.t list.
-          distinct l -> (forall h t. h::t = l -> (distinct t /\ not (Sequence.mem h t)))*)
-
-    (*@ lemma list_seq_mem:
-          forall l: C.t list, e:C.t.
-          List.mem e l <-> Sequence.mem e l *)
-
-    (*@ lemma length_strictly_decreases_if_element_removed:
-          forall l1 l2: C.t list, e:C.t.
-            distinct l1 /\ distinct l2 /\ Sequence.mem e l1 /\ not (Sequence.mem e l2) /\
-            (forall x. Sequence.mem x l2 -> Sequence.mem x l1) /\ 
-            (forall x. Sequence.mem x l1 /\ x <> e -> Sequence.mem x l2) ->
-            List.length l2 < List.length l1*)
- 
-    (* @ lemma epg_concat_with_list_of_unique_elements_is_epg:
-          forall l: C.t list list, ps: C.t list.
-            
-            (forall e. Sequence.mem e l -> distinct e) /\ (distinct ps) /\ (is_epg l) /\ (List.length ps = List.length l) /\ 
-            (forall p. Sequence.mem p ps -> (exists e h t. Sequence.mem e l /\  h::t = e /\ h = p)) /\ 
-            (forall i:int, j:int, ei:C.t list, ej:C.t list, hi:C.t, ti:C.t list, hj:C.t, tj:C.t list.
-              0 <= i < List.length l /\
-              0 <= j < List.length l /\
-              ei = Sequence.get l i /\
-              ej = Sequence.get l j /\
-              i <> j /\  hi::ti = ei /\  hj::tj = ej ->  hj <> hi)->
-              (forall e h t. Sequence.mem e l /\ h::t = e -> Sequence.mem h ps /\ (forall ti. Sequence.mem ti t -> not Sequence.mem ti ps)) ->
-                is_epg (ps::l)
-              *)
-     
-    (*@ lemma acyclic_concat_with_list_of_unique_elements_is_acyclic:
-          forall l: C.t list list, ps: C.t list.
-            (forall e. Sequence.mem e l -> distinct e) /\ (distinct ps) /\ (acyclic_precedence_graph l) /\ (List.length ps = List.length l) /\ 
-            (forall p. Sequence.mem p ps -> (exists e h t. Sequence.mem e l /\  h::t = e /\ h = p)) /\ 
-            (forall i:int, j:int, ei:C.t list, ej:C.t list, hi:C.t, ti:C.t list, hj:C.t, tj:C.t list.
-              0 <= i < List.length l /\
-              0 <= j < List.length l /\
-              ei = Sequence.get l i /\
-              ej = Sequence.get l j /\
-              i <> j /\  hi::ti = ei /\  hj::tj = ej ->  hj <> hi)->
-              (forall e h t. Sequence.mem e l /\ h::t = e -> Sequence.mem h ps /\ (forall ti. Sequence.mem ti t -> not Sequence.mem ti ps)) ->
-                acyclic_precedence_graph (ps::l)
-    *)
-
+  (*@ lemma sum_lengths_of_lists_l_e:
+    forall l: C.t list list, r: C.t list list.
+      ((List.length l = List.length r) /\
+      (forall i. 0 <= i < List.length l -> List.length (Sequence.get r i) <= List.length (Sequence.get l i))) -> sum_lengths r <= sum_lengths l *)
 
   
+  (*@ lemma sum_lengths_of_lists_l:
+    forall l: C.t list list, r: C.t list list.
+      ((List.length l = List.length r) /\
+      (exists i. 0 <= i < List.length l /\ List.length (Sequence.get r i) < List.length (Sequence.get l i)) /\
+      (forall i. 0 <= i < List.length l -> List.length (Sequence.get r i) <= List.length (Sequence.get l i))) -> sum_lengths r < sum_lengths l *)
+  
+  (*@ lemma sum_lengths_is_positive:
+      forall ll: C.t list list.
+      0 <= sum_lengths ll*)
+
+  (*@ lemma is_removed_preserves_distinct:
+        forall l r: C.t list, e: C.t.
+        distinct l -> is_removed l r e -> distinct r *)
+  
+  (*@ lemma is_valid_on_tail:
+        forall lins: C.t list list, l: C.t list.
+          forall c. List.mem c l /\ is_candidate_valid c lins ->  
+          forall e. List.mem e l /\ not is_candidate_valid e lins -> e <> c*)
+  
+  (*@ predicate rec is_lins_valid (lins: C.t list list) =
+    (forall lin. Sequence.mem lin lins -> lin = []) ||
+    exists lin h t. Sequence.mem lin lins /\ h::t = lin /\ is_candidate_valid h lins /\ 
+    let new_lins = lins_removed lins h in
+    sum_lengths lins > sum_lengths new_lins /\
+    is_lins_valid new_lins    
+  *)
+  (*@ variant (sum_lengths lins) *)
+
   (* List.for_all *)
   let rec for_all f l =
     match l with
@@ -277,8 +226,8 @@ module Make(C : CLASS) = struct
       candidate :: merged
   (*@ l = merge lins
         requires lins <> []
-        requires forall i. 0 <= i < List.length lins -> distinct (Sequence.get lins i) 
-        requires acyclic_precedence_graph lins
+        requires forall i. Sequence.mem i lins -> distinct i
+        requires is_lins_valid lins
 
         ensures distinct l
         ensures forall ia ib. 0 <= ia < ib < List.length l ->
@@ -332,8 +281,8 @@ module Make(C : CLASS) = struct
               
               ensures forall l c. Sequence.mem l r /\ Sequence.mem c l -> Sequence.mem c universe
               
-              ensures acyclic_precedence_graph r
-              ensures acyclic_precedence_graph (List.append r (ps::[]))
+              ensures is_lins_valid r
+              ensures is_lins_valid (List.append r (ps::[]))
               
             
               variant ps
