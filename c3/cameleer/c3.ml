@@ -358,5 +358,6 @@ module Make(C : CLASS) = struct
   (*@ li = c3_linearization uni c
       requires distinct uni 
       requires Sequence.mem c uni
-  *)  
+  *) 
+   
 end
