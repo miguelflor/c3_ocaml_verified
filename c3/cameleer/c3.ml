@@ -103,6 +103,11 @@ module Make(C : CLASS) = struct
     (*@ lemma is_removed_not_mem:
     forall l: C.t list, r: C.t list , e: C.t.
       (is_removed l r e) /\ not (List.mem e (tail l)) -> not (List.mem e r)*)
+
+    (*@ lemma is_removed_length:
+      forall l: C.t list, r: C.t list, e: C.t.
+        (is_removed l r e /\ has_head l e) ->
+        (List.length r < List.length l)*)
       
     (*@ lemma is_removed_length_for_lists:
       forall l: C.t list list, r: C.t list list, e: C.t.
@@ -176,6 +181,10 @@ module Make(C : CLASS) = struct
               (exists ip jp. ei = Sequence.get path ip  /\ ej = Sequence.get path jp /\ ip < jp )
         ))  *)
 
+     (*@ lemma acyclic_is_:
+          forall lins: C.t list list.
+          is_epg lins -> acyclic_precedence_graph lins*)
+
      (*@ lemma acyclic_has_head_candidate:
         forall lins: C.t list list, c: C.t.
          acyclic_precedence_graph lins -> (exists lin h t. Sequence.mem lin lins /\ Cons h t = lin /\ is_candidate_valid h lins)
@@ -223,8 +232,6 @@ module Make(C : CLASS) = struct
               (forall e h t. Sequence.mem e l /\ h::t = e -> Sequence.mem h ps /\ (forall ti. Sequence.mem ti t -> not Sequence.mem ti ps)) ->
                 acyclic_precedence_graph (ps::l)
     *)
-
-   
   
   (* List.for_all *)
   let rec for_all f l =

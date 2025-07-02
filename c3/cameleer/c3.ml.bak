@@ -166,10 +166,20 @@ module Make(C : CLASS) = struct
    
     (* order lemma *)
 
+     (*@ lemma if_linearization_is_possible_is_acyclic:
+        forall lins: C.t list list.
+        (acyclic_precedence_graph lins)  -> (exists path. List.length path > 1 /\ distinct path /\ (
+          forall lin. Sequence.mem lin lins ->
+            forall i j. 0 <= i < j <= List.length lin ->
+              let ei = Sequence.get lin i in
+              let ej = Sequence.get lin j in
+              (exists ip jp. ei = Sequence.get path ip  /\ ej = Sequence.get path jp /\ ip < jp )
+        ))  *)
+
      (*@ lemma acyclic_has_head_candidate:
         forall lins: C.t list list, c: C.t.
-        (exists lin h t. Sequence.mem lin lins /\ Cons h t = lin -> h = c) /\ acyclic_precedence_graph lins -> 
-          is_candidate_valid c lins*)
+         acyclic_precedence_graph lins -> (exists lin h t. Sequence.mem lin lins /\ Cons h t = lin /\ is_candidate_valid h lins)
+          *)
       
       (*@ lemma acyclic_and_has_candidate:
       forall lins: C.t list list, c:C.t.
@@ -284,8 +294,10 @@ module Make(C : CLASS) = struct
     requires forall i. 0 <= i < List.length l -> not (List.mem e (tail (Sequence.get l i)))
     
     ensures forall i. 0 <= i < List.length r -> not (List.mem e (Sequence.get r i))
+    ensures forall i. 0 <= i < List.length r -> is_removed (Sequence.get l i) (Sequence.get r i) e
     ensures forall i. Sequence.mem i r -> distinct i
     ensures sum_lengths r < sum_lengths l
+    ensures List.length r = List.length l
     ensures r <> []
   *)
   
