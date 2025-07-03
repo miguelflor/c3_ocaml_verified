@@ -1,17 +1,11 @@
-(*@ open Set *)
-
-let rec not_in_list (x : int) (l : int list) =
-  match l with
-  | [] -> true
-  | y :: r -> x <> y && not_in_list x r 
-
-let rec not_repeated (l: int list) = 
-  match l with
-      | [] -> true
-      | x :: r -> not_in_list x r && not_repeated r
-(*@
-  r = not_repeated l
-  ensures (Set.cardinal (Set.of_list l) = (List.length l)) = r
-  *) 
-
-
+let rec filter_heads (l: 'a list list) =
+    match l with
+    | [] -> []
+    | (h :: _) :: t -> h :: filter_heads t
+    | [] :: t -> filter_heads t
+  (*@ r = filter_heads l
+    ensures forall y. List.mem y r -> 
+      (exists x h t. List.mem x l /\ h::t = x /\ h = y)
+    ensures (forall x h t. List.mem x l /\ x = h::t -> List.mem h r)
+    variant l
+  *)

@@ -95,9 +95,16 @@ module Make(C : CLASS) = struct
     (*@ lemma list_seq_mem:
           forall l: C.t list, e:C.t.
           List.mem e l <-> Sequence.mem e l *)
-    
-   
 
+    (*@ lemma head_is_at_index_zero:
+      forall l: C.t list, a: C.t, i: int.
+        has_head l a /\ distinct l /\ a = Sequence.get l i -> i = 0 *)
+
+    (*@ lemma tail_is_above_zero:
+      forall l,t: C.t list, a,h: C.t, i: int.
+        List.length l > 1 /\ h::t = l /\
+        Sequence.mem a t /\ distinct l /\ a = Sequence.get l i -> i > 0 *)
+    
     (* remove lemmas *)
 
     (*@ lemma is_removed_not_mem:
@@ -150,8 +157,6 @@ module Make(C : CLASS) = struct
           forall l: C.t list.
           distinct l -> (forall h t. h::t = l -> (distinct t /\ not (Sequence.mem h t)))*)
 
-    
-
     (*@ lemma length_strictly_decreases_if_element_removed:
           forall l1 l2: C.t list, e:C.t.
             distinct l1 /\ distinct l2 /\ Sequence.mem e l1 /\ not (Sequence.mem e l2) /\
@@ -167,7 +172,18 @@ module Make(C : CLASS) = struct
         (exists c. Sequence.mem c p /\ is_candidate_valid c lins) /\ 
         (not is_candidate_valid h lins) -> (exists c. Sequence.mem c t /\ is_candidate_valid c lins))
       *)
+    
+    (*@ lemma candidate_is_only_head:
+      forall lins: C.t list list, a :C.t.
+      (forall lin. Sequence.mem lin lins -> distinct lin ) /\ 
+      (exists lin h t. Sequence.mem lin lins /\ h::t = lin /\ h = a) /\ 
+      is_candidate_valid a lins -> (forall lin h t. (Sequence.mem lin lins /\ Sequence.mem a lin /\ h::t = lin) -> (h = a /\ (forall i. a = Sequence.get lin i -> i = 0 ))) 
+    *)
 
+    (*@ lemma candidate_is_always_first:
+      forall lins: C.t list list, a :C.t.
+      (forall lin. Sequence.mem lin lins -> distinct lin ) /\ (exists lin h t. Sequence.mem lin lins /\ h::t = lin /\ h = a) /\ is_candidate_valid a lins ->
+        (forall lin,k,ai,ki. (Sequence.mem lin lins /\ Sequence.mem a lin /\ Sequence.mem k lin /\ a = Sequence.get lin ai /\ k = Sequence.get lin ki /\ a <> k) -> ai < ki) *)
    
     (* order lemma *)
 
@@ -181,7 +197,7 @@ module Make(C : CLASS) = struct
               (exists ip jp. ei = Sequence.get path ip  /\ ej = Sequence.get path jp /\ ip < jp )
         ))  *)
 
-     (*@ lemma acyclic_is_:
+     (*@ lemma acyclic_is_ordered:
           forall lins: C.t list list.
           is_epg lins -> acyclic_precedence_graph lins*)
 
@@ -351,7 +367,7 @@ module Make(C : CLASS) = struct
           let ea = Sequence.get l ia in
           let eb = Sequence.get l ib in 
           exists ja jb lin.  
-            Sequence.mem lin lins /\ ea = Sequence.get lin ja /\ eb = Sequence.get lin jb /\ ja < jb
+            Sequence.mem lin lins /\ Sequence.mem ea lin /\ Sequence.mem eb lin /\ ea = Sequence.get lin ja /\ eb = Sequence.get lin jb /\ ja < jb
         ensures forall e. not (Sequence.mem e l) -> forall lin. Sequence.mem lin lins -> not (Sequence.mem e lin) 
         ensures forall lin e. (Sequence.mem lin lins) /\ not (Sequence.mem e lin) -> not (Sequence.mem e l)
         ensures forall e. Sequence.mem e l -> exists lin. (Sequence.mem lin lins) /\ (Sequence.mem e lin) 

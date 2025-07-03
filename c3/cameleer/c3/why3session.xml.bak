@@ -2,4 +2,163 @@
 <!DOCTYPE why3session PUBLIC "-//Why3//proof session v5//EN"
 "https://www.why3.org/why3session.dtd">
 <why3session shape_version="6">
+<prover id="0" name="CVC5" version="1.1.2" timelimit="30" steplimit="0" memlimit="4000"/>
+<prover id="1" name="CVC4" version="1.8" timelimit="30" steplimit="0" memlimit="4000"/>
+<prover id="2" name="Alt-Ergo" version="2.6.0" timelimit="30" steplimit="0" memlimit="4000"/>
+<prover id="3" name="Z3" version="4.13.0" timelimit="1" steplimit="0" memlimit="1000"/>
+<file format="ocaml">
+<path name=".."/><path name="c3.ml"/>
+<theory name="C3">
+ <goal name="Make.list_seq_mem">
+ </goal>
+ <goal name="Make.head_is_at_index_zero">
+ <proof prover="0" timelimit="1" memlimit="1000"><result status="timeout" time="1.000000" steps="183398"/></proof>
+ <proof prover="1" timelimit="1" memlimit="1000"><result status="timeout" time="1.000000" steps="187181"/></proof>
+ <proof prover="2" timelimit="1" memlimit="1000"><result status="timeout" time="1.000000" steps="33207"/></proof>
+ <proof prover="3"><result status="timeout" time="1.000000" steps="1805724"/></proof>
+ <transf name="split_vc" >
+  <goal name="head_is_at_index_zero.0">
+  <proof prover="0"><result status="timeout" time="30.000000" steps="1816103"/></proof>
+  <proof prover="1"><result status="timeout" time="30.000000" steps="4396386"/></proof>
+  <proof prover="2"><result status="timeout" time="30.000000" steps="254490"/></proof>
+  <proof prover="3" timelimit="30" memlimit="4000"><result status="timeout" time="30.000000" steps="34943600"/></proof>
+  </goal>
+ </transf>
+ <transf name="split_vc" >
+  <goal name="head_is_at_index_zero.0">
+  <proof prover="0"><result status="timeout" time="30.000000" steps="1333951"/></proof>
+  <proof prover="1"><result status="timeout" time="30.000000" steps="6175957"/></proof>
+  <proof prover="2"><result status="timeout" time="30.000000" steps="252752"/></proof>
+  <proof prover="3" timelimit="30" memlimit="4000"><result status="timeout" time="30.000000" steps="38304484"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="Make.tail_is_above_zero">
+ <proof prover="0" timelimit="1" memlimit="1000"><result status="timeout" time="1.000000" steps="181189"/></proof>
+ <proof prover="1" timelimit="1" memlimit="1000"><result status="timeout" time="1.000000" steps="218895"/></proof>
+ <proof prover="2" timelimit="1" memlimit="1000"><result status="timeout" time="1.000000" steps="30123"/></proof>
+ <proof prover="3"><result status="timeout" time="1.000000" steps="2937977"/></proof>
+ <transf name="split_vc" >
+  <goal name="tail_is_above_zero.0">
+  <proof prover="0" timelimit="5" memlimit="2000" obsolete="true"><result status="timeout" time="5.000000" steps="434386"/></proof>
+  <proof prover="1" timelimit="5" memlimit="2000" obsolete="true"><result status="timeout" time="5.000000" steps="1009549"/></proof>
+  <proof prover="2" timelimit="5" memlimit="2000" obsolete="true"><result status="timeout" time="5.000000" steps="69830"/></proof>
+  <proof prover="3" timelimit="5" memlimit="2000" obsolete="true"><result status="timeout" time="5.000000" steps="4225556"/></proof>
+  <transf name="inline_goal" >
+   <goal name="tail_is_above_zero.0.0">
+   <transf name="split_all_full" >
+    <goal name="tail_is_above_zero.0.0.0">
+    <proof prover="0" obsolete="true"><result status="timeout" time="30.000000" steps="1507242"/></proof>
+    <proof prover="1" obsolete="true"><result status="timeout" time="30.000000" steps="6251088"/></proof>
+    <proof prover="2" obsolete="true"><result status="timeout" time="30.000000" steps="308349"/></proof>
+    <proof prover="3" timelimit="30" memlimit="4000" obsolete="true"><result status="timeout" time="30.000000" steps="12644168"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ <transf name="split_vc" >
+  <goal name="tail_is_above_zero.0">
+  <proof prover="0" timelimit="5" memlimit="2000"><result status="timeout" time="5.000000" steps="456656"/></proof>
+  <proof prover="1" timelimit="5" memlimit="2000"><result status="timeout" time="5.000000" steps="457231"/></proof>
+  <proof prover="2" timelimit="5" memlimit="2000"><result status="timeout" time="5.000000" steps="66667"/></proof>
+  <proof prover="3" timelimit="5" memlimit="2000"><result status="timeout" time="5.000000" steps="9424660"/></proof>
+  <transf name="inline_goal" >
+   <goal name="tail_is_above_zero.0.0">
+   <transf name="split_all_full" >
+    <goal name="tail_is_above_zero.0.0.0">
+    <proof prover="0"><result status="timeout" time="30.000000" steps="1710203"/></proof>
+    <proof prover="1"><result status="timeout" time="30.000000" steps="4879703"/></proof>
+    <proof prover="2"><result status="timeout" time="30.000000" steps="427789"/></proof>
+    <proof prover="3" timelimit="30" memlimit="4000"><result status="outofmemory" time="20.302918"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="Make.is_removed_not_mem">
+ </goal>
+ <goal name="Make.is_removed_length">
+ </goal>
+ <goal name="Make.is_removed_length_for_lists">
+ </goal>
+ <goal name="Make.sum_lengths_of_lists_l_e">
+ </goal>
+ <goal name="Make.sum_lengths_of_lists_l">
+ </goal>
+ <goal name="Make.sum_lengths_is_positive">
+ </goal>
+ <goal name="Make.is_removed_preserves_distinct">
+ </goal>
+ <goal name="Make.is_valid_on_tail">
+ </goal>
+ <goal name="Make.is_candidate_on_distinct">
+ </goal>
+ <goal name="Make.distinct_head_not_in_tail">
+ </goal>
+ <goal name="Make.length_strictly_decreases_if_element_removed">
+ </goal>
+ <goal name="Make.in_list_not_in_head_must_be_in_tail">
+ </goal>
+ <goal name="Make.candidate_is_only_head">
+ <proof prover="0" timelimit="1" memlimit="1000" obsolete="true"><result status="timeout" time="1.000000" steps="196171"/></proof>
+ <proof prover="1" timelimit="1" memlimit="1000" obsolete="true"><result status="timeout" time="1.000000" steps="271012"/></proof>
+ <proof prover="2" timelimit="1" memlimit="1000" obsolete="true"><result status="timeout" time="1.000000" steps="16305"/></proof>
+ <proof prover="3" obsolete="true"><result status="timeout" time="1.000000" steps="2698074"/></proof>
+ <transf name="split_vc" >
+  <goal name="candidate_is_only_head.0">
+  <proof prover="3" obsolete="true"><result status="valid" time="0.034449" steps="176443"/></proof>
+  </goal>
+  <goal name="candidate_is_only_head.1">
+  <proof prover="3" obsolete="true"><result status="valid" time="0.416702" steps="981221"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="Make.candidate_is_always_first">
+ <proof prover="0" timelimit="1" memlimit="1000" obsolete="true"><result status="timeout" time="1.000000" steps="115364"/></proof>
+ <proof prover="1" timelimit="1" memlimit="1000" obsolete="true"><result status="timeout" time="1.000000" steps="139707"/></proof>
+ <proof prover="2" timelimit="1" memlimit="1000" obsolete="true"><result status="timeout" time="1.000000" steps="13415"/></proof>
+ <proof prover="3" obsolete="true"><result status="timeout" time="1.000000" steps="2192441"/></proof>
+ <transf name="split_vc" >
+  <goal name="candidate_is_always_first.0">
+  <proof prover="0" obsolete="true"><result status="timeout" time="30.000000" steps="1479768"/></proof>
+  <proof prover="1" obsolete="true"><result status="timeout" time="30.000000" steps="3129092"/></proof>
+  <proof prover="2" obsolete="true"><result status="timeout" time="30.000000" steps="300054"/></proof>
+  <proof prover="3" timelimit="30" memlimit="4000" obsolete="true"><result status="timeout" time="26.742794" steps="32126380"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="Make.if_linearization_is_possible_is_acyclic">
+ </goal>
+ <goal name="Make.acyclic_is_ordered">
+ </goal>
+ <goal name="Make.acyclic_has_head_candidate">
+ </goal>
+ <goal name="Make.acyclic_and_has_candidate">
+ </goal>
+ <goal name="Make.remove_preserves_order">
+ </goal>
+ <goal name="Make.acyclic_concat_with_list_of_unique_elements_is_acyclic">
+ </goal>
+ <goal name="Make.for_all&#39;vc" expl="VC for for_all">
+ </goal>
+ <goal name="Make.is_candidate_valid&#39;vc" expl="VC for is_candidate_valid">
+ </goal>
+ <goal name="Make.filter_heads&#39;vc" expl="VC for filter_heads">
+ </goal>
+ <goal name="Make.remove_head&#39;vc" expl="VC for remove_head">
+ </goal>
+ <goal name="Make.remove_aux&#39;vc" expl="VC for remove_aux">
+ </goal>
+ <goal name="Make.remove&#39;vc" expl="VC for remove">
+ </goal>
+ <goal name="Make.merge&#39;vc" expl="VC for merge">
+ </goal>
+ <goal name="Make.c3_linearization&#39;vc" expl="VC for c3_linearization">
+ </goal>
+</theory>
+</file>
 </why3session>

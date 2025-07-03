@@ -2,9 +2,11 @@
 \usepackage[utf8]{inputenc}
 \usepackage{graphicx}
 \usepackage{amsmath}
-\usepackage{cite} 
 \usepackage{amsmath,amssymb,todonotes,xspace}
 \usepackage[hidelinks]{hyperref}
+\usepackage{minted}
+\usepackage[style=numeric-comp, sorting=none, backend=biber]{biblatex}
+\addbibresource{refs.bib}
 
 
 \newcommand*{\CC}{\ensuremath{\mathcal{C}}\xspace}
@@ -24,7 +26,7 @@
 
 \title{Specification and Verification of C3 linearization algorithm}
 \author{
-  Miguel Flor\inst{1} \and António Ravara\inst{1} \and Mário Pereira\inst{1}
+  Miguel Flor\inst{1} \and António Ravara\inst{2} \and Mário Pereira\inst{2}
 }
 \authorrunning{M. Flor et al.}
 \institute{
@@ -36,7 +38,7 @@
 \maketitle
 
 \begin{abstract}
-    Multiple hierarchical inheritance is common among many programming languages, and
+Multiple hierarchical inheritance is common among many programming languages, and
 to produce a consistent and intuitive method resolution order (MRO) of the class hierarchy,
 the C3 linearization algorithm is one of the most widely used.
 However, the algorithm is not trivial, and because its widespread use,
@@ -47,8 +49,8 @@ In this paper, we present a mathematical formal specification of the C3 algorith
      
 \end{abstract}
 \section{Introduction}
-The need for object-oriented programming languages, the support for multiple inheritance and a predictable MRO is crucial for the development of large software systems.
- That's why the C3 linearization algorithm is widely used in many programming languages Python 2.3\cite{Python23Method}, Perl\cite{MroMethodResolution}, Solidity\cite{LanguageInfluencesSolidity}, and many others.
+The development of large software systems often requires object-oriented programming languages that support multiple inheritance and provide a predictable method resolution order (MRO). 
+ That's why the C3 linearization algorithm is used in many programming languages Python 2.3\autocite{Python23Method}, Perl\autocite{MroMethodResolution}, Solidity\autocite{LanguageInfluencesSolidity}, and many others.
  And exactly because of its widespread use, there is a need for an implementation that is verified, in this paper the verification is done in OCaml using Why3 and Cameleer.
 
 \subsection{Why C3?}
@@ -59,14 +61,22 @@ The algorithm uses three core properties to ensure that the MRO is consistent (t
     \item Local Precedence Order (LPO)
     \item Monotonicity
 \end{itemize}
-Consider the class hierarchy in Fig. \ref{fig:DiamondProblem}, where class $A$ inherits from both $B$ and $C$. The C3 algorithm resolves the conflict ensuring that the MRO respects the order of inheritance (reading from left to right), resulting in an MRO of $(A, B, C, D)$.
+To understand the algorithm consider the class hierarchy in Fig. \ref{fig:DiamondProblem}, where class $A$ inherits from both $B$ and $C$. The C3 algorithm resolves the conflict ensuring that the MRO respects the order of inheritance (reading from left to right), resulting in an MRO of $(A, B, C, D)$.
+
+\subsection{Contributions}
+To reach the goal of a verified implementation of the C3 linearization algorithm, we present the following contributions:
+\begin{itemize}
+    \item A mathematical formal specification of the C3 linearization algorithm, which includes the properties that the algorithm must satisfy.
+    \item An OCaml implementation of the C3 linearization algorithm, which is verified using Why3 and Cameleer.
+\end{itemize}
+
 \section{Background}
 
 We will first examine how multiple inheritance affects MRO algorithms, then examine the principles of the C3 linearization algorithm, followed by a brief overview of cameleer.
 
 \subsection{Influence of Multiple Inheritance on MRO Algorithms}
 MRO is a linear extension of some class hierarchy
- that induces a total order on the classes in the hierarchy.\cite{hivertControllingC3Super2024}
+ that induces a total order on the classes in the hierarchy\autocite{hivertControllingC3Super2024}.
 
 \begin{figure}[htbp]
   \centering
@@ -75,9 +85,9 @@ MRO is a linear extension of some class hierarchy
   \label{fig:simpleDiagram}
 \end{figure}
 
-For the example above (Fig. \ref{fig:simpleDiagram}) a logical MRO could be $(A, B, C)$, this means that when the function f is executed from the class $A$ the implementation of $A$ will be prioritized over $B$, and the implementation of $B$ will be priorized over $C$.\\
+For the example above (Fig. \ref{fig:simpleDiagram}) a logical MRO could be $(A, B, C)$, this means that when the function f is executed from the class $A$ the implementation of $A$ will be prioritized over $B$, and the implementation of $B$ will be prioritized over $C$.\\
 However, the MRO of a class hierarchy is not always that straightforward, and conflicts can start to arise when we introduce multiple inheritance.
-To demonstrate this, consider the following example, that represents a known problem called the diamond problem\cite{mondayezeStudiesObjectorientedProgramming2021}.
+To demonstrate this, consider the following example, that represents a known problem called the diamond problem\autocite{mondayezeStudiesObjectorientedProgramming2021}.
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=0.15\textwidth]{images/DiamondProblem.png}
@@ -90,7 +100,7 @@ This is where the C3 linearization algorithm comes into play, as it provides a c
 
 \subsection{C3 Linearization Algorithm}
 \label{subsec:C3Linearization}
-The C3 algorithm produces an MRO that is consistent with EPG, LPO, and monotonicity \cite{barrettMonotonicSuperclassLinearization1996} (all of these properties are formally defined in section \ref{subsec:PropertiesformalSpec}).
+The C3 algorithm produces an MRO that is consistent with EPG, LPO, and monotonicity\autocite{barrettMonotonicSuperclassLinearization1996} (all of these properties are formally defined in section\ref{subsec:PropertiesformalSpec}).
 
 \subsubsection{EPG}
 To understand the EPG, consider the following graph (Fig. \ref{fig:C3Diagram}). For this graph instead of ordering the classes from left to right,
@@ -109,8 +119,23 @@ Consider the graph in Fig. \ref{fig:DiamondProblem}. An MRO that is consistent n
 \subsubsection{Monotonicity}
 If an MRO algorithm is consistency with monotonicity, it means that if a new class is added to the hierarchy the order of the previous MRO is preserved.
 
-\subsection{Cameleer}
-Cameleer is an automated tool for deductive verification in OCaml. It uses comments written in GOSPEL\cite{chargueraudGOSPELProvidingOCaml2019} (Generic OCaml Specification Language) to specify the properties of functions, and then leverages Why3 to verify these properties\cite{pereiraCameleerDeductiveVerification2021}.
+\subsection{Cameleer and Why3}
+Cameleer\autocite{pereiraCameleerDeductiveVerification2021} is an automated tool for deductive verification in OCaml. It uses comments written in GOSPEL\autocite{chargueraudGOSPELProvidingOCaml2019} (Generic OCaml Specification Language) to specify the properties of functions, and then leverages Why3\autocite{filliatreWhy3WherePrograms2013a} to verify these properties.\\
+With GOSPEL, we can write pre-conditions, post-conditions, invariants, and variants using comments that start with a @ and are attached to a specific OCaml function. Take the OCaml function below as an example:
+\inputminted[fontsize=\small,linenos,xleftmargin=20pt]{ocaml}{../../not_repeated/teste.ml}
+In the function \texttt{filter\_heads} takes a list of lists as argument and returns a list of the heads of each sublist, the GOSPEL comments two post-conditions and a variant.
+The first post-condition (lines 7 and 8) states that for every element \( y \) in the result list \( r \), exists a sublist \( x \) in the input list \( l \) such that the head of \( x \) is equal to \( y \).
+The second post-condition (lines 9) states that for every sublist \( x \) in the input list \( l \), the head of \( x \) is in the result list \( r \).
+And the variant (line 10) ensures the termination of the function by stating that the input list \( l \) is decreasing in size with each recursive call.\\
+To run the verification, we can use the command \texttt{cameleer <file name>.ml}, which will open the Why3 IDE, like the one in Fig.\ref{fig:Why3FilterHeads}.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=1\textwidth]{images/Why3FilterHead.png}
+  \caption{\texttt{filter\_heads.ml} in Why3 IDE}
+  \label{fig:Why3FilterHeads}
+\end{figure}
+
 
 
 \section{Formal Specification of C3 Linearization Algorithm}
@@ -197,7 +222,6 @@ Let $\texttt{C3linearization}$ be denoted as $\texttt{cl}$ for brevity.
 \end{cases}
 \]
 
-\bibliographystyle{splncs04}
-\bibliography{refs}
+\printbibliography
 
 \end{document}
