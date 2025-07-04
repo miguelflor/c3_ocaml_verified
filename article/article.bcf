@@ -2367,23 +2367,24 @@
     <bcf:citekey order="1" intorder="1">Python23Method</bcf:citekey>
     <bcf:citekey order="2" intorder="1">MroMethodResolution</bcf:citekey>
     <bcf:citekey order="3" intorder="1">LanguageInfluencesSolidity</bcf:citekey>
-    <bcf:citekey order="4" intorder="1">hivertControllingC3Super2024</bcf:citekey>
-    <bcf:citekey order="5" intorder="1">mondayezeStudiesObjectorientedProgramming2021</bcf:citekey>
-    <bcf:citekey order="6" intorder="1">barrettMonotonicSuperclassLinearization1996</bcf:citekey>
-    <bcf:citekey order="7" intorder="1">pereiraCameleerDeductiveVerification2021</bcf:citekey>
-    <bcf:citekey order="8" intorder="1">chargueraudGOSPELProvidingOCaml2019</bcf:citekey>
-    <bcf:citekey order="9" intorder="1">filliatreWhy3WherePrograms2013a</bcf:citekey>
-    <bcf:citekey order="10" intorder="1">sasAltErgoSMTSolver</bcf:citekey>
-    <bcf:citekey order="11" intorder="1">Z3ProverZ32025</bcf:citekey>
-    <bcf:citekey order="12" intorder="1">Cvc5</bcf:citekey>
-    <bcf:citekey order="13" intorder="1">12TechnicalInformations</bcf:citekey>
-    <bcf:citekey order="14" intorder="1">Python23Method</bcf:citekey>
-    <bcf:citekey order="15" intorder="1">MroMethodResolution</bcf:citekey>
-    <bcf:citekey order="16" intorder="1">reisSoliderSolidity2023</bcf:citekey>
-    <bcf:citekey order="17" intorder="1">castanhoAutoactiveVerificationGraph2022</bcf:citekey>
-    <bcf:citekey order="18" intorder="1">filliatreBacktrackingOcamlgraph2025</bcf:citekey>
-    <bcf:citekey order="19" intorder="1">hivertControllingC3Super2024</bcf:citekey>
-    <bcf:citekey order="20" intorder="1">albalooshiComparativeStudyEffect2017</bcf:citekey>
+    <bcf:citekey order="4" intorder="1">MiguelflorC3_ocaml_verified</bcf:citekey>
+    <bcf:citekey order="5" intorder="1">hivertControllingC3Super2024</bcf:citekey>
+    <bcf:citekey order="6" intorder="1">mondayezeStudiesObjectorientedProgramming2021</bcf:citekey>
+    <bcf:citekey order="7" intorder="1">barrettMonotonicSuperclassLinearization1996</bcf:citekey>
+    <bcf:citekey order="8" intorder="1">pereiraCameleerDeductiveVerification2021</bcf:citekey>
+    <bcf:citekey order="9" intorder="1">chargueraudGOSPELProvidingOCaml2019</bcf:citekey>
+    <bcf:citekey order="10" intorder="1">filliatreWhy3WherePrograms2013a</bcf:citekey>
+    <bcf:citekey order="11" intorder="1">sasAltErgoSMTSolver</bcf:citekey>
+    <bcf:citekey order="12" intorder="1">Z3ProverZ32025</bcf:citekey>
+    <bcf:citekey order="13" intorder="1">Cvc5</bcf:citekey>
+    <bcf:citekey order="14" intorder="1">12TechnicalInformations</bcf:citekey>
+    <bcf:citekey order="15" intorder="1">Python23Method</bcf:citekey>
+    <bcf:citekey order="16" intorder="1">MroMethodResolution</bcf:citekey>
+    <bcf:citekey order="17" intorder="1">reisSoliderSolidity2023</bcf:citekey>
+    <bcf:citekey order="18" intorder="1">castanhoAutoactiveVerificationGraph2022</bcf:citekey>
+    <bcf:citekey order="19" intorder="1">filliatreBacktrackingOcamlgraph2025</bcf:citekey>
+    <bcf:citekey order="20" intorder="1">hivertControllingC3Super2024</bcf:citekey>
+    <bcf:citekey order="21" intorder="1">albalooshiComparativeStudyEffect2017</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="none">

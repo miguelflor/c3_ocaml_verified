@@ -54,13 +54,13 @@ The development of large software systems often requires object-oriented program
 
 \subsection{Why C3?}
 C3 algorithm is widely used for producing a consistent and predictable MRO when conflicts arise in multiple inheritance scenarios.
-The algorithm uses three core properties to ensure that the MRO is consistent (these properties are explained in section \ref{subsec:C3Linearization}):
+The algorithm uses three core properties to ensure that the MRO is consistent (these properties are explained in section~\ref{subsec:C3Linearization}):
 \begin{itemize}
     \item Extended Precedence Graph (EPG)
     \item Local Precedence Order (LPO)
     \item Monotonicity
 \end{itemize}
-To understand the algorithm consider the class hierarchy in Fig. \ref{fig:DiamondProblem}, where class $A$ inherits from both $B$ and $C$. The C3 algorithm resolves the conflict ensuring that the MRO respects the order of inheritance (reading from left to right), resulting in an MRO of $(A, B, C, D)$.
+To understand the algorithm consider the class hierarchy in Fig.~\ref{fig:DiamondProblem}, where class $A$ inherits from both $B$ and $C$. The C3 algorithm resolves the conflict ensuring that the MRO respects the order of inheritance (reading from left to right), resulting in an MRO of $(A, B, C, D)$.
 
 \subsection{Contributions}
 To reach the goal of a verified implementation of the C3 linearization algorithm, we present the following contributions:
@@ -69,7 +69,7 @@ To reach the goal of a verified implementation of the C3 linearization algorithm
     \item An Ocaml implementation of the C3 linearization algorithm.
     \item A partial verification of the implementation using Why3 and Cameleer, demonstrating essential correctness properties and termination.
 \end{itemize}
-
+Both the formal specification and the implementation are available in the repository\autocite{MiguelflorC3_ocaml_verified}.
 \section{Background}
 
 We will first examine how multiple inheritance affects MRO algorithms, then examine the principles of the C3 linearization algorithm, followed by a brief overview of cameleer.
@@ -279,7 +279,7 @@ To help the proof four lemmas were added to the code:
   \item \texttt{sum\_lengths\_of\_lists\_l\_e}: For all two lists of lists $l$ and $r$ of the same length, for each index $i$, the length of $l[i]$ is greater than or equal to the length of $r[i]$, then the sum of the lengths of $l$ is greater than or equal to the sum of the lengths of $r$.
   \item \texttt{sum\_lengths\_of\_lists\_l}: For all two lists of lists $l$ and $r$ of the same length, for each index $i$, the length of $l[i]$ is greater than or equal to the length of $r[i]$ and for one $j$, length of $l[j]$ is greater than $r[j]$, then the sum of the lengths of $l$ is greater than the sum of the lengths of $r$.
 \end{itemize}
-In the image (Fig. \ref{fig:Why3Remove}), we can see that the function was validated in the Why3 IDE.
+In the image (Fig.~\ref{fig:Why3Remove}), we can see that the function was validated in the Why3 IDE.
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=0.5\textwidth]{images/removeWhy3IDE.png}

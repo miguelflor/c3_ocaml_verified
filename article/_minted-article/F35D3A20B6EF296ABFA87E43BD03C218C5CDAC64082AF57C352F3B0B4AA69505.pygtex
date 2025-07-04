@@ -1,12 +1,6 @@
 \begin{Verbatim}[commandchars=\\\{\}]
-\PYG{o}{\PYGZlt{}\PYGZlt{}\PYGZlt{}\PYGZlt{}\PYGZlt{}\PYGZlt{}\PYGZlt{}} \PYG{n+nc}{HEAD}
-\PYG{c}{(*@ predicate rec distinct (l: \PYGZsq{}a list) =}
-\PYG{c}{    forall i j. 0 \PYGZlt{}= i \PYGZlt{} List.length l \PYGZhy{}\PYGZgt{} 0 \PYGZlt{}= j \PYGZlt{} List.length l \PYGZhy{}\PYGZgt{} }
-\PYG{c}{    i \PYGZlt{}\PYGZgt{} j \PYGZhy{}\PYGZgt{} Sequence.get l i \PYGZlt{}\PYGZgt{} Sequence.get l j*)}
-\PYG{o}{=======}
 \PYG{c}{(*@ predicate distinct (l: \PYGZsq{}a list) =}
 \PYG{c}{  forall i j. 0 \PYGZlt{}= i \PYGZlt{} j \PYGZlt{} List.length l \PYGZhy{}\PYGZgt{} Sequence.get l i \PYGZlt{}\PYGZgt{} Sequence.get l j *)}
-\PYG{o}{\PYGZgt{}\PYGZgt{}\PYGZgt{}\PYGZgt{}\PYGZgt{}\PYGZgt{}\PYGZgt{}} \PYG{l+m+mi}{507}\PYG{n}{efd45a70871629f42e07715cc2ed0cffbeff4}
 
 \PYG{k}{module} \PYG{k}{type} \PYG{n+nc}{CLASS} \PYG{o}{=} \PYG{k}{sig}
 
@@ -29,18 +23,13 @@
 \PYG{k}{end}
 
 \PYG{k}{module} \PYG{n+nc}{Make}\PYG{o}{(}\PYG{n+nc}{C} \PYG{o}{:} \PYG{n+nc}{CLASS}\PYG{o}{)} \PYG{o}{=} \PYG{k}{struct}
-
-  \PYG{c}{(*@ lemma list\PYGZus{}seq\PYGZus{}mem:}
-\PYG{c}{          forall l: C.t list, e:C.t.}
-\PYG{c}{          List.mem e l \PYGZlt{}\PYGZhy{}\PYGZgt{} Sequence.mem e l *)}
-
   
   \PYG{c}{(*@ function rec sum\PYGZus{}lengths (ll : C.t list list): int =}
 \PYG{c}{  match ll with }
 \PYG{c}{  | [] \PYGZhy{}\PYGZgt{} 0}
 \PYG{c}{  | h::t \PYGZhy{}\PYGZgt{} (List.length h) + sum\PYGZus{}lengths t}
 \PYG{c}{  *)}
-
+  
   \PYG{c}{(*@ predicate is\PYGZus{}removed (l : C.t list) (r : C.t list) (e: C.t) =}
 \PYG{c}{    match l with }
 \PYG{c}{    | [] \PYGZhy{}\PYGZgt{} [] = r}
@@ -48,67 +37,17 @@
 \PYG{c}{      if h = e then t = r}
 \PYG{c}{      else l = r}
 \PYG{c}{    *)}
-
-  \PYG{c}{(*@ function lins\PYGZus{}removed (ll: C.t list list) (h: C.t) : C.t list list =}
-\PYG{c}{    match ll with}
-\PYG{c}{    | [] \PYGZhy{}\PYGZgt{} []}
-\PYG{c}{    | l::rest \PYGZhy{}\PYGZgt{} (remove\PYGZus{}head h l)::(lins\PYGZus{}removed rest h)}
-\PYG{c}{  *)}
-
-  \PYG{c}{(*@ function remove\PYGZus{}head (h: C.t) (l: C.t list) : C.t list =}
-\PYG{c}{    match l with}
-\PYG{c}{    | [] \PYGZhy{}\PYGZgt{} []}
-\PYG{c}{    | hd::tl \PYGZhy{}\PYGZgt{} if hd = h then tl else hd::tl}
-\PYG{c}{  *)}
-
-  \PYG{c}{(*@ predicate is\PYGZus{}lins\PYGZus{}removed (ll : C.t list list) (r : C.t list list) (e: C.t) =}
-\PYG{c}{      List.length ll = List.length r /\PYGZbs{}}
-\PYG{c}{      forall i. 0 \PYGZlt{}= i \PYGZlt{} List.length ll \PYGZhy{}\PYGZgt{} is\PYGZus{}removed (Sequence.get ll i) (Sequence.get r i) e}
-\PYG{c}{  *)}
-  
-
  
-\PYG{o}{\PYGZlt{}\PYGZlt{}\PYGZlt{}\PYGZlt{}\PYGZlt{}\PYGZlt{}\PYGZlt{}} \PYG{n+nc}{HEAD}
-  \PYG{c}{(*@ predicate has\PYGZus{}head (a: C.t list) (e: C.t) = }
-\PYG{c}{    match a with  }
-\PYG{c}{    |[] \PYGZhy{}\PYGZgt{} false}
-\PYG{c}{    |h::\PYGZus{} \PYGZhy{}\PYGZgt{} h = e*)}
-\PYG{o}{=======}
     \PYG{c}{(*@ predicate has\PYGZus{}head (a: C.t list) (e: C.t) = }
 \PYG{c}{    a \PYGZlt{}\PYGZgt{} [] /\PYGZbs{}}
 \PYG{c}{    forall h t. h::t = a\PYGZhy{}\PYGZgt{} e = h}
 \PYG{c}{    *)}
-\PYG{o}{\PYGZgt{}\PYGZgt{}\PYGZgt{}\PYGZgt{}\PYGZgt{}\PYGZgt{}\PYGZgt{}} \PYG{l+m+mi}{507}\PYG{n}{efd45a70871629f42e07715cc2ed0cffbeff4}
 
-  \PYG{c}{(*@ function tail (l: C.t list): C.t list = }
+    \PYG{c}{(*@ function tail (l: C.t list): C.t list = }
 \PYG{c}{    match l with }
 \PYG{c}{    |[] \PYGZhy{}\PYGZgt{} []}
 \PYG{c}{    |\PYGZus{}::t \PYGZhy{}\PYGZgt{} t*)}
 
-\PYG{o}{\PYGZlt{}\PYGZlt{}\PYGZlt{}\PYGZlt{}\PYGZlt{}\PYGZlt{}\PYGZlt{}} \PYG{n+nc}{HEAD}
-  \PYG{c}{(*@ predicate is\PYGZus{}candidate\PYGZus{}valid (c: C.t) (lins: C.t list list) =}
-\PYG{c}{      (forall j. 0 \PYGZlt{}= j \PYGZlt{} List.length lins \PYGZhy{}\PYGZgt{} }
-\PYG{c}{        let lin = Sequence.get lins j in}
-\PYG{c}{        lin = [] \PYGZbs{}/ forall h1 t1. h1::t1 = lin \PYGZhy{}\PYGZgt{} h1 = c \PYGZbs{}/ not (Sequence.mem c t1)) *)}
-
-
-  \PYG{c}{(*@ lemma is\PYGZus{}removed\PYGZus{}not\PYGZus{}mem:}
-\PYG{c}{  forall l: C.t list, r: C.t list , e: C.t.}
-\PYG{c}{    (is\PYGZus{}removed l r e) /\PYGZbs{} not (List.mem e (tail l)) \PYGZhy{}\PYGZgt{} not (List.mem e r)*)}
-    
-  \PYG{c}{(*@ lemma is\PYGZus{}removed\PYGZus{}length\PYGZus{}for\PYGZus{}lists:}
-\PYG{c}{    forall l: C.t list list, r: C.t list list, e: C.t.}
-\PYG{c}{      ((List.length r = List.length l) /\PYGZbs{}}
-\PYG{c}{        (forall i. 0 \PYGZlt{}= i \PYGZlt{} List.length l \PYGZhy{}\PYGZgt{} is\PYGZus{}removed (Sequence.get l i) (Sequence.get r i) e)) \PYGZhy{}\PYGZgt{}}
-\PYG{c}{          (forall i. 0 \PYGZlt{}= i \PYGZlt{} List.length l \PYGZhy{}\PYGZgt{} List.length (Sequence.get r i) \PYGZlt{}= List.length (Sequence.get l i))}
-\PYG{c}{  *)}
-
-  \PYG{c}{(*@ lemma sum\PYGZus{}lengths\PYGZus{}of\PYGZus{}lists\PYGZus{}l\PYGZus{}e:}
-\PYG{c}{    forall l: C.t list list, r: C.t list list.}
-\PYG{c}{      ((List.length l = List.length r) /\PYGZbs{}}
-\PYG{c}{      (forall i. 0 \PYGZlt{}= i \PYGZlt{} List.length l \PYGZhy{}\PYGZgt{} List.length (Sequence.get r i) \PYGZlt{}= List.length (Sequence.get l i))) \PYGZhy{}\PYGZgt{} sum\PYGZus{}lengths r \PYGZlt{}= sum\PYGZus{}lengths l *)}
-
-\PYG{o}{=======}
     \PYG{c}{(*@ predicate is\PYGZus{}epg (l: C.t list list) =}
 \PYG{c}{      forall i1:int, i2:int.}
 \PYG{c}{      0 \PYGZlt{}= i1 /\PYGZbs{} i1 \PYGZlt{} List.length l \PYGZhy{}\PYGZgt{}}
@@ -306,36 +245,7 @@
 \PYG{c}{              (forall e h t. Sequence.mem e l /\PYGZbs{} h::t = e \PYGZhy{}\PYGZgt{} Sequence.mem h ps /\PYGZbs{} (forall ti. Sequence.mem ti t \PYGZhy{}\PYGZgt{} not Sequence.mem ti ps)) \PYGZhy{}\PYGZgt{}}
 \PYG{c}{                acyclic\PYGZus{}precedence\PYGZus{}graph (ps::l)}
 \PYG{c}{    *)}
-\PYG{o}{\PYGZgt{}\PYGZgt{}\PYGZgt{}\PYGZgt{}\PYGZgt{}\PYGZgt{}\PYGZgt{}} \PYG{l+m+mi}{507}\PYG{n}{efd45a70871629f42e07715cc2ed0cffbeff4}
   
-  \PYG{c}{(*@ lemma sum\PYGZus{}lengths\PYGZus{}of\PYGZus{}lists\PYGZus{}l:}
-\PYG{c}{    forall l: C.t list list, r: C.t list list.}
-\PYG{c}{      ((List.length l = List.length r) /\PYGZbs{}}
-\PYG{c}{      (exists i. 0 \PYGZlt{}= i \PYGZlt{} List.length l /\PYGZbs{} List.length (Sequence.get r i) \PYGZlt{} List.length (Sequence.get l i)) /\PYGZbs{}}
-\PYG{c}{      (forall i. 0 \PYGZlt{}= i \PYGZlt{} List.length l \PYGZhy{}\PYGZgt{} List.length (Sequence.get r i) \PYGZlt{}= List.length (Sequence.get l i))) \PYGZhy{}\PYGZgt{} sum\PYGZus{}lengths r \PYGZlt{} sum\PYGZus{}lengths l *)}
-  
-  \PYG{c}{(*@ lemma sum\PYGZus{}lengths\PYGZus{}is\PYGZus{}positive:}
-\PYG{c}{      forall ll: C.t list list.}
-\PYG{c}{      0 \PYGZlt{}= sum\PYGZus{}lengths ll*)}
-
-  \PYG{c}{(*@ lemma is\PYGZus{}removed\PYGZus{}preserves\PYGZus{}distinct:}
-\PYG{c}{        forall l r: C.t list, e: C.t.}
-\PYG{c}{        distinct l \PYGZhy{}\PYGZgt{} is\PYGZus{}removed l r e \PYGZhy{}\PYGZgt{} distinct r *)}
-  
-  \PYG{c}{(*@ lemma is\PYGZus{}valid\PYGZus{}on\PYGZus{}tail:}
-\PYG{c}{        forall lins: C.t list list, l: C.t list.}
-\PYG{c}{          forall c. List.mem c l /\PYGZbs{} is\PYGZus{}candidate\PYGZus{}valid c lins \PYGZhy{}\PYGZgt{}  }
-\PYG{c}{          forall e. List.mem e l /\PYGZbs{} not is\PYGZus{}candidate\PYGZus{}valid e lins \PYGZhy{}\PYGZgt{} e \PYGZlt{}\PYGZgt{} c*)}
-  
-  \PYG{c}{(*@ predicate rec is\PYGZus{}lins\PYGZus{}valid (lins: C.t list list) =}
-\PYG{c}{    (forall lin. Sequence.mem lin lins \PYGZhy{}\PYGZgt{} lin = []) ||}
-\PYG{c}{    exists lin h t. Sequence.mem lin lins /\PYGZbs{} h::t = lin /\PYGZbs{} is\PYGZus{}candidate\PYGZus{}valid h lins /\PYGZbs{} }
-\PYG{c}{    let new\PYGZus{}lins = lins\PYGZus{}removed lins h in}
-\PYG{c}{    sum\PYGZus{}lengths lins \PYGZgt{} sum\PYGZus{}lengths new\PYGZus{}lins /\PYGZbs{}}
-\PYG{c}{    is\PYGZus{}lins\PYGZus{}valid new\PYGZus{}lins    }
-\PYG{c}{  *)}
-  \PYG{c}{(*@ variant (sum\PYGZus{}lengths lins) *)}
-
   \PYG{c}{(* List.for\PYGZus{}all *)}
   \PYG{k}{let} \PYG{k}{rec} \PYG{n}{for\PYGZus{}all} \PYG{n}{f} \PYG{n}{l} \PYG{o}{=}
     \PYG{k}{match} \PYG{n}{l} \PYG{k}{with}
@@ -516,16 +426,9 @@
 \PYG{c}{              }
 \PYG{c}{              ensures forall l c. Sequence.mem l r /\PYGZbs{} Sequence.mem c l \PYGZhy{}\PYGZgt{} Sequence.mem c universe}
 \PYG{c}{              }
-\PYG{c}{\PYGZlt{}\PYGZlt{}\PYGZlt{}\PYGZlt{}\PYGZlt{}\PYGZlt{}\PYGZlt{} HEAD}
-\PYG{c}{              ensures is\PYGZus{}lins\PYGZus{}valid r}
-\PYG{c}{              ensures is\PYGZus{}lins\PYGZus{}valid (List.append r (ps::[]))}
-\PYG{c}{              }
-\PYG{c}{            }
-\PYG{c}{=======}
 \PYG{c}{              ensures acyclic\PYGZus{}precedence\PYGZus{}graph r}
 \PYG{c}{              ensures acyclic\PYGZus{}precedence\PYGZus{}graph (List.append r (ps::[]))}
 \PYG{c}{                     }
-\PYG{c}{\PYGZgt{}\PYGZgt{}\PYGZgt{}\PYGZgt{}\PYGZgt{}\PYGZgt{}\PYGZgt{} 507efd45a70871629f42e07715cc2ed0cffbeff4}
 \PYG{c}{              variant ps}
 \PYG{c}{            *)}
         
