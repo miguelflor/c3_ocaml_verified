@@ -44,9 +44,8 @@ Multiple inheritance is common in modern programming languages,
  and the C3 linearization algorithm~\autocite{barrettMonotonicSuperclassLinearization1996} is widely adopted to ensure a consistent and intuitive method resolution order (MRO)~\autocite{MroMethodResolution}. Despite its common use, particularly in Python, the algorithm is non-trivial, and to gain confidence of its correctness, rigorous formal specification and verification remain necessary.
 In this paper, we present a mathematical formalization of the C3 algorithm and initiate its verification using OCaml, Why3, and Cameleer. Our work proves the termination and partial verification of the core components of the algorithm.
 While complete verification of the linearization process is ongoing, our contributions represent an essential step toward a complete proof of C3's verification.
-
-     
 \end{abstract}
+\keywords{C3 linearization \and multiple inheritance \and method resolution order \and formal verification \and OCaml \and Why3 \and Cameleer}
 \section{Introduction}
 The development of large software systems often requires object-oriented programming languages that support multiple inheritance and provide a predictable method resolution order (MRO). 
  That's why the C3 linearization algorithm is used in many programming languages such as Python 2.3~\autocite{Python23Method}, Perl~\autocite{MroMethodResolution}, Solidity~\autocite{LanguageInfluencesSolidity}, and many others.
