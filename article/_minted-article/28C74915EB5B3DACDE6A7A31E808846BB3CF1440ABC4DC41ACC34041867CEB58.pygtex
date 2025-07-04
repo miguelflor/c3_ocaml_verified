@@ -1,0 +1,13 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{let} \PYG{k}{rec} \PYG{n}{filter\PYGZus{}heads} \PYG{o}{(}\PYG{n}{l}\PYG{o}{:} \PYG{k}{\PYGZsq{}}\PYG{n}{a} \PYG{k+kt}{list} \PYG{k+kt}{list}\PYG{o}{)} \PYG{o}{=}
+    \PYG{k}{match} \PYG{n}{l} \PYG{k}{with}
+    \PYG{o}{|} \PYG{n+nb+bp}{[]} \PYG{o}{\PYGZhy{}\PYGZgt{}} \PYG{n+nb+bp}{[]}
+    \PYG{o}{|} \PYG{o}{(}\PYG{n}{h} \PYG{o}{::} \PYG{o}{\PYGZus{})} \PYG{o}{::} \PYG{n}{t} \PYG{o}{\PYGZhy{}\PYGZgt{}} \PYG{n}{h} \PYG{o}{::} \PYG{n}{filter\PYGZus{}heads} \PYG{n}{t}
+    \PYG{o}{|} \PYG{n+nb+bp}{[]} \PYG{o}{::} \PYG{n}{t} \PYG{o}{\PYGZhy{}\PYGZgt{}} \PYG{n}{filter\PYGZus{}heads} \PYG{n}{t}
+  \PYG{c}{(*@ r = filter\PYGZus{}heads l}
+\PYG{c}{    ensures forall y. List.mem y r \PYGZhy{}\PYGZgt{} }
+\PYG{c}{      (exists x h t. List.mem x l /\PYGZbs{} h::t = x /\PYGZbs{} h = y)}
+\PYG{c}{    ensures (forall x h t. List.mem x l /\PYGZbs{} x = h::t \PYGZhy{}\PYGZgt{} List.mem h r)}
+\PYG{c}{    variant l}
+\PYG{c}{  *)}
+\end{Verbatim}

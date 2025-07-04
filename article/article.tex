@@ -122,7 +122,7 @@ If an MRO algorithm is consistency with monotonicity, it means that if a new cla
 \subsection{Cameleer and Why3}
 Cameleer\autocite{pereiraCameleerDeductiveVerification2021} is an automated tool for deductive verification in OCaml. It uses comments written in GOSPEL\autocite{chargueraudGOSPELProvidingOCaml2019} (Generic OCaml Specification Language) to specify the properties of functions, and then leverages Why3\autocite{filliatreWhy3WherePrograms2013a} to verify these properties.\\
 With GOSPEL, we can write pre-conditions, post-conditions, invariants, and variants using comments that start with a @ and are attached to a specific OCaml function. Take the OCaml function below as an example:
-\inputminted[fontsize=\small,linenos,xleftmargin=20pt]{ocaml}{../../filter_heads/filter_heads.ml}
+\inputminted[fontsize=\small,linenos,xleftmargin=20pt]{ocaml}{../filter_heads/filter_heads.ml}
 In the function \texttt{filter\_heads} takes a list of lists as argument and returns a list of the heads of each sublist, the GOSPEL comments two post-conditions and a variant.
 The first post-condition (lines 7 and 8) states that for every element \( y \) in the result list \( r \), exists a sublist \( x \) in the input list \( l \) such that the head of \( x \) is equal to \( y \).
 The second post-condition (lines 9) states that for every sublist \( x \) in the input list \( l \), the head of \( x \) is in the result list \( r \).
@@ -247,7 +247,7 @@ In this project, we have two versions of the code, an original one and a version
 \label{subsec:CLASS}
 
 The code provided below represents a module that defines a class within the hierarchy:
-\inputminted[firstline=4,lastline=22,fontsize=\small,linenos,xleftmargin=20pt]{ocaml}{../cameleer/c3.ml} 
+\inputminted[firstline=4,lastline=22,fontsize=\small,linenos,xleftmargin=20pt]{ocaml}{../c3/cameleer/c3.ml} 
 The module was written to be as flexible as possible, so it could be easily implemented.
 Later, it proved difficult to prove (as explained in Section~\ref{sec:conclusion-future}).
 
@@ -259,7 +259,7 @@ The only change from the original implementation is the list of lists as an argu
 \subsection{remove function}
 Every time the function merge finds a head that has the three conditions (section~\ref{sec:mergeFunctionMath}) satisfied, the remove function is called.
 This function removes a given head from all the list of lists, and it is defined as follows:
-\inputminted[firstline=289,lastline=326,fontsize=\small,linenos,xleftmargin=20pt]{ocaml}{../cameleer/c3.ml}
+\inputminted[firstline=289,lastline=326,fontsize=\small,linenos,xleftmargin=20pt]{ocaml}{../c3/cameleer/c3.ml}
 The GOSPEL specification for \texttt{remove} includes preconditions and postconditions that aren't strictly needed to prove what \texttt{remove} itself does. But since \texttt{remove} is called inside \texttt{merge},
 and \texttt{merge} relies on stronger guarantees, the extra conditions make it easier to prove \texttt{merge} correct.
 So, even if removal could be verified with fewer assumptions, 
@@ -300,14 +300,14 @@ To detect this, a precedence graph builds from the relations between the classes
 We can see that the graph is cyclic, and therefore, the order of the classes is inconsistent, and a linearization cannot be produced.
 It must exist an element that for every list of a list, this element is not in the tail of the list, and it exists a head from a list that is equal to the element. % grammerly 
 To detect the acyclicity of a graph, the following predicate was written:
-\inputminted[firstline=64,lastline=80,fontsize=\small,linenos,xleftmargin=20pt]{ocaml}{../cameleer/c3.ml}
+\inputminted[firstline=64,lastline=80,fontsize=\small,linenos,xleftmargin=20pt]{ocaml}{../c3/cameleer/c3.ml}
 This predicate ensures that for the graph to be acyclic, no path exists in the graph where the first class is the same as the last class.
 The lemmas created that give use to this predicate are not proven in this project and are assumed by postconditions and preconditions of the \texttt{merge} and \texttt{c3\_linearization} functions.
 
 \subsection{merge function}
 The merge function is the core of the C3 linearization algorithm, and it is responsible for merging the lists of classes respecting the order of the classes in each list.
 The function is defined as follows:
-\inputminted[firstline=363,lastline=386,fontsize=\small,linenos,xleftmargin=20pt]{ocaml}{../cameleer/c3.ml}
+\inputminted[firstline=363,lastline=386,fontsize=\small,linenos,xleftmargin=20pt]{ocaml}{../c3/cameleer/c3.ml}
 The function receives a list of lists, then for each head of the list is checked if it does not belong to any tail of the lists, 
 if that condition is satisfied the head is removed from all the lists using the \texttt{remove} function, and the head is added to the result list.
 \subsubsection{Termination}
@@ -316,7 +316,7 @@ The termination of the function (line 283) is ensured by the postcondition of th
 The preconditions of \texttt{remove}, states that for each call the element removed has to satisfy the condition previously described.
 To prove that, is required that the list of lists have a precedence graph acyclic (line 366) and this ensures, has discussed in the section~\ref{sec:detectOrderInconsistencies}, 
 that the element removed is not in the tail of any list. This is stated by the following unproved lemma:
-\inputminted[firstline=198,lastline=203,fontsize=\small,linenos,xleftmargin=20pt]{ocaml}{../cameleer/c3.ml}
+\inputminted[firstline=198,lastline=203,fontsize=\small,linenos,xleftmargin=20pt]{ocaml}{../c3/cameleer/c3.ml}
 \subsubsection{Main postconditions}
 The two main postconditions of the \texttt{merge} function ensures that:
 \begin{itemize}
@@ -369,9 +369,9 @@ As discussed in Section~\ref{sec:related-work}, existing work on verifying acycl
 
 We also need to prove a lemma essential for the termination of the \texttt{merge} function, shown below:
 
-\inputminted[firstline=151,lastline=158,fontsize=\small,linenos,xleftmargin=20pt]{ocaml}{../cameleer/c3.ml}
+\inputminted[firstline=151,lastline=158,fontsize=\small,linenos,xleftmargin=20pt]{ocaml}{../c3/cameleer/c3.ml}
 
-We experimented with \texttt{Sequence.get} (acess by index) instead of \texttt{Sequence.mem} 
+We experimented with \texttt{Sequence.get} (access by index) instead of \texttt{Sequence.mem} 
 (membership check) to support this proof, 
 but this was not sufficient to establish the lemma or to prove the termination of the \texttt{merge} function.
 

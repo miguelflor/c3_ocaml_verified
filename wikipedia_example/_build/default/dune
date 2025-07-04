@@ -1,4 +1,0 @@
-(executable
- (name wikipedia_example)
- (libraries str )
- (modules wikipedia_example c3 types))
