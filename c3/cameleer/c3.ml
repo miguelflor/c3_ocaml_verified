@@ -5,10 +5,6 @@ module type CLASS = sig
 
   type t
 
-
-  (*@ function get_parents (x : t) (l : t list) : t list *)
-
-
   val eq : t -> t -> bool
   (*@ b = eq x y
         ensures b <-> x = y *)
@@ -95,33 +91,25 @@ module Make(C : CLASS) = struct
     (*@ lemma list_seq_mem:
           forall l: C.t list, e:C.t.
           List.mem e l <-> Sequence.mem e l *)
-
-    (*@ lemma head_is_at_index_zero:
-      forall l: C.t list, a: C.t, i: int.
-        has_head l a /\ distinct l /\ a = Sequence.get l i -> i = 0 *)
-
-    (*@ lemma tail_is_above_zero:
-      forall l,t: C.t list, a,h: C.t, i: int.
-        List.length l > 1 /\ h::t = l /\
-        Sequence.mem a t /\ distinct l /\ a = Sequence.get l i -> i > 0 *)
     
     (* remove lemmas *)
 
     (*@ lemma is_removed_not_mem:
-    forall l: C.t list, r: C.t list , e: C.t.
-      (is_removed l r e) /\ not (List.mem e (tail l)) -> not (List.mem e r)*)
+      forall l: C.t list, r: C.t list , e: C.t.
+        (is_removed l r e) /\ not (List.mem e (tail l)) -> not (List.mem e r)*)
+     
 
-    (*@ lemma is_removed_length:
-      forall l: C.t list, r: C.t list, e: C.t.
-        (is_removed l r e /\ has_head l e) ->
-        (List.length r < List.length l)*)
-      
     (*@ lemma is_removed_length_for_lists:
       forall l: C.t list list, r: C.t list list, e: C.t.
         ((List.length r = List.length l) /\
           (forall i. 0 <= i < List.length l -> is_removed (Sequence.get l i) (Sequence.get r i) e)) ->
             (forall i. 0 <= i < List.length l -> List.length (Sequence.get r i) <= List.length (Sequence.get l i))
     *)
+
+    (*@ lemma is_removed_length:
+      forall l: C.t list, r: C.t list, e: C.t.
+        (is_removed l r e /\ has_head l e) ->
+        (List.length r < List.length l)*)
 
     (*@ lemma sum_lengths_of_lists_l_e:
       forall l: C.t list list, r: C.t list list.
@@ -138,10 +126,24 @@ module Make(C : CLASS) = struct
     (*@ lemma sum_lengths_is_positive:
         forall ll: C.t list list.
         0 <= sum_lengths ll*)
+        
+                  
+    (*@ lemma distinct_head_not_in_tail:
+          forall l: C.t list.
+          distinct l -> (forall h t. h::t = l -> (distinct t /\ not (Sequence.mem h t)))*)
 
-    (*@ lemma is_removed_preserves_distinct:
+       (*@ lemma is_removed_preserves_distinct:
           forall l r: C.t list, e: C.t.
           distinct l -> is_removed l r e -> distinct r *)
+    
+        
+        (*@ lemma length_strictly_decreases_if_element_removed:
+          forall l1 l2: C.t list, e:C.t.
+            distinct l1 /\ distinct l2 /\ Sequence.mem e l1 /\ not (Sequence.mem e l2) /\
+            (forall x. Sequence.mem x l2 -> Sequence.mem x l1) /\ 
+            (forall x. Sequence.mem x l1 /\ x <> e -> Sequence.mem x l2) ->
+            List.length l2 < List.length l1*)
+
     
     (*@ lemma is_valid_on_tail:
           forall lins: C.t list list, l: C.t list.
@@ -152,17 +154,6 @@ module Make(C : CLASS) = struct
           forall lins: C.t list list, c: C.t.
             (forall i. 0 <= i < List.length lins -> distinct (Sequence.get lins i)) /\ is_candidate_valid c lins ->
               (forall i. 0 <= i < List.length lins -> not (List.mem c (tail (Sequence.get lins i))))*)
-
-    (*@ lemma distinct_head_not_in_tail:
-          forall l: C.t list.
-          distinct l -> (forall h t. h::t = l -> (distinct t /\ not (Sequence.mem h t)))*)
-
-    (*@ lemma length_strictly_decreases_if_element_removed:
-          forall l1 l2: C.t list, e:C.t.
-            distinct l1 /\ distinct l2 /\ Sequence.mem e l1 /\ not (Sequence.mem e l2) /\
-            (forall x. Sequence.mem x l2 -> Sequence.mem x l1) /\ 
-            (forall x. Sequence.mem x l1 /\ x <> e -> Sequence.mem x l2) ->
-            List.length l2 < List.length l1*)
  
     (* candidate lemmas *)
 
@@ -302,22 +293,29 @@ module Make(C : CLASS) = struct
       requires forall e. Sequence.mem e l -> distinct e
       
       ensures r <> []
-      ensures forall i. 0 <= i < List.length r -> not (has_head (Sequence.get r i) e)
+      ensures forall i. 0 <= i < List.length r ->
+         not (has_head (Sequence.get r i) e)
       
       ensures List.length l = List.length r
-      ensures forall i : int. 0 <= i < List.length l -> is_removed (Sequence.get l i) (Sequence.get r i) e
+      ensures forall i : int. 0 <= i < List.length l ->
+         is_removed (Sequence.get l i) (Sequence.get r i) e
 
       variant  l *)
   let remove (l: C.t list list) (e: C.t) : C.t list list =
     remove_aux l e
   (*@ r = remove l e
     requires l <> []
-    requires  forall i. 0 <= i < List.length l -> distinct (Sequence.get l i)
-    requires exists i. 0 <= i < List.length l /\ has_head (Sequence.get l i) e 
-    requires forall i. 0 <= i < List.length l -> not (List.mem e (tail (Sequence.get l i)))
+    requires  forall i. 0 <= i < List.length l ->
+       distinct (Sequence.get l i)
+    requires exists i. 0 <= i < List.length l /\
+     has_head (Sequence.get l i) e 
+    requires forall i. 0 <= i < List.length l ->
+       not (List.mem e (tail (Sequence.get l i)))
     
-    ensures forall i. 0 <= i < List.length r -> not (List.mem e (Sequence.get r i))
-    ensures forall i. 0 <= i < List.length r -> is_removed (Sequence.get l i) (Sequence.get r i) e
+    ensures forall i. 0 <= i < List.length r ->
+       not (List.mem e (Sequence.get r i))
+    ensures forall i. 0 <= i < List.length r ->
+       is_removed (Sequence.get l i) (Sequence.get r i) e
     ensures forall i. Sequence.mem i r -> distinct i
     ensures sum_lengths r < sum_lengths l
     ensures List.length r = List.length l

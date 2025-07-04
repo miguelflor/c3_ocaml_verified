@@ -2373,6 +2373,10 @@
     <bcf:citekey order="7" intorder="1">pereiraCameleerDeductiveVerification2021</bcf:citekey>
     <bcf:citekey order="8" intorder="1">chargueraudGOSPELProvidingOCaml2019</bcf:citekey>
     <bcf:citekey order="9" intorder="1">filliatreWhy3WherePrograms2013a</bcf:citekey>
+    <bcf:citekey order="10" intorder="1">sasAltErgoSMTSolver</bcf:citekey>
+    <bcf:citekey order="11" intorder="1">Z3ProverZ32025</bcf:citekey>
+    <bcf:citekey order="12" intorder="1">Cvc5</bcf:citekey>
+    <bcf:citekey order="13" intorder="1">12TechnicalInformations</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="none">

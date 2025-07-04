@@ -1,0 +1,496 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.2 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{none/global//global/global}
+    \entry{Python23Method}{misc}{}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labeltitlesource}{title}
+      \field{abstract}{By Michele Simionato. Abstract, This document is intended for Python programmers who want to understand the C3 Method Resolution Order used in Python 2.3. Although it is not intended for newbies, i...}
+      \field{howpublished}{https://docs.python.org/3/howto/mro.html}
+      \field{journaltitle}{Python documentation}
+      \field{langid}{english}
+      \field{title}{The {{Python}} 2.3 {{Method Resolution Order}}}
+      \field{urlday}{25}
+      \field{urlmonth}{6}
+      \field{urlyear}{2025}
+      \field{urldateera}{ce}
+      \verb{file}
+      \verb /home/miguel/Zotero/storage/JHINLBJJ/mro.html
+      \endverb
+    \endentry
+    \entry{MroMethodResolution}{misc}{}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{https://perldoc.perl.org/mro}
+      \field{title}{Mro - {{Method Resolution Order}} - {{Perldoc Browser}}}
+      \field{urlday}{25}
+      \field{urlmonth}{6}
+      \field{urlyear}{2025}
+      \field{urldateera}{ce}
+      \verb{file}
+      \verb /home/miguel/Zotero/storage/AKSWB23M/mro.html
+      \endverb
+    \endentry
+    \entry{LanguageInfluencesSolidity}{misc}{}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{https://docs.soliditylang.org/en/latest/language-influences.html}
+      \field{title}{Language {{Influences}} --- {{Solidity}} 0.8.31 Documentation}
+      \field{urlday}{25}
+      \field{urlmonth}{6}
+      \field{urlyear}{2025}
+      \field{urldateera}{ce}
+      \verb{file}
+      \verb /home/miguel/Zotero/storage/7XE6HFQ5/language-influences.html
+      \endverb
+    \endentry
+    \entry{hivertControllingC3Super2024}{article}{}
+      \name{author}{2}{}{%
+        {{hash=2fbdfebfb73b5df4eb93b2c2dbe8f7f1}{%
+           family={Hivert},
+           familyi={H\bibinitperiod},
+           given={Florent},
+           giveni={F\bibinitperiod}}}%
+        {{hash=4c569770245af3723ef3388821e0ae43}{%
+           family={Thiéry},
+           familyi={T\bibinitperiod},
+           given={Nicolas\bibnamedelima M.},
+           giveni={N\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+      }
+      \strng{namehash}{2bcd43f2c7b6a586a0c8c09dd25fbe55}
+      \strng{fullhash}{2bcd43f2c7b6a586a0c8c09dd25fbe55}
+      \strng{bibnamehash}{2bcd43f2c7b6a586a0c8c09dd25fbe55}
+      \strng{authorbibnamehash}{2bcd43f2c7b6a586a0c8c09dd25fbe55}
+      \strng{authornamehash}{2bcd43f2c7b6a586a0c8c09dd25fbe55}
+      \strng{authorfullhash}{2bcd43f2c7b6a586a0c8c09dd25fbe55}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{C3 is an algorithm used by several widely used programming languages such as Python to support multiple inheritance in object oriented programming (OOP): for each class, C3 computes recursively a linear extension of the poset of all its super classes (the Method Resolution Order, MRO) from user-provided local information (an ordering of the direct super classes). This algorithm can fail if the local information is not consistent. For large hierarchies of classes, as encountered when modeling hierarchies of concepts from abstract algebra in the SageMath computational system, maintaining consistent local information by hand does not scale and leads to unpredictable C3 failures. This paper reports on the authors' work to analyze and circumvent this maintenance nightmare. First, we discovered through extensive computer exploration that there exists posets admitting no consistent local information; we exhibit the smallest one which has 10 elements. Then, we provide and analyze an algorithm that, given a poset and a linear extension, automatically builds local information for C3 in such a way that guarantees that it will never fail, at the price of a slight relaxation of the hypotheses. This algorithm has been used in production in SageMath since 2013.}
+      \field{issn}{1572-9273}
+      \field{journaltitle}{Order}
+      \field{langid}{english}
+      \field{month}{4}
+      \field{number}{1}
+      \field{title}{Controlling the {{C3 Super Class Linearization Algorithm}} for {{Large Hierarchies}} of {{Classes}}}
+      \field{urlday}{25}
+      \field{urlmonth}{6}
+      \field{urlyear}{2025}
+      \field{volume}{41}
+      \field{year}{2024}
+      \field{urldateera}{ce}
+      \field{pages}{83\bibrangedash 98}
+      \range{pages}{16}
+      \verb{doi}
+      \verb 10.1007/s11083-022-09607-5
+      \endverb
+      \verb{file}
+      \verb /home/miguel/Zotero/storage/CVECDXTC/Hivert and Thiéry - 2024 - Controlling the C3 Super Class Linearization Algorithm for Large Hierarchies of Classes.pdf
+      \endverb
+      \keyw{Algorithmic Complexity,Algorithms,C3,C3 photosynthesis,Class hierarchies,Computability and Recursion Theory,Linear Algebra,Linear Logic,Linearization,Multiple inheritance}
+    \endentry
+    \entry{mondayezeStudiesObjectorientedProgramming2021}{article}{}
+      \name{author}{3}{}{%
+        {{hash=d4af097b388c21f1c94fde4331d87282}{%
+           family={{Monday Eze}},
+           familyi={M\bibinitperiod}}}%
+        {{hash=0a79194b0f7881de837f99ac221f59e7}{%
+           family={{Charles Okunbor}},
+           familyi={C\bibinitperiod}}}%
+        {{hash=0d24e27abc32c068e45b08d1c3b9ede7}{%
+           family={{Umoke Chukwudum}},
+           familyi={U\bibinitperiod}}}%
+      }
+      \strng{namehash}{a85d77857da641efb63c3e7251929f92}
+      \strng{fullhash}{a85d77857da641efb63c3e7251929f92}
+      \strng{bibnamehash}{a85d77857da641efb63c3e7251929f92}
+      \strng{authorbibnamehash}{a85d77857da641efb63c3e7251929f92}
+      \strng{authornamehash}{a85d77857da641efb63c3e7251929f92}
+      \strng{authorfullhash}{a85d77857da641efb63c3e7251929f92}
+      \field{sortinit}{5}
+      \field{sortinithash}{20e9b4b0b173788c5dace24730f47d8c}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{This work is a combination of conceptual and hands on based study aimed at laying a foundation for practical ObjectOriented software construction. First it presents a conceptual study of a number of backbone concepts of modern Object-Oriented Programming (OOP) languages. Secondly, it attempts to demonstrate real-life implementations of these concepts using Python Programming Language. This work touches on practical issues on Class and Object Creation, especially on the syntax and creation, and demystifies the subject matter using a simple table of rules. The OOP concept of Inheritance was studied, with focus on the three major types of inheritance. The self-argument, and constructors were studied, with focus on the three constructors - default, parameterized, and non-parameterized constructors. A brief discussion, and pictorial illustration was also made on the disparity between normal mathematical functions and OOP method calls. Further areas of studies are the concept of overriding between the parent and child class, as well as the OOP puzzle commonly known as Diamond Problem, including code segment and diagrammatic illustration of Python-based solutions. There are a number of other back-bone concepts in OOP not covered in this study, such as Encapsulation, Abstraction, Meta-Programming, among others, which will form areas of focus in future studies. Effort was made to enhance the overall presentation through practical illustrations using source codes, annotated diagrams, and discussions. It is hoped that this work will be very useful to researchers and other practitioners in Object Oriented implementations.}
+      \field{issn}{25825003}
+      \field{journaltitle}{Global Journal of Engineering and Technology Advances}
+      \field{langid}{english}
+      \field{month}{9}
+      \field{number}{3}
+      \field{title}{Studies in Object-Oriented Programming Backbone Implementations}
+      \field{urlday}{25}
+      \field{urlmonth}{6}
+      \field{urlyear}{2025}
+      \field{volume}{8}
+      \field{year}{2021}
+      \field{urldateera}{ce}
+      \field{pages}{020\bibrangedash 031}
+      \range{pages}{12}
+      \verb{doi}
+      \verb 10.30574/gjeta.2021.8.3.0119
+      \endverb
+      \verb{file}
+      \verb /home/miguel/Zotero/storage/GGSRINP8/Monday Eze et al. - 2021 - Studies in object-oriented programming backbone implementations.pdf
+      \endverb
+    \endentry
+    \entry{barrettMonotonicSuperclassLinearization1996}{inproceedings}{}
+      \name{author}{6}{}{%
+        {{hash=f7640ddc60c7f17d84dc28b84a7c4638}{%
+           family={Barrett},
+           familyi={B\bibinitperiod},
+           given={Kim},
+           giveni={K\bibinitperiod}}}%
+        {{hash=bf96d152a9bdbda603bc1bdbf9734318}{%
+           family={Cassels},
+           familyi={C\bibinitperiod},
+           given={Bob},
+           giveni={B\bibinitperiod}}}%
+        {{hash=db2b5030bde6ef4a94cd1870d5bc2807}{%
+           family={Haahr},
+           familyi={H\bibinitperiod},
+           given={Paul},
+           giveni={P\bibinitperiod}}}%
+        {{hash=6ba7f668c5bb6ae6a3930000b3bc4753}{%
+           family={Moon},
+           familyi={M\bibinitperiod},
+           given={David\bibnamedelima A.},
+           giveni={D\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+        {{hash=2752cbe622a6187e4d76a9fec243be43}{%
+           family={Playford},
+           familyi={P\bibinitperiod},
+           given={Keith},
+           giveni={K\bibinitperiod}}}%
+        {{hash=d5fd8cc001ccd2975b7dcfc0c00c8547}{%
+           family={Withington},
+           familyi={W\bibinitperiod},
+           given={P.\bibnamedelimi Tucker},
+           giveni={P\bibinitperiod\bibinitdelim T\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {New York, NY, USA}%
+      }
+      \list{publisher}{1}{%
+        {Association for Computing Machinery}%
+      }
+      \strng{namehash}{e42350ae30ad5a9bb4dfceac2872a95e}
+      \strng{fullhash}{8c6716e767a4474bd73ae9ac0177173e}
+      \strng{bibnamehash}{e42350ae30ad5a9bb4dfceac2872a95e}
+      \strng{authorbibnamehash}{e42350ae30ad5a9bb4dfceac2872a95e}
+      \strng{authornamehash}{e42350ae30ad5a9bb4dfceac2872a95e}
+      \strng{authorfullhash}{8c6716e767a4474bd73ae9ac0177173e}
+      \field{sortinit}{6}
+      \field{sortinithash}{b33bc299efb3c36abec520a4c896a66d}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Object-oriented languages with multiple inheritance and automatic conflict resolution typically use a linearization of superclasses to determine which version of a property to inherit when several superclasses provide definitions. Recent work has defined several desirable characteristics for linearizations, the most important being monotonicity, which prohibits inherited properties from skipping over direct superclasses. Combined with Dylan's sealing mechanism, a monotonic linearization enables some compile-time method selection that would otherwise be impossible in the absence of a closed-world assumption.The Dylan linearization is monotonic, easily described, strictly observes local precedence order, and produces the same ordering as CLOS when that is monotonic. We present an implementation based on merging and a survey of class heterarchies from several large programs, analyzing where commonly used linearizations differ.}
+      \field{booktitle}{Proceedings of the 11th {{ACM SIGPLAN}} Conference on {{Object-oriented}} Programming, Systems, Languages, and Applications}
+      \field{isbn}{978-0-89791-788-9}
+      \field{month}{10}
+      \field{series}{{{OOPSLA}} '96}
+      \field{title}{A Monotonic Superclass Linearization for {{Dylan}}}
+      \field{urlday}{25}
+      \field{urlmonth}{6}
+      \field{urlyear}{2025}
+      \field{year}{1996}
+      \field{urldateera}{ce}
+      \field{pages}{69\bibrangedash 82}
+      \range{pages}{14}
+      \verb{doi}
+      \verb 10.1145/236337.236343
+      \endverb
+      \verb{file}
+      \verb /home/miguel/Zotero/storage/DFYP3YLP/Barrett et al. - 1996 - A monotonic superclass linearization for Dylan.pdf
+      \endverb
+    \endentry
+    \entry{pereiraCameleerDeductiveVerification2021}{inproceedings}{}
+      \name{author}{2}{}{%
+        {{hash=5813499cf0728827de7abd0f5a24a4b9}{%
+           family={Pereira},
+           familyi={P\bibinitperiod},
+           given={Mário},
+           giveni={M\bibinitperiod}}}%
+        {{hash=e3124775498cba6ec004073fb19d4e2a}{%
+           family={Ravara},
+           familyi={R\bibinitperiod},
+           given={António},
+           giveni={A\bibinitperiod}}}%
+      }
+      \name{editor}{2}{}{%
+        {{hash=8b75accb7828bac3d5aa4bb89fbd6ff0}{%
+           family={Silva},
+           familyi={S\bibinitperiod},
+           given={Alexandra},
+           giveni={A\bibinitperiod}}}%
+        {{hash=ab5058ea2f014bb364a9bf0b3cd3e939}{%
+           family={Leino},
+           familyi={L\bibinitperiod},
+           given={K.\bibnamedelimi Rustan\bibnamedelima M.},
+           giveni={K\bibinitperiod\bibinitdelim R\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {Cham}%
+      }
+      \list{publisher}{1}{%
+        {Springer International Publishing}%
+      }
+      \strng{namehash}{f0d8677dab2ebf42d5c241f6f398e556}
+      \strng{fullhash}{f0d8677dab2ebf42d5c241f6f398e556}
+      \strng{bibnamehash}{f0d8677dab2ebf42d5c241f6f398e556}
+      \strng{authorbibnamehash}{f0d8677dab2ebf42d5c241f6f398e556}
+      \strng{authornamehash}{f0d8677dab2ebf42d5c241f6f398e556}
+      \strng{authorfullhash}{f0d8677dab2ebf42d5c241f6f398e556}
+      \strng{editorbibnamehash}{5122533fe10741fae191af03de4d831e}
+      \strng{editornamehash}{5122533fe10741fae191af03de4d831e}
+      \strng{editorfullhash}{5122533fe10741fae191af03de4d831e}
+      \field{sortinit}{7}
+      \field{sortinithash}{108d0be1b1bee9773a1173443802c0a3}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{shorttitle}
+      \field{abstract}{We present Cameleer, an automated deductive verification tool for OCaml. We leverage on the recently proposed GOSPEL (Generic OCaml SPEcification Language) to attach rigorous, yet readable, behavioral specification to OCaml code. The formally-specified program is fed to our toolchain, which translates it into an equivalent one in WhyML, the programming and specification language of the Why3 verification framework. We report on successful case studies conducted in Cameleer.}
+      \field{booktitle}{Computer {{Aided Verification}}}
+      \field{isbn}{978-3-030-81688-9}
+      \field{langid}{english}
+      \field{shorttitle}{Cameleer}
+      \field{title}{Cameleer: {{A Deductive Verification Tool}} for {{OCaml}}}
+      \field{year}{2021}
+      \field{pages}{677\bibrangedash 689}
+      \range{pages}{13}
+      \verb{doi}
+      \verb 10.1007/978-3-030-81688-9_31
+      \endverb
+      \verb{file}
+      \verb /home/miguel/Zotero/storage/TGXYWWDK/Pereira and Ravara - 2021 - Cameleer A Deductive Verification Tool for OCaml.pdf
+      \endverb
+      \keyw{Deductive software verification,GOSPEL,OCaml,Why3}
+    \endentry
+    \entry{chargueraudGOSPELProvidingOCaml2019}{inproceedings}{}
+      \name{author}{4}{}{%
+        {{hash=acb2f20c624140484cb787d8f2ee6ad4}{%
+           family={Charguéraud},
+           familyi={C\bibinitperiod},
+           given={Arthur},
+           giveni={A\bibinitperiod}}}%
+        {{hash=2c230e16a783180460c73d50c70781e7}{%
+           family={Filliâtre},
+           familyi={F\bibinitperiod},
+           given={Jean-Christophe},
+           giveni={J\bibinithyphendelim C\bibinitperiod}}}%
+        {{hash=0df33966f46ee320456aa30cedecae4b}{%
+           family={Lourenço},
+           familyi={L\bibinitperiod},
+           given={Cláudio},
+           giveni={C\bibinitperiod}}}%
+        {{hash=5813499cf0728827de7abd0f5a24a4b9}{%
+           family={Pereira},
+           familyi={P\bibinitperiod},
+           given={Mário},
+           giveni={M\bibinitperiod}}}%
+      }
+      \name{editor}{3}{}{%
+        {{hash=6105c730f62d0f88958c988f24cf0da4}{%
+           family={{ter Beek}},
+           familyi={t\bibinitperiod},
+           given={Maurice\bibnamedelima H.},
+           giveni={M\bibinitperiod\bibinitdelim H\bibinitperiod}}}%
+        {{hash=4b20e9f564933c17471e86d416b8a63a}{%
+           family={McIver},
+           familyi={M\bibinitperiod},
+           given={Annabelle},
+           giveni={A\bibinitperiod}}}%
+        {{hash=e208bf42680ffc86de08965e8a3bbe1c}{%
+           family={Oliveira},
+           familyi={O\bibinitperiod},
+           given={José\bibnamedelima N.},
+           giveni={J\bibinitperiod\bibinitdelim N\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {Cham}%
+      }
+      \list{publisher}{1}{%
+        {Springer International Publishing}%
+      }
+      \strng{namehash}{b1f7b25c5aa5145b33f2ab7577764a66}
+      \strng{fullhash}{4f72518457e6290abed38d379051ac9d}
+      \strng{bibnamehash}{b1f7b25c5aa5145b33f2ab7577764a66}
+      \strng{authorbibnamehash}{b1f7b25c5aa5145b33f2ab7577764a66}
+      \strng{authornamehash}{b1f7b25c5aa5145b33f2ab7577764a66}
+      \strng{authorfullhash}{4f72518457e6290abed38d379051ac9d}
+      \strng{editorbibnamehash}{96a22f6caadee2f26b7822be5ef90889}
+      \strng{editornamehash}{96a22f6caadee2f26b7822be5ef90889}
+      \strng{editorfullhash}{96a22f6caadee2f26b7822be5ef90889}
+      \field{sortinit}{8}
+      \field{sortinithash}{a231b008ebf0ecbe0b4d96dcc159445f}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{This paper introduces GOSPEL, a behavioral specification language for OCaml. It is designed to enable modular verification of data structures and algorithms. GOSPEL is a contract-based, strongly typed language, with a formal semantics defined by means of translation into Separation Logic. Compared with writing specifications directly in Separation Logic, GOSPEL provides a high-level syntax that greatly improves conciseness and makes it accessible to programmers with no familiarity with Separation Logic. Although GOSPEL has been developed for specifying OCaml code, we believe that many aspects of its design could apply to other programming languages. This paper presents the design and semantics of GOSPEL, and reports on its application for the development of a formally verified library of general-purpose OCaml data structures.}
+      \field{booktitle}{Formal {{Methods}} -- {{The Next}} 30 {{Years}}}
+      \field{isbn}{978-3-030-30942-8}
+      \field{langid}{english}
+      \field{title}{{{GOSPEL}}---{{Providing OCaml}} with a {{Formal Specification Language}}}
+      \field{year}{2019}
+      \field{pages}{484\bibrangedash 501}
+      \range{pages}{18}
+      \verb{doi}
+      \verb 10.1007/978-3-030-30942-8_29
+      \endverb
+    \endentry
+    \entry{filliatreWhy3WherePrograms2013a}{inproceedings}{}
+      \name{author}{2}{}{%
+        {{hash=2c230e16a783180460c73d50c70781e7}{%
+           family={Filliâtre},
+           familyi={F\bibinitperiod},
+           given={Jean-Christophe},
+           giveni={J\bibinithyphendelim C\bibinitperiod}}}%
+        {{hash=ef5373f8aad9dc6aa6439787910b38cb}{%
+           family={Paskevich},
+           familyi={P\bibinitperiod},
+           given={Andrei},
+           giveni={A\bibinitperiod}}}%
+      }
+      \name{editor}{2}{}{%
+        {{hash=f2dd06499ca403079167fe9967155025}{%
+           family={Felleisen},
+           familyi={F\bibinitperiod},
+           given={Matthias},
+           giveni={M\bibinitperiod}}}%
+        {{hash=8a6deb0f175ce0b90a00b83b34feac80}{%
+           family={Gardner},
+           familyi={G\bibinitperiod},
+           given={Philippa},
+           giveni={P\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {Berlin, Heidelberg}%
+      }
+      \list{publisher}{1}{%
+        {Springer}%
+      }
+      \strng{namehash}{cc7b141dd6af2cf7977b3422addd0885}
+      \strng{fullhash}{cc7b141dd6af2cf7977b3422addd0885}
+      \strng{bibnamehash}{cc7b141dd6af2cf7977b3422addd0885}
+      \strng{authorbibnamehash}{cc7b141dd6af2cf7977b3422addd0885}
+      \strng{authornamehash}{cc7b141dd6af2cf7977b3422addd0885}
+      \strng{authorfullhash}{cc7b141dd6af2cf7977b3422addd0885}
+      \strng{editorbibnamehash}{fac67f8a4770ede500cfafa25d3c37ea}
+      \strng{editornamehash}{fac67f8a4770ede500cfafa25d3c37ea}
+      \strng{editorfullhash}{fac67f8a4770ede500cfafa25d3c37ea}
+      \field{sortinit}{9}
+      \field{sortinithash}{0a5ebc79d83c96b6579069544c73c7d4}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{We present Why3, a tool for deductive program verification, and WhyML, its programming and specification language. WhyML is a first-order language with polymorphic types, pattern matching, and inductive predicates. Programs can make use of record types with mutable fields, type invariants, and ghost code. Verification conditions are discharged by Why3 with the help of various existing automated and interactive theorem provers. To keep verification conditions tractable and comprehensible, WhyML imposes a static control of aliases that obviates the use of a memory model. A user can write WhyML programs directly and get correct-by-construction OCaml programs via an automated extraction mechanism. WhyML is also used as an intermediate language for the verification of C, Java, or Ada programs. We demonstrate the benefits of Why3 and WhyML on non-trivial examples of program verification.}
+      \field{booktitle}{Programming {{Languages}} and {{Systems}}}
+      \field{isbn}{978-3-642-37036-6}
+      \field{langid}{english}
+      \field{title}{Why3 --- {{Where Programs Meet Provers}}}
+      \field{year}{2013}
+      \field{pages}{125\bibrangedash 128}
+      \range{pages}{4}
+      \verb{doi}
+      \verb 10.1007/978-3-642-37036-6_8
+      \endverb
+      \verb{file}
+      \verb /home/miguel/Zotero/storage/TDHN7J7Y/Filliâtre and Paskevich - 2013 - Why3 — Where Programs Meet Provers.pdf
+      \endverb
+      \keyw{Abstract Data Type,Intermediate Language,Polymorphic Type,Proof Obligation,Type Invariant}
+    \endentry
+    \entry{sasAltErgoSMTSolver}{misc}{}
+      \name{author}{1}{}{%
+        {{hash=a1474a2ee4c58449b6287601ed118ff0}{%
+           family={SAS},
+           familyi={S\bibinitperiod},
+           given={{\relax\bibnamedelimb Oc}amlPro},
+           giveni={O\bibinitperiod}}}%
+      }
+      \strng{namehash}{a1474a2ee4c58449b6287601ed118ff0}
+      \strng{fullhash}{a1474a2ee4c58449b6287601ed118ff0}
+      \strng{bibnamehash}{a1474a2ee4c58449b6287601ed118ff0}
+      \strng{authorbibnamehash}{a1474a2ee4c58449b6287601ed118ff0}
+      \strng{authornamehash}{a1474a2ee4c58449b6287601ed118ff0}
+      \strng{authorfullhash}{a1474a2ee4c58449b6287601ed118ff0}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Alt-Ergo is an open-source automatic solver of mathematical formulas based on Satisfiability Modulo Theories (SMT). It is used by tools such as Why3, Frama-C, The Spark toolset, Caveat, EasyCrypt and Cubicle. AltErgo is maintained and distributed by the OCamlPro company since September 2013.}
+      \field{howpublished}{https://alt-ergo.ocamlpro.com}
+      \field{langid}{english}
+      \field{title}{The {{Alt-Ergo SMT}} Solver by {{OCamlPro}}}
+      \field{urlday}{3}
+      \field{urlmonth}{7}
+      \field{urlyear}{2025}
+      \field{urldateera}{ce}
+      \verb{file}
+      \verb /home/miguel/Zotero/storage/MX5KT5MD/alt-ergo.ocamlpro.com.html
+      \endverb
+    \endentry
+    \entry{Z3ProverZ32025}{misc}{}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labeltitlesource}{title}
+      \field{abstract}{The Z3 Theorem Prover}
+      \field{howpublished}{Z3 Theorem Prover}
+      \field{month}{7}
+      \field{title}{{{Z3Prover}}/Z3}
+      \field{urlday}{3}
+      \field{urlmonth}{7}
+      \field{urlyear}{2025}
+      \field{year}{2025}
+      \field{urldateera}{ce}
+    \endentry
+    \entry{Cvc5}{misc}{}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labeltitlesource}{title}
+      \field{abstract}{An efficient open-source automatic theorem prover for satisfiability modulo theories (SMT) problems.}
+      \field{howpublished}{https://cvc5.github.io/}
+      \field{journaltitle}{cvc5}
+      \field{langid}{american}
+      \field{title}{About Cvc5}
+      \field{urlday}{3}
+      \field{urlmonth}{7}
+      \field{urlyear}{2025}
+      \field{urldateera}{ce}
+      \verb{file}
+      \verb /home/miguel/Zotero/storage/I8MXJKQK/cvc5.github.io.html
+      \endverb
+    \endentry
+    \entry{12TechnicalInformations}{misc}{}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{https://www.why3.org/doc/technical.html}
+      \field{title}{12. {{Technical Informations}} --- {{Why3}} 1.8.1 Documentation}
+      \field{urlday}{3}
+      \field{urlmonth}{7}
+      \field{urlyear}{2025}
+      \field{urldateera}{ce}
+      \verb{file}
+      \verb /home/miguel/Zotero/storage/UGWKNZDI/technical.html
+      \endverb
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+

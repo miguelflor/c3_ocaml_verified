@@ -3,9 +3,14 @@
 \usepackage{graphicx}
 \usepackage{amsmath}
 \usepackage{amsmath,amssymb,todonotes,xspace}
-\usepackage[hidelinks]{hyperref}
 \usepackage{minted}
-\usepackage[style=numeric-comp, sorting=none, backend=biber]{biblatex}
+\usepackage{url}
+\usepackage[hidelinks]{hyperref}           
+\usepackage[style=numeric-comp, sorting=none, backend=biber, url=true]{biblatex}
+
+\def\UrlBreaks{\do\/\do-}
+
+
 \addbibresource{refs.bib}
 
 
@@ -38,13 +43,10 @@
 \maketitle
 
 \begin{abstract}
-Multiple hierarchical inheritance is common among many programming languages, and
-to produce a consistent and intuitive method resolution order (MRO) of the class hierarchy,
-the C3 linearization algorithm is one of the most widely used.
-However, the algorithm is not trivial, and because its widespread use,
-there is a need for a formal specification and verification of this algorithm.
-In this paper, we present a mathematical formal specification of the C3 algorithm,
- and its verification in OCaml code using Why3 and Cameleer.
+Multiple inheritance is common in modern programming languages,
+ and the C3 linearization algorithm is widely adopted to ensure a consistent and intuitive method resolution order (MRO). Despite its common use, particularly in Python, the algorithm is non-trivial, and rigorous formal specification and verification remain necessary.
+In this paper, we present a mathematical formalization of the C3 algorithm and initiate its verification using OCaml, Why3, and Cameleer. Our work proves the termination and partial verification of the core components of the algorithm.
+While complete verification of the linearization process is ongoing, our contributions represent an essential step toward a complete proof of C3's verification.
 
      
 \end{abstract}
@@ -67,7 +69,8 @@ To understand the algorithm consider the class hierarchy in Fig. \ref{fig:Diamon
 To reach the goal of a verified implementation of the C3 linearization algorithm, we present the following contributions:
 \begin{itemize}
     \item A mathematical formal specification of the C3 linearization algorithm, which includes the properties that the algorithm must satisfy.
-    \item An OCaml implementation of the C3 linearization algorithm, which is verified using Why3 and Cameleer.
+    \item An Ocaml implementation of the C3 linearization algorithm.
+    \item A partial verification of the implementation using Why3 and Cameleer, demonstrating essential correctness properties and termination.
 \end{itemize}
 
 \section{Background}
@@ -122,7 +125,7 @@ If an MRO algorithm is consistency with monotonicity, it means that if a new cla
 \subsection{Cameleer and Why3}
 Cameleer\autocite{pereiraCameleerDeductiveVerification2021} is an automated tool for deductive verification in OCaml. It uses comments written in GOSPEL\autocite{chargueraudGOSPELProvidingOCaml2019} (Generic OCaml Specification Language) to specify the properties of functions, and then leverages Why3\autocite{filliatreWhy3WherePrograms2013a} to verify these properties.\\
 With GOSPEL, we can write pre-conditions, post-conditions, invariants, and variants using comments that start with a @ and are attached to a specific OCaml function. Take the OCaml function below as an example:
-\inputminted[fontsize=\small,linenos,xleftmargin=20pt]{ocaml}{../../not_repeated/teste.ml}
+\inputminted[fontsize=\small,linenos,xleftmargin=20pt]{ocaml}{../../filter_heads/filter_heads.ml}
 In the function \texttt{filter\_heads} takes a list of lists as argument and returns a list of the heads of each sublist, the GOSPEL comments two post-conditions and a variant.
 The first post-condition (lines 7 and 8) states that for every element \( y \) in the result list \( r \), exists a sublist \( x \) in the input list \( l \) such that the head of \( x \) is equal to \( y \).
 The second post-condition (lines 9) states that for every sublist \( x \) in the input list \( l \), the head of \( x \) is in the result list \( r \).
@@ -131,12 +134,24 @@ To run the verification, we can use the command \texttt{cameleer <file name>.ml}
 
 \begin{figure}[htbp]
   \centering
-  \includegraphics[width=1\textwidth]{images/Why3FilterHead.png}
+  \includegraphics[width=1\textwidth]{images/Why3FilterHeads.png}
   \caption{\texttt{filter\_heads.ml} in Why3 IDE}
   \label{fig:Why3FilterHeads}
 \end{figure}
-
-
+As demonstrated by the green checkmark on the left side of the screen, the proof has been successfully verified. 
+In the IDE, we proved these goals using provers, for our work we used three main provers,
+ Alt-Ergo 2.6.0\autocite{sasAltErgoSMTSolver}, Z3 4.13.0\autocite{Z3ProverZ32025}, and CVC5 1.1.2\autocite{Cvc5} and for each goal, we can select which prover to use. To automate the proof Why3 provides a list of proof strategies including \texttt{Split\_vc}, \texttt{Auto\_level\_0}, \texttt{Auto\_level\_1}, 
+\texttt{Auto\_level\_2}, and \texttt{Auto\_level\_3}. We also have commands to assist in the proof process, these commands are used to manipulate terms and hypotheses. All the commands and strategies are documented in Why3 documentation \autocite{12TechnicalInformations}.
+Below is a list of commands that we utilized in our work:
+\begin{itemize}
+  \item \texttt{instantiate} 
+  \item \texttt{induction\_arg\_ty\_lex}
+  \item \texttt{intros} 
+  \item \texttt{destruct}
+  \item \texttt{destruct\_term}
+  \item \texttt{unfold}
+  \item \texttt{split\_vc}
+\end{itemize}
 
 \section{Formal Specification of C3 Linearization Algorithm}
 
@@ -190,6 +205,7 @@ $\rem : \ordCC^* \times \CC \Rightarrow \ordCC^*$\\
 \]
 
 \subsubsection{Merge}
+\label{sec:mergeFunctionMath}
 $\mer : \ordCC^* \Rightarrow \ordCC $
 
 \begin{equation*}
@@ -221,6 +237,72 @@ Let $\texttt{C3linearization}$ be denoted as $\texttt{cl}$ for brevity.
 \{C\} \cup \mer\left( \left( \texttt{cl}(D_i) \right)_{D_i \in D'},\, P \right) & \text{otherwise}
 \end{cases}
 \]
+
+\section{Verification of C3 Linearization Algorithm}
+
+In this project, we have two versions of the code, an original one and a version with some modifications to help the proof,
+ and the code is divided into three parts: the \texttt{remove} where the remove of the head occurs, 
+ the \texttt{merge} where a new list created follows the same order has the order lists and finally the \texttt{c3\_inearization} that will receive a class as argument and,
+  in the version for the proof, a universe, a variable that contains all the class above in the hierarchy of that class.
+
+\subsection{Module CLASS}
+
+The code provided below represents a module that defines a class within the hierarchy:
+\inputminted[firstline=4,lastline=22,fontsize=\small,linenos,xleftmargin=20pt]{ocaml}{../cameleer/c3.ml} 
+The module was written to be as flexible as possible, so it could be easily implemented.
+Later, it proved difficult to prove (as explained in Section~\ref{sec:proof-challenges}).
+
+The function \texttt{get\_parents} takes a class and a list of lists as arguments and returns a list of parents of the class.
+The only change from the original implementation is the list of lists as an argument in the function 
+\texttt{get\_parents}, which was needed to ensure the hierarchy remained acyclic,
+ passing as universe only the classes above in the hierarchy of the class.
+
+\subsection{remove function}
+Every time the function merge finds a head that has the three conditions (section~\ref{sec:mergeFunctionMath}) satisfied, the remove function is called.
+This function removes a given head from all the list of lists, and it is defined as follows:
+\inputminted[firstline=286,lastline=323,fontsize=\small,linenos,xleftmargin=20pt]{ocaml}{../cameleer/c3.ml}
+The GOSPEL specification for \texttt{remove} includes preconditions and postconditions that aren't strictly needed to prove what \texttt{remove} itself does. But since \texttt{remove} is called inside \texttt{merge},
+and \texttt{merge} relies on stronger guarantees, the extra conditions make it easier to prove \texttt{merge} correct.
+So, even if removal could be verified with fewer assumptions, 
+we added specific pre-conditions to simplify the verification of the functions that depend on it.\\
+This function defines two major postconditions:
+\begin{itemize}
+  \item The argument \texttt{e} is not present in the any of the lists of the\\ argument \texttt{l} after the removal.
+  \item The sum of the lengths of the lists of \texttt{l} are bigger than the\\ sum of the lengths of the lists of the result.
+\end{itemize} 
+The last postcondition is pivotal to prove the termination of the function \texttt{merge}. \\
+To help the proof four lemmas were added to the code:
+\begin{itemize}
+  \item \texttt{list\_seq\_mem}: This lemma state that using both modules List or Sequence should produce the same result.
+  \item \texttt{is\_removed\_not\_mem}: If an element is removed from the head (if the head is equal to the element) of a list and the tail does not contain that element then the element is not in the list.
+  \item \texttt{is\_removed\_length\_for\_lists}: For all two lists of lists $l$ and $r$, and for each index $i$, the index $0$ is removed from $l[i]$ if $l[i][0] = e$ to produce $r[i]$, then the length of each $r[i]$ is less than or equal to the length of the corresponding $l[i]$.
+  \item \texttt{is\_removed\_length}:If we remove the head of a list $l$ if the head is equal to $e$ and the head in $l$ is equal to $e$ then the length of $l$ decreases.
+  \item \texttt{sum\_lengths\_of\_lists\_l\_e}: For all two lists of lists $l$ and $r$ of the same length, for each index $i$, the length of $l[i]$ is greater than or equal to the length of $r[i]$, then the sum of the lengths of $l$ is greater than or equal to the sum of the lengths of $r$.
+  \item \texttt{sum\_lengths\_of\_lists\_l}: For all two lists of lists $l$ and $r$ of the same length, for each index $i$, the length of $l[i]$ is greater than or equal to the length of $r[i]$ and for one $j$, length of $l[j]$ is greater than $r[j]$, then the sum of the lengths of $l$ is greater than the sum of the lengths of $r$.
+\end{itemize}
+In the image (Fig. \ref{fig:Why3Remove}), we can see that the function was validated in the Why3 IDE.
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=1\textwidth]{images/removeWhy3IDE.png}
+  \caption{\texttt{remove} proof in Why3 IDE}
+  \label{fig:Why3Remove} 
+\end{figure}
+
+\subsection{Detect order inconsistencies in a list of lists}
+The function \texttt{merge} is the most complex function in the C3 linearization algorithm; this function receives a list of lists and returns a list where the order that each class has with each other respects in every list of the input.\\
+To detect this, a precedence graph builds from the relations between the classes in the lists. For example, if we have the list of lists $((A, B, C),(C, D),(D, A))$, the graph in Fig.~\ref{fig:cyclicGraph} is built.
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.5\textwidth]{images/cyclicGraph.png}
+  \caption{Cyclic precedence graph}
+  \label{fig:cyclicGraph}
+\end{figure}
+We can see that the graph is cyclic, and therefore, the order of the classes is inconsistent, and a linearization cannot be produced.
+And it must exist an element that for every list of a list, this element is not in the tail of the list and it exists a head from a list that is equal to the element. % grammerly 
+To detect the acyclicity of a graph, the following predicate was written:
+\inputminted[firstline=64,lastline=80,fontsize=\small,linenos,xleftmargin=20pt]{ocaml}{../cameleer/c3.ml}
+This predicate ensures that for the graph to be acyclic, no path exists in the graph where the first class is the same as the last class.
+The lemmas created from this predicate are not proven in this project and assumed by postconditions and preconditions of the \texttt{merge} and \texttt{c3\_linearization} functions.
 
 \printbibliography
 
