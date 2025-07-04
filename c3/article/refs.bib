@@ -37,6 +37,22 @@
   file = {/home/miguel/Zotero/storage/DFYP3YLP/Barrett et al. - 1996 - A monotonic superclass linearization for Dylan.pdf}
 }
 
+@online{castanhoAutoactiveVerificationGraph2022,
+  title = {Auto-Active {{Verification}} of {{Graph Algorithms}}, {{Written}} in {{OCaml}}},
+  author = {Castanho, Daniel and Pereira, Mário},
+  date = {2022-07-20},
+  eprint = {2207.09854},
+  eprinttype = {arXiv},
+  eprintclass = {cs},
+  doi = {10.48550/arXiv.2207.09854},
+  url = {http://arxiv.org/abs/2207.09854},
+  urldate = {2025-07-04},
+  abstract = {Functional programming offers the perfect ground for building correct-by-construction software. Languages of such paradigm normally feature state-of-the-art type systems, good abstraction mechanisms, and well-defined execution models. We claim that all of these make software written in a functional language excellent targets for formal certification. Yet, somehow surprising, techniques such as deductive verification have been seldom applied to large-scale programs, written in mainstream functional languages. In this paper, we wish to address this situation and present the auto-active proof of realistic OCaml implementations. We choose implementations issued from the OCamlgraph library as our target, since this is both a large-scale and widely-used piece of OCaml code. We use Cameleer, a recently proposed tool for the deductive verification of OCaml programs, to conduct the proofs of the selected case studies. The vast majority of such proofs are completed fully-automatically, using SMT solvers, and when needed we can apply lightweight interactive proof inside the Why3 IDE (Cameleer translates an input program into an equivalent WhyML one, the language of the Why3 verification framework). To the best of our knowledge, these are the first mechanized, mostly-automated proofs of graph algorithms written in OCaml.},
+  pubstate = {prepublished},
+  keywords = {Computer Science - Logic in Computer Science},
+  file = {/home/miguel/Zotero/storage/KXJ7F8AY/Castanho and Pereira - 2022 - Auto-active Verification of Graph Algorithms, Written in OCaml.pdf;/home/miguel/Zotero/storage/8TLM4GZY/2207.html}
+}
+
 @inproceedings{chargueraudGOSPELProvidingOCaml2019,
   title = {{{GOSPEL}}---{{Providing OCaml}} with a {{Formal Specification Language}}},
   booktitle = {Formal {{Methods}} -- {{The Next}} 30 {{Years}}},
@@ -60,6 +76,16 @@
   howpublished = {https://cvc5.github.io/},
   langid = {american},
   file = {/home/miguel/Zotero/storage/I8MXJKQK/cvc5.github.io.html}
+}
+
+@software{filliatreBacktrackingOcamlgraph2025,
+  title = {Backtracking/Ocamlgraph},
+  author = {Filliatre, Jean-Christophe},
+  date = {2025-06-23T17:48:45Z},
+  origdate = {2013-06-05T09:26:06Z},
+  url = {https://github.com/backtracking/ocamlgraph},
+  urldate = {2025-07-04},
+  abstract = {OCaml graph library}
 }
 
 @inproceedings{filliatreWhy3WherePrograms2013,
@@ -191,6 +217,19 @@
   file = {/home/miguel/Zotero/storage/JHINLBJJ/mro.html}
 }
 
+@thesis{reisSoliderSolidity2023,
+  type = {mathesis},
+  title = {Towards a {{Solider Solidity}}},
+  author = {family=Reis, given=João Carlos Raposo, prefix=dos, useprefix=false},
+  date = {2023-12},
+  url = {https://run.unl.pt/handle/10362/167656},
+  urldate = {2025-07-04},
+  abstract = {Blockchains are being widely adopted since its inception. Since Ethereum popularized smart contracts and introduced its platform for developing and deploying these programs on the blockchain, there has been an unprecedented boom in decentralized applications (dApps). Smart contracts bring a new flexibility which we didn’t see in the beginning with the first generation blockchains. These programs rule important agreements between two parties involving transacting valuable assets between them. Recently we have seen a record of stealing assets from the blockchain , as they exploded and became more popular in 2020. Many known vulnerabilities include: Re-entrancy, Gasless Send, Phishing with tx.origin and Type Casts. This reinforces the importance to ensure that these programs are correct. However this is still a hard task, as the programming languages used to developed them often do not really help and smart contracts are still being exploited. Static analysis tools can prevent these bugs, if they are robust enough to detect most of the vulnerabilities which are known and not known, and ensure that these contracts are developed with the best design practices. Many of those existing tools and programming languages are still in a very early stage and not yet prepared to be used in production environments. The development of smart contracts can be done in two types of languages: domain- specific and general-purpose languages. Domain-specific languages, specifically designed for writing smart contracts, are generally considered safer than their general-purpose counterparts. Solidity, created by the Ethereum Foundation, is a DSL and stands out as the most popular language to date. However, it is not without its flaws, primarily stemming from its complexity and Turing completeness. While recent academic efforts have introduced languages aimed at addressing known vulnerabilities in Solidity, the language’s widespread adoption needs continuous improvements to improve its safety. Our contribution targets a vulnerability in Solidity related to Type Casts. We introduce a proof-of-concept language inspired by Featherweight Solidity, a formalization of Solidity as a subset with an improved type system. Specifically, our language features an extended typing address to mitigate this vulnerability.},
+  langid = {english},
+  annotation = {Accepted: 2024-05-22T10:28:54Z},
+  file = {/home/miguel/Zotero/storage/3D7G3P4V/Reis - 2023 - Towards a Solider Solidity.pdf}
+}
+
 @misc{sasAltErgoSMTSolver,
   title = {The {{Alt-Ergo SMT}} Solver by {{OCamlPro}}},
   author = {SAS, {\relax Oc}amlPro},
@@ -208,4 +247,22 @@
   urldate = {2025-07-03},
   abstract = {The Z3 Theorem Prover},
   howpublished = {Z3 Theorem Prover}
+}
+
+@article{zhangC1C1LinearizationPlanar2011,
+  title = {C1{$<$}math{$><$}msup Is="true"{$><$}mi Is="true"{$>$}{{C}}{$<$}/Mi{$><$}mn Is="true"{$>$}1{$<$}/Mn{$><$}/Msup{$><$}/Math{$>$} Linearization for Planar Contractions},
+  author = {Zhang, Wenmeng and Zhang, Weinian},
+  date = {2011-04-01},
+  journaltitle = {Journal of Functional Analysis},
+  shortjournal = {Journal of Functional Analysis},
+  volume = {260},
+  number = {7},
+  pages = {2043--2063},
+  issn = {0022-1236},
+  doi = {10.1016/j.jfa.2010.12.029},
+  url = {https://www.sciencedirect.com/science/article/pii/S002212361000501X},
+  urldate = {2025-07-04},
+  abstract = {C1 linearization is of special interests because it can distinguish characteristic directions of dynamical systems. It is known that planar C1,α contractions with a fixed point at the origin O admit C1,β linearization with sufficiently small β{$>$}0 if α=1 and admit C1,α linearization if (log|λ1|/log|λ2|)−1{$<$}α⩽1, where λ1 and λ2 are eigenvalues of the linear parts of the contractions at O with 0{$<$}|λ1|⩽|λ2|{$<$}1. In this paper we improve the lower bound of α to lower the condition of C1 linearization for planar contractions. Furthermore, we prove that the derivatives of transformations in our C1 linearization are Hölder continuous and give estimates for the Hölder exponent. Finally, we give a counter example to show that those estimates cannot be improved anymore.},
+  keywords = {Contractions,Hölder continuous,Invariant curve,linearization,Regularity},
+  file = {/home/miguel/Zotero/storage/MQTVDY7Y/Zhang and Zhang - 2011 - C1C1 linearization for pla.pdf;/home/miguel/Zotero/storage/DSSTVJ38/S002212361000501X.html}
 }

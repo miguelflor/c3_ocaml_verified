@@ -92,6 +92,7 @@
     \PYG{c}{(*@ lemma list\PYGZus{}seq\PYGZus{}mem:}
 \PYG{c}{          forall l: C.t list, e:C.t.}
 \PYG{c}{          List.mem e l \PYGZlt{}\PYGZhy{}\PYGZgt{} Sequence.mem e l *)}
+  
     
     \PYG{c}{(* remove lemmas *)}
 
@@ -136,14 +137,6 @@
        \PYG{c}{(*@ lemma is\PYGZus{}removed\PYGZus{}preserves\PYGZus{}distinct:}
 \PYG{c}{          forall l r: C.t list, e: C.t.}
 \PYG{c}{          distinct l \PYGZhy{}\PYGZgt{} is\PYGZus{}removed l r e \PYGZhy{}\PYGZgt{} distinct r *)}
-    
-        
-        \PYG{c}{(*@ lemma length\PYGZus{}strictly\PYGZus{}decreases\PYGZus{}if\PYGZus{}element\PYGZus{}removed:}
-\PYG{c}{          forall l1 l2: C.t list, e:C.t.}
-\PYG{c}{            distinct l1 /\PYGZbs{} distinct l2 /\PYGZbs{} Sequence.mem e l1 /\PYGZbs{} not (Sequence.mem e l2) /\PYGZbs{}}
-\PYG{c}{            (forall x. Sequence.mem x l2 \PYGZhy{}\PYGZgt{} Sequence.mem x l1) /\PYGZbs{} }
-\PYG{c}{            (forall x. Sequence.mem x l1 /\PYGZbs{} x \PYGZlt{}\PYGZgt{} e \PYGZhy{}\PYGZgt{} Sequence.mem x l2) \PYGZhy{}\PYGZgt{}}
-\PYG{c}{            List.length l2 \PYGZlt{} List.length l1*)}
 
     
     \PYG{c}{(*@ lemma is\PYGZus{}valid\PYGZus{}on\PYGZus{}tail:}
@@ -155,7 +148,17 @@
 \PYG{c}{          forall lins: C.t list list, c: C.t.}
 \PYG{c}{            (forall i. 0 \PYGZlt{}= i \PYGZlt{} List.length lins \PYGZhy{}\PYGZgt{} distinct (Sequence.get lins i)) /\PYGZbs{} is\PYGZus{}candidate\PYGZus{}valid c lins \PYGZhy{}\PYGZgt{}}
 \PYG{c}{              (forall i. 0 \PYGZlt{}= i \PYGZlt{} List.length lins \PYGZhy{}\PYGZgt{} not (List.mem c (tail (Sequence.get lins i))))*)}
- 
+    
+    \PYG{c}{(*@ lemma length\PYGZus{}strictly\PYGZus{}decreases\PYGZus{}if\PYGZus{}element\PYGZus{}removed:}
+\PYG{c}{          forall l1 l2: C.t list, e:C.t.}
+\PYG{c}{            distinct l1 /\PYGZbs{} distinct l2 /\PYGZbs{} Sequence.mem e l1 /\PYGZbs{} }
+\PYG{c}{            not (Sequence.mem e l2) /\PYGZbs{}}
+\PYG{c}{            (forall x. Sequence.mem x l2 \PYGZhy{}\PYGZgt{} Sequence.mem x l1) /\PYGZbs{} }
+\PYG{c}{            (forall x. Sequence.mem x l1 /\PYGZbs{} }
+\PYG{c}{            x \PYGZlt{}\PYGZgt{} e \PYGZhy{}\PYGZgt{} Sequence.mem x l2) \PYGZhy{}\PYGZgt{}}
+\PYG{c}{            List.length l2 \PYGZlt{} List.length l1*)}
+    
+            
     \PYG{c}{(* candidate lemmas *)}
 
     \PYG{c}{(*@ lemma in\PYGZus{}list\PYGZus{}not\PYGZus{}in\PYGZus{}head\PYGZus{}must\PYGZus{}be\PYGZus{}in\PYGZus{}tail:}
@@ -195,7 +198,9 @@
 
      \PYG{c}{(*@ lemma acyclic\PYGZus{}has\PYGZus{}head\PYGZus{}candidate:}
 \PYG{c}{        forall lins: C.t list list, c: C.t.}
-\PYG{c}{         acyclic\PYGZus{}precedence\PYGZus{}graph lins \PYGZhy{}\PYGZgt{} (exists lin h t. Sequence.mem lin lins /\PYGZbs{} Cons h t = lin /\PYGZbs{} is\PYGZus{}candidate\PYGZus{}valid h lins)}
+\PYG{c}{         acyclic\PYGZus{}precedence\PYGZus{}graph lins \PYGZhy{}\PYGZgt{} }
+\PYG{c}{          (exists lin h t. Sequence.mem lin lins /\PYGZbs{} Cons h t = lin /\PYGZbs{} }
+\PYG{c}{          is\PYGZus{}candidate\PYGZus{}valid h lins)}
 \PYG{c}{          *)}
       
       \PYG{c}{(*@ lemma acyclic\PYGZus{}and\PYGZus{}has\PYGZus{}candidate:}
@@ -358,7 +363,8 @@
       \PYG{n}{candidate} \PYG{o}{::} \PYG{n}{merged}
   \PYG{c}{(*@ l = merge lins}
 \PYG{c}{        requires lins \PYGZlt{}\PYGZgt{} []}
-\PYG{c}{        requires forall i. 0 \PYGZlt{}= i \PYGZlt{} List.length lins \PYGZhy{}\PYGZgt{} distinct (Sequence.get lins i) }
+\PYG{c}{        requires forall i. 0 \PYGZlt{}= i \PYGZlt{} List.length lins \PYGZhy{}\PYGZgt{} }
+\PYG{c}{          distinct (Sequence.get lins i) }
 \PYG{c}{        requires acyclic\PYGZus{}precedence\PYGZus{}graph lins}
 
 \PYG{c}{        ensures distinct l}
@@ -366,10 +372,17 @@
 \PYG{c}{          let ea = Sequence.get l ia in}
 \PYG{c}{          let eb = Sequence.get l ib in }
 \PYG{c}{          exists ja jb lin.  }
-\PYG{c}{            Sequence.mem lin lins /\PYGZbs{} Sequence.mem ea lin /\PYGZbs{} Sequence.mem eb lin /\PYGZbs{} ea = Sequence.get lin ja /\PYGZbs{} eb = Sequence.get lin jb /\PYGZbs{} ja \PYGZlt{} jb}
-\PYG{c}{        ensures forall e. not (Sequence.mem e l) \PYGZhy{}\PYGZgt{} forall lin. Sequence.mem lin lins \PYGZhy{}\PYGZgt{} not (Sequence.mem e lin) }
-\PYG{c}{        ensures forall lin e. (Sequence.mem lin lins) /\PYGZbs{} not (Sequence.mem e lin) \PYGZhy{}\PYGZgt{} not (Sequence.mem e l)}
-\PYG{c}{        ensures forall e. Sequence.mem e l \PYGZhy{}\PYGZgt{} exists lin. (Sequence.mem lin lins) /\PYGZbs{} (Sequence.mem e lin) }
+\PYG{c}{            Sequence.mem lin lins /\PYGZbs{} Sequence.mem ea lin /\PYGZbs{} }
+\PYG{c}{            Sequence.mem eb lin /\PYGZbs{} ea = Sequence.get lin ja /\PYGZbs{} }
+\PYG{c}{            eb = Sequence.get lin jb /\PYGZbs{} ja \PYGZlt{} jb}
+\PYG{c}{        ensures forall e. not (Sequence.mem e l) \PYGZhy{}\PYGZgt{} }
+\PYG{c}{          forall lin. Sequence.mem lin lins \PYGZhy{}\PYGZgt{} }
+\PYG{c}{            not (Sequence.mem e lin) }
+\PYG{c}{        ensures forall lin e. }
+\PYG{c}{          (Sequence.mem lin lins) /\PYGZbs{} not (Sequence.mem e lin) \PYGZhy{}\PYGZgt{} }
+\PYG{c}{          not (Sequence.mem e l)}
+\PYG{c}{        ensures forall e. Sequence.mem e l \PYGZhy{}\PYGZgt{} }
+\PYG{c}{          exists lin. (Sequence.mem lin lins) /\PYGZbs{} (Sequence.mem e lin) }
 \PYG{c}{        variant sum\PYGZus{}lengths lins}
 \PYG{c}{  *)}  
 
@@ -377,10 +390,10 @@
 
   \PYG{k}{let} \PYG{n}{c3\PYGZus{}linearization} \PYG{o}{(}\PYG{n}{universe}\PYG{o}{:} \PYG{n+nn}{C}\PYG{p}{.}\PYG{n}{t} \PYG{k+kt}{list}\PYG{o}{)} \PYG{o}{(}\PYG{n}{c}\PYG{o}{:} \PYG{n+nn}{C}\PYG{p}{.}\PYG{n}{t}\PYG{o}{)}  \PYG{o}{=}
 
-    \PYG{k}{let} \PYG{k}{rec} \PYG{n}{linearize} \PYG{o}{(}\PYG{n}{universe}\PYG{o}{:} \PYG{n+nn}{C}\PYG{p}{.}\PYG{n}{t} \PYG{k+kt}{list}\PYG{o}{)} \PYG{o}{(}\PYG{n}{c}\PYG{o}{:} \PYG{n+nn}{C}\PYG{p}{.}\PYG{n}{t}\PYG{o}{)} \PYG{o}{:} \PYG{n+nn}{C}\PYG{p}{.}\PYG{n}{t} \PYG{k+kt}{list} \PYG{o}{*} \PYG{n+nn}{C}\PYG{p}{.}\PYG{n}{t} \PYG{k+kt}{list} \PYG{k+kt}{list} \PYG{o}{=}
+    \PYG{k}{let} \PYG{k}{rec} \PYG{n}{linearize} \PYG{o}{(}\PYG{n}{universe}\PYG{o}{:} \PYG{n+nn}{C}\PYG{p}{.}\PYG{n}{t} \PYG{k+kt}{list}\PYG{o}{)} \PYG{o}{(}\PYG{n}{c}\PYG{o}{:} \PYG{n+nn}{C}\PYG{p}{.}\PYG{n}{t}\PYG{o}{)} \PYG{o}{:} \PYG{n+nn}{C}\PYG{p}{.}\PYG{n}{t} \PYG{k+kt}{list} \PYG{o}{=}
         \PYG{k}{let} \PYG{n}{parents} \PYG{o}{=} \PYG{n+nn}{C}\PYG{p}{.}\PYG{n}{get\PYGZus{}parents} \PYG{n}{c} \PYG{n}{universe} \PYG{k}{in}
         \PYG{k}{if} \PYG{o}{(}\PYG{n+nn}{List}\PYG{p}{.}\PYG{n}{length} \PYG{n}{universe}\PYG{o}{)} \PYG{o}{=} \PYG{l+m+mi}{0} \PYG{o}{||} \PYG{o}{(}\PYG{n+nn}{List}\PYG{p}{.}\PYG{n}{length} \PYG{n}{parents}\PYG{o}{)} \PYG{o}{=} \PYG{l+m+mi}{0} \PYG{k}{then}
-          \PYG{o}{([}\PYG{n}{c}\PYG{o}{],[[}\PYG{n}{c}\PYG{o}{]])}
+          \PYG{o}{[}\PYG{n}{c}\PYG{o}{]}
         \PYG{k}{else}
             \PYG{k}{let} \PYG{k}{rec} \PYG{n}{remove\PYGZus{}c} \PYG{n}{l} \PYG{o}{=}
               \PYG{k}{match} \PYG{n}{l} \PYG{k}{with}
@@ -401,7 +414,7 @@
             \PYG{k}{let} \PYG{k}{rec} \PYG{n}{parent\PYGZus{}linearizations} \PYG{n}{ps} \PYG{o}{:} \PYG{n+nn}{C}\PYG{p}{.}\PYG{n}{t} \PYG{k+kt}{list} \PYG{k+kt}{list} \PYG{o}{=} 
               \PYG{k}{match} \PYG{n}{ps} \PYG{k}{with} 
               \PYG{o}{|}\PYG{n+nb+bp}{[]} \PYG{o}{\PYGZhy{}\PYGZgt{}} \PYG{n+nb+bp}{[]}
-              \PYG{o}{|}\PYG{n}{h}\PYG{o}{::}\PYG{n}{t} \PYG{o}{\PYGZhy{}\PYGZgt{}} \PYG{k}{let} \PYG{n}{lin}\PYG{o}{,} \PYG{o}{\PYGZus{}} \PYG{o}{=} \PYG{n}{linearize} \PYG{n}{universe\PYGZsq{}} \PYG{n}{h} \PYG{k}{in} \PYG{n}{lin} \PYG{o}{::} \PYG{o}{(}\PYG{n}{parent\PYGZus{}linearizations} \PYG{n}{t}\PYG{o}{)}
+              \PYG{o}{|}\PYG{n}{h}\PYG{o}{::}\PYG{n}{t} \PYG{o}{\PYGZhy{}\PYGZgt{}} \PYG{k}{let} \PYG{n}{lin} \PYG{o}{=} \PYG{n}{linearize} \PYG{n}{universe\PYGZsq{}} \PYG{n}{h} \PYG{k}{in} \PYG{n}{lin} \PYG{o}{::} \PYG{o}{(}\PYG{n}{parent\PYGZus{}linearizations} \PYG{n}{t}\PYG{o}{)}
             \PYG{c}{(*@ r = parent\PYGZus{}linearizations ps}
 \PYG{c}{               }
 \PYG{c}{              requires forall x. Sequence.mem x ps \PYGZhy{}\PYGZgt{} Sequence.mem x universe\PYGZsq{}}
@@ -421,8 +434,8 @@
         
             \PYG{k}{in}
             \PYG{k}{let} \PYG{n}{linearizations} \PYG{o}{=} \PYG{o}{(}\PYG{n}{parent\PYGZus{}linearizations} \PYG{n}{parents}\PYG{o}{)} \PYG{o}{@} \PYG{o}{[}\PYG{n}{parents}\PYG{o}{]} \PYG{k}{in}
-            \PYG{o}{(}\PYG{n}{c} \PYG{o}{::} \PYG{o}{(}\PYG{n}{merge} \PYG{n}{linearizations}\PYG{o}{),} \PYG{n}{linearizations}\PYG{o}{)} 
-    \PYG{c}{(*@ r, lins = linearize uni c}
+            \PYG{n}{c} \PYG{o}{::} \PYG{o}{(}\PYG{n}{merge} \PYG{n}{linearizations}\PYG{o}{)}
+    \PYG{c}{(*@ r = linearize uni c}
 \PYG{c}{          requires distinct uni}
 \PYG{c}{          requires Sequence.mem c uni}
 \PYG{c}{          ensures forall e. Sequence.mem e r \PYGZhy{}\PYGZgt{} Sequence.mem e uni}
