@@ -212,6 +212,7 @@ Let $L = (L_1, \ldots , L_n)$, $L \in \ordCC^*$ and $C \in \mathcal{C}$\\
 \begin{equation*}
 \mer(L)=
 \begin{cases} 
+\emptyset, & \text{if } (\forall k \in \oneToN, L_k = \emptyset)\\
 \{C\} \cup \mer(\rem(L, C)), & \text{if (1), (2), (3)} \\
 \text{fail}, & \text{otherwise}
 \end{cases}

@@ -82,18 +82,19 @@ $\mer : \ordCC^* \Rightarrow \ordCC $ \\
 \[
 \mer(L) =
 \begin{cases}
+\emptyset, & \text{if } (\forall k \in \oneToN, L_k = \emptyset)\\
 \{C\} \cup \mer(\rem(L, C)), & \text{if } (\exists k \in \oneToN, L_k \neq \emptyset \land C = \h(L_k)) \land \\
 & (\forall j < k, C \neq \h(L_j)) \land \\ 
 & (\forall i \in \oneToN,C \notin \texttt{tail}(L_i)) \\ 
 
-\text{fail}  & \text{otherwise}
+\text{fail},  & \text{otherwise}
 \end{cases}
 \]
 
 \subsection*{C3 Linearization}
 $\cl: \DD \Rightarrow \ordCC$\\
 $\text{Let } D = \langle C, P \rangle \text{ where } D \in \DD$\\
-Let $D' = (D_1,D_2, \dots ,D_{|P|})$, sutch that \\ %$[D_i \mid i \in  [\![1, |P|]\!] ]$\\
+Let $D' = (D_1,D_2, \dots ,D_{|P|})$, such that \\ %$[D_i \mid i \in  [\![1, |P|]\!] ]$\\
 $\forall P_i \in P, \; \exists D_i \in \DD \text{ such that } D_i = \langle P_i, P' \rangle$ where $i \in  [\![1, |P|]\!]$\\
 
 \[
